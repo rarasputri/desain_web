@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Monitoring Donasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/fb0a496c19.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script>
+        // Sample data for demonstration purposes
+        const donations = [{
+                id: 'TXN001',
+                donatur: 'Siti Aminah',
+                campaign: 'Bantuan Pendidikan Anak Yatim',
+                jumlah: 150000,
+                metode: 'QRIS',
+                status: 'Berhasil',
+                waktu: '2024-07-17 10:30'
+            },
+            {
+                id: 'TXN002',
+                donatur: 'Budi Santoso',
+                campaign: 'Pembangunan Masjid Al-Hikmah',
+                jumlah: 500000,
+                metode: 'Transfer Bank',
+                status: 'Pending',
+                waktu: '2024-07-17 11:00'
+            },
+            {
+                id: 'TXN003',
+                donatur: 'Dewi Kusuma',
+                campaign: 'Donasi Bencana Alam Sumatra',
+                jumlah: 250000,
+                metode: 'E-Wallet (OVO)',
+                status: 'Gagal',
+                waktu: '2024-07-17 11:15'
+            },
+            {
+                id: 'TXN004',
+                donatur: 'Agus Pramono',
+                campaign: 'Pembangunan Masjid Al-Hikmah',
+                jumlah: 100000,
+                metode: 'QRIS',
+                status: 'Berhasil',
+                waktu: '2024-07-17 12:00'
+            },
+            {
+                id: 'TXN005',
+                donatur: 'Rina Fitriani',
+                campaign: 'Bantuan Pendidikan Anak Yatim',
+                jumlah: 75000,
+                metode: 'Transfer Bank',
+                status: 'Berhasil',
+                waktu: '2024-07-17 13:45'
+            },
+            {
+                id: 'TXN006',
+                donatur: 'Andi Wijaya',
+                campaign: 'Pembangunan Masjid Al-Hikmah',
+                jumlah: 1000000,
+                metode: 'QRIS',
+                status: 'Berhasil',
+                waktu: '2024-07-16 09:10'
+            },
+            {
+                id: 'TXN007',
+                donatur: 'Putri Lestari',
+                campaign: 'Donasi Bencana Alam Sumatra',
+                jumlah: 120000,
+                metode: 'E-Wallet (Gopay)',
+                status: 'Pending',
+                waktu: '2024-07-16 14:00'
+            },
+            {
+                id: 'TXN008',
+                donatur: 'Bayu Dirgantara',
+                campaign: 'Bantuan Pendidikan Anak Yatim',
+                jumlah: 300000,
+                metode: 'Transfer Bank',
+                status: 'Berhasil',
+                waktu: '2024-07-16 16:20'
+            },
+            {
+                id: 'TXN009',
+                donatur: 'Sari Indah',
+                campaign: 'Pembangunan Masjid Al-Hikmah',
+                jumlah: 80000,
+                metode: 'QRIS',
+                status: 'Gagal',
+                waktu: '2024-07-15 08:30'
+            },
+            {
+                id: 'TXN010',
+                donatur: 'Hadi Santoso',
+                campaign: 'Donasi Bencana Alam Sumatra',
+                jumlah: 400000,
+                metode: 'E-Wallet (Dana)',
+                status: 'Berhasil',
+                waktu: '2024-07-15 10:00'
+            },
+        ];
+
+        let displayedDonationsCount = 5; // Initial number of donations to display
+
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function getStatusBadge(status) {
+            switch (status) {
+                case 'Berhasil':
+                    return '<span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Berhasil</span>';
+                case 'Pending':
+                    return '<span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Pending</span>';
+                case 'Gagal':
+                    return '<span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Gagal</span>';
+                default:
+                    return '';
+            }
+        }
+
+        function renderDonations(filterStatus = '', searchTerm = '') {
+            const tbody = document.querySelector('#donation-table tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+
+            let filteredDonations = donations;
+
+            // Apply status filter
+            if (filterStatus) {
+                filteredDonations = filteredDonations.filter(d => d.status === filterStatus);
+            }
+
+            // Apply search term
+            if (searchTerm) {
+                const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                filteredDonations = filteredDonations.filter(d =>
+                    d.donatur.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    d.campaign.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    d.id.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    d.metode.toLowerCase().includes(lowerCaseSearchTerm)
+                );
+            }
+
+            const donationsToDisplay = filteredDonations.slice(0, displayedDonationsCount);
+
+            donationsToDisplay.forEach(donation => {
+                const row = `
+          <tr class="bg-white border-b hover:bg-gray-50">
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${donation.donatur}</td>
+            <td class="px-6 py-4">${donation.campaign}</td>
+            <td class="px-6 py-4 text-center">${formatRupiah(donation.jumlah)}</td>
+            <td class="px-6 py-4 text-center">${donation.metode}</td>
+            <td class="px-6 py-4 text-center">${getStatusBadge(donation.status)}</td>
+            <td class="px-6 py-4 text-center text-gray-500">${donation.waktu}</td>
+            <td class="px-6 py-4 text-right">
+                <button type="button" data-modal-target="donation-details-modal" data-modal-toggle="donation-details-modal"
+                    class="font-medium text-indigo-600 hover:underline text-sm p-1 rounded hover:bg-indigo-50 transition"
+                    onclick="showDonationDetails('${donation.id}')">
+                    Detail
+                </button>
+            </td>
+          </tr>
+        `;
+                tbody.innerHTML += row;
+            });
+
+            // Update summary cards
+            const totalSuccessful = donations.filter(d => d.status === 'Berhasil').length;
+            const totalPending = donations.filter(d => d.status === 'Pending').length;
+            const totalFailed = donations.filter(d => d.status === 'Gagal').length;
+            const totalNominalSuccessful = donations.filter(d => d.status === 'Berhasil').reduce((sum, d) => sum + d
+                .jumlah, 0);
+
+            document.getElementById('total-successful-donations').textContent = totalSuccessful;
+            document.getElementById('total-pending-donations').textContent = totalPending;
+            document.getElementById('total-failed-donations').textContent = totalFailed;
+            document.getElementById('total-nominal-successful').textContent = formatRupiah(totalNominalSuccessful);
+
+            // Manage Load More button visibility
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (displayedDonationsCount < filteredDonations.length) {
+                loadMoreBtn.classList.remove('hidden');
+            } else {
+                loadMoreBtn.classList.add('hidden');
+            }
+        }
+
+        function loadMoreDonations() {
+            displayedDonationsCount += 5; // Load 5 more donations
+            const currentStatusFilter = document.getElementById('status-filter').value;
+            const currentSearchTerm = document.getElementById('search-input').value;
+            renderDonations(currentStatusFilter, currentSearchTerm);
+        }
+
+        function showDonationDetails(donationId) {
+            const donation = donations.find(d => d.id === donationId);
+            if (donation) {
+                document.getElementById('detail-id').textContent = donation.id;
+                document.getElementById('detail-donatur').textContent = donation.donatur;
+                document.getElementById('detail-campaign').textContent = donation.campaign;
+                document.getElementById('detail-jumlah').textContent = formatRupiah(donation.jumlah);
+                document.getElementById('detail-metode').textContent = donation.metode;
+                document.getElementById('detail-status').innerHTML = getStatusBadge(donation.status);
+                document.getElementById('detail-waktu').textContent = donation.waktu;
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDonations(); // Initial render
+
+            document.getElementById('load-more-btn').addEventListener('click', loadMoreDonations);
+
+            document.getElementById('status-filter').addEventListener('change', (event) => {
+                displayedDonationsCount = 5; // Reset count when filter changes
+                renderDonations(event.target.value, document.getElementById('search-input').value);
+            });
+
+            document.getElementById('search-input').addEventListener('input', (event) => {
+                displayedDonationsCount = 5; // Reset count when search changes
+                renderDonations(document.getElementById('status-filter').value, event.target.value);
+            });
+        });
+    </script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <div class="flex min-h-screen">
+
+        <aside class="w-64 bg-white shadow-lg p-6 space-y-6 border-r border-gray-200">
+            <h1 class="text-2xl font-bold text-indigo-700 border-b pb-4 mb-4">Admin Panel</h1>
+            <nav class="space-y-2 text-sm font-medium">
+                <a href="#"
+                    class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                        </path>
+                    </svg>
+                    <span>Kelola Kampanye</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Verifikasi Kampanye</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-3 py-2 rounded-lg bg-indigo-100 text-indigo-700 font-semibold shadow-sm">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    <span>Monitoring Transaksi</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-3 py-2 rounded-lg bg-indigo-100 text-indigo-700 font-semibold shadow-sm">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    <span>Monitoring Transaksi</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                        </path>
+                    </svg>
+                    <span>Manajemen Laporan</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 8h10M7 12h10m-9 4h4m-4 5h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    <span>Feedback & Kategori</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                        </path>
+                    </svg>
+                    <span>Broadcast Notifikasi</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-8 space-y-8 overflow-auto">
+
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-extrabold text-gray-900">Monitoring Donasi</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 border border-gray-200 flex flex-col items-start transition duration-300 ease-in-out transform hover:scale-105">
+                    <div class="text-indigo-600 mb-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.592 1M12 8V7m0 10v1m-7-5h12a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <p class="text-sm font-medium text-gray-500">Total Nominal Donasi Berhasil</p>
+                    <h3 class="text-2xl font-bold text-green-600 mt-1" id="total-nominal-successful">Rp 0</h3>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 border border-gray-200 flex flex-col items-start transition duration-300 ease-in-out transform hover:scale-105">
+                    <div class="text-blue-600 mb-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm font-medium text-gray-500">Donasi Berhasil</p>
+                    <h3 class="text-2xl font-bold text-blue-600 mt-1" id="total-successful-donations">0</h3>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 border border-gray-200 flex flex-col items-start transition duration-300 ease-in-out transform hover:scale-105">
+                    <div class="text-yellow-600 mb-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm font-medium text-gray-500">Donasi Pending</p>
+                    <h3 class="text-2xl font-bold text-yellow-600 mt-1" id="total-pending-donations">0</h3>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 border border-gray-200 flex flex-col items-start transition duration-300 ease-in-out transform hover:scale-105">
+                    <div class="text-red-600 mb-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm font-medium text-gray-500">Donasi Gagal</p>
+                    <h3 class="text-2xl font-bold text-red-600 mt-1" id="total-failed-donations">0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 border border-gray-200 flex flex-col sm:flex-row gap-4 mb-6">
+                <div class="relative flex-1">
+                    <input type="text" id="search-input"
+                        placeholder="Cari ID, donatur, kampanye, atau metode pembayaran..."
+                        class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-sm">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <select id="status-filter"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-sm">
+                        <option value="">Semua Status</option>
+                        <option value="Berhasil">Berhasil</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Gagal">Gagal</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <div class="overflow-x-auto">
+                    <table id="donation-table" class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Donatur</th>
+                                <th scope="col" class="px-6 py-3">Kampanye</th>
+                                <th scope="col" class="px-6 py-3 text-center">Jumlah Donasi</th>
+                                <th scope="col" class="px-6 py-3 text-center">Metode Pembayaran</th>
+                                <th scope="col" class="px-6 py-3 text-center">Status</th>
+                                <th scope="col" class="px-6 py-3 text-center">Waktu</th>
+                                <th scope="col" class="px-6 py-3 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="py-4 text-center border-t border-gray-200">
+                    <button id="load-more-btn"
+                        class="hidden inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-200 shadow-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                        Muat Lebih Banyak
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="donation-details-modal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Detail Donasi
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                        data-modal-hide="donation-details-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <div class="p-4 md:p-5 space-y-4">
+                    <p class="text-base leading-relaxed text-gray-500">
+                        <strong>ID Transaksi:</strong> <span id="detail-id"></span>
+                    </p>
+                    <p class="text-base leading-relaxed text-gray-500">
+                        <strong>Donatur:</strong> <span id="detail-donatur"></span>
+                    </p>
+                    <p class="text-base leading-relaxed text-gray-500">
+                        <strong>Kampanye:</strong> <span id="detail-campaign"></span>
+                    </p>
+                    <p class="text-base leading-relaxed text-gray-500">
+                        <strong>Jumlah:</strong> <span id="detail-jumlah"></span>
+                    </p>
+                    <p class="text-base leading-relaxed text-gray-500">
+                        <strong>Metode Pembayaran:</strong> <span id="detail-metode"></span>
+                    </p>
+                    <p class="text-base leading-relaxed text-gray-500">
+                        <strong>Status:</strong> <span id="detail-status"></span>
+                    </p>
+                    <p class="text-base leading-relaxed text-gray-500">
+                        <strong>Waktu:</strong> <span id="detail-waktu"></span>
+                    </p>
+                </div>
+                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b">
+                    <button data-modal-hide="donation-details-modal" type="button"
+                        class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

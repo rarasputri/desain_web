@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Berita Cerita Baik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- AOS Library for Animate On Scroll -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #93c5fd;
+      --secondary: #f59e0b;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-donate {
+      background-color: var(--primary);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-donate:hover {
+      background-color: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background-color: white;
+        padding: 1rem;
+        position: absolute;
+        top: 70px;
+        right: 10px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+   
+       /* Footer */
+       footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+
+        /* Responsive for Footer */
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-col h3 {
+                margin-bottom: 15px;
+            }
+            .footer-col a {
+                margin-bottom: 8px;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .footer-bottom {
+                padding-top: 20px;
+            }
+        }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="#" class="logo text-2xl font-bold text-[var(--primary)] flex items-center gap-2">
+        <i class="fas fa-lightbulb"></i> KaryaMuda
+      </a>
+      <ul class="nav-links hidden md:flex gap-6 font-medium text-[var(--dark)]">
+        <li><a href="home.html" class="hover:text-[var(--primary)]">Beranda</a></li>
+        <li><a href="karya.html" class="hover:text-[var(--primary)]">Karya</a></li>
+        <li><a href="newsletter.html" class="hover:text-[var(--primary)]">Berita</a></li>
+        <li><a href="about.html" class="hover:text-[var(--primary)]">Tentang</a></li>
+        <li><a href="#kontak" class="hover:text-[var(--primary)]">Kontak</a></li>
+        <li><a href="form-donasi.html" class="btn-donate">Donasi Sekarang</a></li>
+      </ul>
+      <div class="hamburger md:hidden text-[var(--primary)]" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <ul class="nav-links mobile-menu md:hidden absolute right-4 hidden bg-white"></ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] text-white py-5 shadow-md fade-in">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-wide">CERITA BAIK</h1>
+      <input type="text" placeholder="Cari Artikel..."
+        class="rounded-full px-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none w-64" />
+    </div>
+  </header>
+
+  <!-- Tabs -->
+  <nav class="bg-blue-50 py-3 shadow-inner fade-in">
+    <div class="max-w-7xl mx-auto px-4 flex space-x-3 overflow-x-auto">
+      <button class="px-4 py-1 rounded-full bg-[var(--primary)] text-white text-sm shadow hover:bg-[var(--primary-dark)] transition">Semua</button>
+      <button class="px-4 py-1 rounded-full text-[var(--primary)] text-sm hover:bg-blue-200 transition">Cerita Sukses</button>
+      <button class="px-4 py-1 rounded-full text-[var(--primary)] text-sm hover:bg-blue-200 transition">Cerita Kebaikan</button>
+      <button class="px-4 py-1 rounded-full text-[var(--primary)] text-sm hover:bg-blue-200 transition">Berhasil Galang Dana</button>
+    </div>
+  </nav>
+
+  <!-- Artikel Terbaru -->
+  <section class="max-w-7xl mx-auto px-4 py-8 fade-in">
+    <h2 class="text-lg font-semibold mb-4">Terbaru</h2>
+    <div class="bg-white border rounded-xl p-4 flex flex-col md:flex-row gap-6 shadow-lg">
+      <img src="https://via.placeholder.com/300x200" alt="artikel" class="rounded-md w-full md:w-64 h-48 object-cover">
+      <div class="flex flex-col justify-between">
+        <div>
+          <p class="text-sm text-gray-500">08 November 2024 <span class="text-[var(--primary)] ml-2 font-semibold">Artikel</span></p>
+          <h3 class="text-xl font-bold mt-1 mb-2 leading-tight text-gray-800">Gerakan Anak Sehat Indonesia Bersama Wujudkan Anak Sehat Bebas Stunting</h3>
+          <p class="text-gray-700 text-sm mb-2">
+            Program “Gerakan Anak Sehat Indonesia” merupakan program kolaborasi antara Kementerian Kesehatan Indonesia.
+          </p>
+        </div>
+        <a href="#" class="text-[var(--primary)] font-semibold text-sm hover:underline">Baca Selengkapnya</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Semua Artikel -->
+  <section class="max-w-7xl mx-auto px-4 pb-12 fade-in">
+    <h2 class="text-lg font-semibold mb-4">Semua</h2>
+    <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
+      <div class="bg-white border rounded-xl p-3 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+        <img src="https://via.placeholder.com/300x200" alt="artikel" class="rounded-md mb-3 w-full h-40 object-cover">
+        <p class="text-sm text-gray-500">08 November 2024 <span class="text-[var(--primary)] ml-2">Artikel</span></p>
+        <h3 class="text-base font-semibold text-gray-800 mb-1">Gerakan Anak Sehat Indonesia...</h3>
+        <p class="text-sm text-gray-600">Program "Gerakan Anak Sehat..."</p>
+      </div>
+
+      <div class="bg-white border rounded-xl p-3 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+        <img src="https://via.placeholder.com/300x200" alt="artikel" class="rounded-md mb-3 w-full h-40 object-cover">
+        <p class="text-sm text-gray-500">08 November 2024 <span class="text-[var(--primary)] ml-2">Artikel</span></p>
+        <h3 class="text-base font-semibold text-gray-800 mb-1">XL Axiata Peduli Bencana Banjir</h3>
+        <p class="text-sm text-gray-600">XL Axiata bersama BenihBaik.com...</p>
+      </div>
+
+      <div class="bg-white border rounded-xl p-3 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+        <img src="https://via.placeholder.com/300x200" alt="artikel" class="rounded-md mb-3 w-full h-40 object-cover">
+        <p class="text-sm text-gray-500">08 November 2024 <span class="text-[var(--primary)] ml-2">Artikel</span></p>
+        <h3 class="text-base font-semibold text-gray-800 mb-1">Hyundai dan Grab bersama BenihBaik</h3>
+        <p class="text-sm text-gray-600">Hyundai dan Grab berkolaborasi...</p>
+      </div>
+    </div>
+  </section>
+
+    <!-- Footer -->
+  <footer>
+      <div id="kontak"class="container">
+          <div class="footer-content">
+              <!-- Column 1 -->
+              <div class="footer-column">
+                  <h3>Tentang KaryaMuda</h3>
+                  <p style="color: var(--light-gray); margin-bottom: 20px;">Platform untuk menyalurkan kreativitas anak muda Indonesia melalui dukungan komunitas.</p>
+                  <div class="social-links">
+                      <a href="#"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#"><i class="fab fa-twitter"></i></a>
+                      <a href="#"><i class="fab fa-instagram"></i></a>
+                      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                  </div>
+              </div>
+
+              <!-- Column 2 -->
+              <div class="footer-column">
+                  <h3>Menu</h3>
+                  <ul class="footer-links">
+                      <li><a href="#">Beranda</a></li>
+                      <li><a href="#">Karya</a></li>
+                      <li><a href="#">Tentang Kami</a></li>
+                      <li><a href="#">Kontak</a></li>
+                      <li><a href="#">FAQ</a></li>
+                  </ul>
+              </div>
+
+              <!-- Column 3 -->
+              <div class="footer-column">
+                  <h3>Kategori</h3>
+                  <ul class="footer-links">
+                      <li><a href="#">Teknologi</a></li>
+                      <li><a href="#">Seni & Desain</a></li>
+                      <li><a href="#">Lingkungan</a></li>
+                      <li><a href="#">Pendidikan</a></li>
+                      <li><a href="#">Kewirausahaan</a></li>
+                  </ul>
+              </div>
+
+              <!-- Column 4 -->
+              <div class="footer-column">
+                  <h3>Kontak</h3>
+                  <ul class="footer-links">
+                      <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@karyamuda.id</li>
+                      <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +62 812 3456 7890</li>
+                      <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Jakarta, Indonesia</li>
+                  </ul>
+              </div>
+          </div>
+          <div class="footer-bottom">
+              <p>&copy; 2023 KaryaMuda. All rights reserved.</p>
+          </div>
+      </div>
+  </footer>
+
+  <!-- Script Toggle Menu -->
+  <script>
+    function toggleMenu() {
+      const mobileMenu = document.querySelector('.mobile-menu');
+      const originalMenu = document.querySelector('.nav-links');
+
+      if (mobileMenu.innerHTML.trim() === '') {
+        mobileMenu.innerHTML = originalMenu.innerHTML;
+      }
+      mobileMenu.classList.toggle('show');
+    }
+  </script>
+
+</body>
+</html>

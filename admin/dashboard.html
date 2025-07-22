@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Manajemen Penggalangan Dana</title>
+  <script src="https://kit.fontawesome.com/fb0a496c19.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .active-menu {
+      background-color: #EEF2FF;
+      color: #4F46E5;
+      font-weight: 500;
+    }
+
+    .active-menu:hover {
+      background-color: #E0E7FF;
+    }
+
+    .greeting-time {
+      background: linear-gradient(135deg, #4F46E5 0%, #8B5CF6 100%);
+    }
+
+    /* Mobile menu toggle */
+    .mobile-menu-button {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-button {
+        display: block;
+      }
+      
+      aside {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        z-index: 50;
+        transition: left 0.3s ease;
+      }
+      
+      aside.active {
+        left: 0;
+      }
+      
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 40;
+      }
+      
+      .overlay.active {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="flex min-h-screen">
+
+    <!-- Mobile overlay -->
+    <div class="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg flex flex-col z-50">
+      <div class="p-6 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-indigo-600 flex items-center">
+          <i class="fas fa-hands-helping mr-2"></i> DanaKita
+        </h1>
+        <button class="mobile-menu-button p-2 text-gray-500 rounded-md hover:bg-gray-100 md:hidden">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <nav class="flex-1 px-3 pb-4 space-y-1 overflow-y-auto">
+        <div class="px-3 pt-3 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          Main Menu
+        </div>
+        <a href="dashboard.html" class="active-menu block px-3 py-2 rounded-md transition flex items-center">
+          <i class="fas fa-tachometer-alt mr-3 w-5 text-center"></i> Dashboard
+        </a>
+        <a href="user_manage.html" class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
+          <i class="fas fa-users mr-3 w-5 text-center"></i> Kelola User
+        </a>
+        <a href="management_dana.html" class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
+          <i class="fas fa-hand-holding-heart mr-3 w-5 text-center"></i> Kelola Kampanye
+        </a>
+        <a href="#" class="block px-3 py-2 rounded-md transition flex items-center">
+          <i class="fas fa-check-circle mr-3 w-5 text-center"></i> Verifikasi Kampanye
+        </a>
+        <a href="transaksi.html" class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
+          <i class="fas fa-exchange-alt mr-3 w-5 text-center"></i> Transaksi
+        </a>
+        <a href="#" class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
+          <i class="fas fa-chart-line mr-3 w-5 text-center"></i> Statistik Donasi
+        </a>
+
+        <div class="px-3 pt-3 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          Lainnya
+        </div>
+        <a href="#" class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
+          <i class="fas fa-flag mr-3 w-5 text-center"></i> Manajemen Laporan
+        </a>
+        <a href="#" class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
+          <i class="fas fa-comments mr-3 w-5 text-center"></i> Feedback & Kategori
+        </a>
+        <a href="#" class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
+          <i class="fas fa-bell mr-3 w-5 text-center"></i> Broadcast Notifikasi
+        </a>
+      </nav>
+      <div class="p-4 border-t">
+        <div class="flex items-center space-x-3">
+          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Admin" class="w-10 h-10 rounded-full">
+          <div>
+            <p class="font-medium">Sarah Admin</p>
+            <p class="text-xs text-gray-500">Super Admin</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Top Navigation -->
+      <header class="bg-white shadow-sm">
+        <div class="flex justify-between items-center px-4 sm:px-6 py-4">
+          <div class="flex items-center">
+            <button class="mobile-menu-button p-2 mr-2 text-gray-500 rounded-md hover:bg-gray-100 md:hidden">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Dashboard Admin</h2>
+          </div>
+          <div class="flex items-center space-x-2 sm:space-x-4">
+            <button class="p-1 sm:p-2 rounded-full hover:bg-gray-100 relative">
+              <i class="fas fa-bell text-gray-600 text-sm sm:text-base"></i>
+              <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+            </button>
+            <button class="p-1 sm:p-2 rounded-full hover:bg-gray-100">
+              <i class="fas fa-envelope text-gray-600 text-sm sm:text-base"></i>
+            </button>
+            <div class="border-l pl-2 sm:pl-4">
+              <div class="flex items-center space-x-1 sm:space-x-2">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Admin" class="w-6 h-6 sm:w-8 sm:h-8 rounded-full">
+                <span class="text-xs sm:text-sm font-medium hidden sm:inline">Sarah Admin</span>
+                <i class="fas fa-chevron-down text-xs text-gray-500 hidden sm:inline"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 md:space-y-10 overflow-auto bg-gray-50">
+
+        <!-- Welcome Dashboard -->
+        <section>
+          <div class="greeting-time rounded-xl p-4 sm:p-6 text-white shadow-lg">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div>
+                <h1 class="text-xl sm:text-2xl font-bold">Selamat Pagi, Sarah Admin!</h1>
+                <p class="mt-1 sm:mt-2 text-sm sm:text-base">Selamat datang kembali di Dashboard Admin DanaKita</p>
+                <div class="mt-2 sm:mt-4 flex flex-wrap gap-2">
+                  <span class="text-xs sm:text-sm bg-white bg-opacity-20 px-2 sm:px-3 py-1 rounded-full">
+                    <i class="fas fa-calendar-day mr-1"></i> 19 Juli 2025
+                  </span>
+                  <span class="text-xs sm:text-sm bg-white bg-opacity-20 px-2 sm:px-3 py-1 rounded-full">
+                    <i class="fas fa-clock mr-1"></i> 09:42 WIB
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Feedback dan Kategori -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <!-- Feedback -->
+          <div class="bg-white p-4 sm:p-5 rounded-xl shadow">
+            <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 flex items-center">
+              <i class="fas fa-comments text-indigo-500 mr-2"></i> Feedback Donatur
+            </h3>
+            <ul class="space-y-2 sm:space-y-3">
+              <li class="border-b pb-2 sm:pb-3">
+                <div class="flex items-start">
+                  <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User"
+                    class="w-6 h-6 sm:w-8 sm:h-8 rounded-full mr-2 sm:mr-3">
+                  <div>
+                    <div class="flex items-center mb-1">
+                      <span class="font-medium text-sm sm:text-base mr-1 sm:mr-2">Budi N.</span>
+                      <div class="flex text-yellow-400 text-xs">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                      </div>
+                    </div>
+                    <p class="italic text-xs sm:text-sm">"Aplikasinya transparan, saya senang bisa berkontribusi."</p>
+                    <span class="text-xs text-gray-500">2 jam yang lalu</span>
+                  </div>
+                </div>
+              </li>
+              <li class="border-b pb-2 sm:pb-3">
+                <div class="flex items-start">
+                  <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="User"
+                    class="w-6 h-6 sm:w-8 sm:h-8 rounded-full mr-2 sm:mr-3">
+                  <div>
+                    <div class="flex items-center mb-1">
+                      <span class="font-medium text-sm sm:text-base mr-1 sm:mr-2">Rina L.</span>
+                      <div class="flex text-yellow-400 text-xs">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                    <p class="italic text-xs sm:text-sm">"Tolong lebih cepat verifikasi kampanye."</p>
+                    <span class="text-xs text-gray-500">1 hari yang lalu</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <button class="mt-2 sm:mt-3 text-xs sm:text-sm text-indigo-600 hover:text-indigo-800 flex items-center">
+              Lihat semua feedback <i class="fas fa-chevron-right ml-1 text-xs"></i>
+            </button>
+          </div>
+          <!-- Kategori -->
+          <div class="bg-white p-4 sm:p-5 rounded-xl shadow">
+            <div class="flex justify-between items-center mb-2 sm:mb-3">
+              <h3 class="text-base sm:text-lg font-semibold flex items-center">
+                <i class="fas fa-tags text-indigo-500 mr-2"></i> Kategori Kampanye
+              </h3>
+              <button class="text-xs sm:text-sm bg-indigo-600 text-white px-2 sm:px-3 py-1 rounded-md hover:bg-indigo-700">
+                <i class="fas fa-plus mr-1"></i> Tambah
+              </button>
+            </div>
+            <ul class="space-y-1 sm:space-y-2">
+              <li class="flex justify-between items-center p-1 sm:p-2 hover:bg-gray-50 rounded-md">
+                <span class="flex items-center text-sm sm:text-base">
+                  <i class="fas fa-heartbeat text-red-500 mr-2 sm:mr-3 w-4 sm:w-5 text-center"></i> Kesehatan
+                </span>
+                <span class="text-xs bg-gray-100 px-2 py-1 rounded-full">24 Kampanye</span>
+              </li>
+              <li class="flex justify-between items-center p-1 sm:p-2 hover:bg-gray-50 rounded-md">
+                <span class="flex items-center text-sm sm:text-base">
+                  <i class="fas fa-graduation-cap text-blue-500 mr-2 sm:mr-3 w-4 sm:w-5 text-center"></i> Pendidikan
+                </span>
+                <span class="text-xs bg-gray-100 px-2 py-1 rounded-full">18 Kampanye</span>
+              </li>
+              <li class="flex justify-between items-center p-1 sm:p-2 hover:bg-gray-50 rounded-md">
+                <span class="flex items-center text-sm sm:text-base">
+                  <i class="fas fa-leaf text-green-500 mr-2 sm:mr-3 w-4 sm:w-5 text-center"></i> Lingkungan
+                </span>
+                <span class="text-xs bg-gray-100 px-2 py-1 rounded-full">12 Kampanye</span>
+              </li>
+              <li class="flex justify-between items-center p-1 sm:p-2 hover:bg-gray-50 rounded-md">
+                <span class="flex items-center text-sm sm:text-base">
+                  <i class="fas fa-hands-helping text-purple-500 mr-2 sm:mr-3 w-4 sm:w-5 text-center"></i> Sosial & Bencana
+                </span>
+                <span class="text-xs bg-gray-100 px-2 py-1 rounded-full">8 Kampanye</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Broadcast Notifikasi -->
+        <section class="bg-white p-4 sm:p-5 rounded-xl shadow">
+          <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center">
+            <i class="fas fa-bell text-indigo-500 mr-2"></i> Broadcast Notifikasi
+          </h2>
+          <form class="space-y-3 sm:space-y-4">
+            <div>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Judul Pesan</label>
+              <input type="text" placeholder="Contoh: Update Sistem Terbaru"
+                class="w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base" />
+            </div>
+            <div>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Isi Pesan</label>
+              <textarea placeholder="Tulis pesan yang akan dikirim ke semua user..." rows="4"
+                class="w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"></textarea>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+              <div class="flex items-center">
+                <input type="checkbox" id="urgent"
+                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                <label for="urgent" class="ml-2 block text-xs sm:text-sm text-gray-700">Tandai sebagai penting</label>
+              </div>
+              <button type="submit"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 sm:px-6 py-1 sm:py-2 rounded-md transition focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center justify-center text-sm sm:text-base">
+                <i class="fas fa-paper-plane mr-2"></i> Kirim Notifikasi
+              </button>
+            </div>
+          </form>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuButton = document.querySelectorAll('.mobile-menu-button');
+      const sidebar = document.querySelector('aside');
+      const overlay = document.querySelector('.overlay');
+      
+      mobileMenuButton.forEach(button => {
+        button.addEventListener('click', function() {
+          sidebar.classList.toggle('active');
+          overlay.classList.toggle('active');
+        });
+      });
+      
+      // Close sidebar when clicking on overlay
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+
+</html>

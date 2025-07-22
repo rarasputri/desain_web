@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BenihBaik.com - Wadah Donasi Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(180deg, #F8F9FF 0%, #E9F0FF 100%);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #4F78FF 0%, #0F3EFF 100%);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #E5E9F2;
+            border-radius: 3px;
+        }
+        
+        .progress-fill {
+            height: 6px;
+            background: linear-gradient(90deg, #4F78FF 0%, #0F3EFF 100%);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://benihbaik.com/assets/img/logo.png" alt="BenihBaik.com" class="h-8">
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-700 hover:text-blue-600">Beranda</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Tentang Kami</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Program</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Artikel</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Kontak</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hidden md:block px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">Masuk</a>
+                <a href="#" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Daftar</a>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-16 md:py-24">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-6">
+                    Wadah Donasi Digital untuk Semua Kebaikan
+                </h1>
+                <p class="text-lg text-gray-600 mb-8">
+                    BenihBaik.com adalah platform penggalangan dana (fundraising) untuk membantu sesama yang membutuhkan, mulai dari kesehatan, pendidikan, sosial, hingga bencana alam.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#" class="btn-primary text-white px-8 py-3 rounded-lg text-center font-medium hover:shadow-lg transition">
+                        Donasi Sekarang
+                    </a>
+                    <a href="#" class="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg text-center font-medium hover:bg-blue-50 transition">
+                        Pelajari Lebih Lanjut
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="https://benihbaik.com/assets/img/hero-image.png" alt="Hero Image" class="w-full max-w-md">
+            </div>
+        </div>
+    </section>
+
+    <!-- Campaign Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Program Donasi</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Temukan program donasi yang sesuai dengan keinginan Anda untuk membantu sesama</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Campaign Card 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                    <div class="relative">
+                        <img src="https://benihbaik.com/uploads/campaign/cover/65d1f1c1e3a8c.jpg" alt="Campaign" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                            Pendidikan
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Bantu Pendidikan Anak Yatim</h3>
+                        <p class="text-gray-600 text-sm mb-4">Bantu anak-anak yatim untuk mendapatkan pendidikan yang layak</p>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                <span>Terkumpul</span>
+                                <span>Rp 12.500.000</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>65%</span>
+                                <span>Target Rp 19.000.000</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                            Donasi Sekarang
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Campaign Card 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                    <div class="relative">
+                        <img src="https://benihbaik.com/uploads/campaign/cover/65d1f1e9f3a8d.jpg" alt="Campaign" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                            Kesehatan
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Operasi Jantung untuk Anak</h3>
+                        <p class="text-gray-600 text-sm mb-4">Bantu biaya operasi jantung untuk anak kurang mampu</p>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                <span>Terkumpul</span>
+                                <span>Rp 45.200.000</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 82%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>82%</span>
+                                <span>Target Rp 55.000.000</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                            Donasi Sekarang
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Campaign Card 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                    <div class="relative">
+                        <img src="https://benihbaik.com/uploads/campaign/cover/65d1f20b23a8e.jpg" alt="Campaign" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                            Bencana Alam
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Bantu Korban Gempa Bumi</h3>
+                        <p class="text-gray-600 text-sm mb-4">Bantu saudara kita yang terkena musibah gempa bumi</p>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                <span>Terkumpul</span>
+                                <span>Rp 89.750.000</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>45%</span>
+                                <span>Target Rp 200.000.000</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                            Donasi Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition">
+                    Lihat Semua Program
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">500+</div>
+                    <div class="text-gray-600">Program Terselesaikan</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">250K+</div>
+                    <div class="text-gray-600">Donatur</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">Rp50M+</div>
+                    <div class="text-gray-600">Dana Terkumpul</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">100+</div>
+                    <div class="text-gray-600">Mitra</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Cara Berdonasi</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Hanya dengan 4 langkah mudah, Anda bisa membantu sesama</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-600 text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Pilih Program</h3>
+                    <p class="text-gray-600 text-sm">Pilih program donasi yang ingin Anda dukung</p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-600 text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Isi Data</h3>
+                    <p class="text-gray-600 text-sm">Isi data diri dan nominal donasi</p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-600 text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Pilih Pembayaran</h3>
+                    <p class="text-gray-600 text-sm">Pilih metode pembayaran yang tersedia</p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-600 text-2xl font-bold">4</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Selesai</h3>
+                    <p class="text-gray-600 text-sm">Donasi Anda telah berhasil terkirim</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Apa Kata Mereka</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Testimoni dari donatur dan penerima manfaat</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Sangat mudah berdonasi melalui BenihBaik.com. Transparan dan terpercaya. Saya bisa melihat perkembangan program yang saya dukung."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Sarah Wijaya</h4>
+                            <p class="text-gray-500 text-sm">Donatur</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Terima kasih BenihBaik.com dan semua donatur yang telah membantu operasi anak saya. Sekarang dia bisa beraktivitas normal kembali."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Budi Santoso</h4>
+                            <p class="text-gray-500 text-sm">Penerima Manfaat</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Platform yang sangat membantu untuk menggalang dana bagi korban bencana. Prosesnya cepat dan laporan penggunaan dana transparan."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Dewi Lestari</h4>
+                            <p class="text-gray-500 text-sm">Relawan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-blue-600">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-white mb-6">Mari Berdonasi untuk Kebaikan Bersama</h2>
+            <p class="text-blue-100 max-w-2xl mx-auto mb-8">Setiap donasi Anda akan memberikan harapan dan perubahan bagi mereka yang membutuhkan.</p>
+            <a href="#" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
+                Donasi Sekarang
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <img src="https://benihbaik.com/assets/img/logo-white.png" alt="BenihBaik.com" class="h-8 mb-4">
+                    <p class="text-gray-400 mb-4">Platform donasi digital untuk membantu sesama yang membutuhkan.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tautan Cepat</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Beranda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Tentang Kami</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Program</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Artikel</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Program</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Kesehatan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Pendidikan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Sosial</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Bencana Alam</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Lainnya</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Kontak Kami</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3"></i>
+                            <span>Jl. Kebaikan No. 123, Jakarta, Indonesia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            <span>info@benihbaik.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3"></i>
+                            <span>(021) 1234-5678</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 BenihBaik.com. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

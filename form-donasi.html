@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Donasi - KaryaMuda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* CSS Variables (from previous context) */
+        :root {
+            --primary: #2563eb; /* Tailwind blue-700 */
+            --primary-dark: #1d4ed8; /* Tailwind blue-800 */
+            --primary-light: #93c5fd; /* Tailwind blue-300 */
+            --secondary: #f59e0b; /* Tailwind amber-500 */
+            --dark: #1e293b; /* Tailwind slate-800 */
+            --light: #f8fafc; /* Tailwind slate-50 */
+            --gray: #64748b; /* Tailwind slate-500 */
+            --light-gray: #e2e8f0; /* Tailwind slate-200 */
+        }
+
+        /* Base styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar Custom Styles (from previous context) */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links .btn-donate {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-links .btn-donate:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        /* Responsive adjustments for navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px; /* Adjust based on navbar height */
+                left: -100%; /* Hidden by default */
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 0;
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .nav-links li {
+                margin: 15px 0;
+            }
+            .nav-links a {
+                color: var(--dark);
+            }
+            .nav-links .btn-donate {
+                width: fit-content;
+            }
+        }
+
+        /* Form Specific Styles */
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* blue-700 with opacity */
+        }
+        .form-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .form-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .form-button:active {
+            transform: translateY(0);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+            display: flex; /* Use flex for centering */
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: fadeInScale 0.3s ease-out;
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+        }
+
+        /* Animations */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeOutScale {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.9); }
+        }
+        .modal.fade-out .modal-content {
+            animation: fadeOutScale 0.3s ease-out forwards;
+        }
+
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50; /* Green for success */
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1100;
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .notification.error {
+            background-color: #f44336; /* Red for error */
+        }
+        .notification.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+
+    <!-- Navbar Utama (from previous context) -->
+    <nav>
+        <div class="container">
+            <div class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-lightbulb"></i>
+                    KaryaMuda
+                </a>
+                <ul class="nav-links" id="mainNavLinks">
+                    <li><a href="home.html">Beranda</a></li>
+                    <li><a href="newsletter.html">Karya</a></li>
+                    <li><a href="#">Tentang</a></li>
+                    <li><a href="#">Kontak</a></li>
+                    <li><a href="form-donasi.html" class="btn-donate">Donasi Sekarang</a></li>
+                </ul>
+                <div class="hamburger" id="hamburgerBtn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white shadow-lg rounded-lg p-6 md:p-8 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Formulir Donasi</h1>
+            
+            <form id="donationForm" class="space-y-6">
+                <!-- Input Nominal -->
+                <div>
+                    <label for="nominal" class="block text-gray-700 text-lg font-semibold mb-2">Nominal Donasi (Rp)</label>
+                    <input type="number" id="nominal" name="nominal" class="form-input" placeholder="Contoh: 50000" min="10000" required>
+                    <p class="text-sm text-gray-500 mt-1">Minimal donasi Rp 10.000</p>
+                </div>
+
+                <!-- Opsi Donasi Anonim -->
+                <div class="flex items-center">
+                    <input type="checkbox" id="anonymous" name="anonymous" class="h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                    <label for="anonymous" class="ml-3 text-gray-700 text-base">Donasi sebagai Anonim</label>
+                </div>
+
+                <!-- Pilih Metode Pembayaran -->
+                <div>
+                    <label class="block text-gray-700 text-lg font-semibold mb-3">Pilih Metode Pembayaran</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition duration-200">
+                            <input type="radio" name="paymentMethod" value="bankTransfer" class="h-5 w-5 text-blue-600 focus:ring-blue-500" checked>
+                            <span class="ml-3 text-gray-800 font-medium">Transfer Bank</span>
+                            <i class="ml-auto fas fa-university text-gray-500"></i>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition duration-200">
+                            <input type="radio" name="paymentMethod" value="eWallet" class="h-5 w-5 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-3 text-gray-800 font-medium">E-Wallet (DANA, OVO, GoPay)</span>
+                            <i class="ml-auto fas fa-wallet text-gray-500"></i>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Upload Bukti Transfer -->
+                <div id="proofOfTransferSection">
+                    <label for="proofOfTransfer" class="block text-gray-700 text-lg font-semibold mb-2">Upload Bukti Transfer</label>
+                    <input type="file" id="proofOfTransfer" name="proofOfTransfer" accept="image/*" class="form-input p-2" required>
+                    <div id="imagePreview" class="mt-4 hidden border border-gray-300 rounded-lg overflow-hidden max-w-xs mx-auto">
+                        <img src="" alt="Preview Bukti Transfer" class="w-full h-auto object-cover">
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Format: JPG, PNG, JPEG. Maks. 2MB.</p>
+                </div>
+
+                <button type="submit" class="form-button w-full">Konfirmasi Donasi</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Konfirmasi Donasi Modal -->
+    <div id="confirmationModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button" id="closeModal">&times;</span>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Konfirmasi Donasi Anda</h2>
+            <p class="text-gray-700 mb-4 text-center">Anda akan berdonasi sebesar <span class="font-bold text-primary" id="modalNominal"></span>.</p>
+            <p class="text-gray-700 mb-6 text-center" id="modalAnonymousStatus"></p>
+            <div class="flex justify-center space-x-4">
+                <button id="cancelDonation" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">Batal</button>
+                <button id="confirmDonation" class="form-button px-6 py-2">Lanjutkan Donasi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifikasi Berhasil/Gagal -->
+    <div id="notification" class="notification">
+        <p id="notificationMessage"></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const donationForm = document.getElementById('donationForm');
+            const nominalInput = document.getElementById('nominal');
+            const anonymousCheckbox = document.getElementById('anonymous');
+            const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+            const proofOfTransferInput = document.getElementById('proofOfTransfer');
+            const imagePreviewDiv = document.getElementById('imagePreview');
+            const imagePreviewImg = imagePreviewDiv.querySelector('img');
+
+            const confirmationModal = document.getElementById('confirmationModal');
+            const closeModalBtn = document.getElementById('closeModal');
+            const modalNominal = document.getElementById('modalNominal');
+            const modalAnonymousStatus = document.getElementById('modalAnonymousStatus');
+            const cancelDonationBtn = document.getElementById('cancelDonation');
+            const confirmDonationBtn = document.getElementById('confirmDonation');
+
+            const notificationElement = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notificationMessage');
+
+            // Navbar mobile toggle functionality (from previous context)
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mainNavLinks = document.getElementById('mainNavLinks');
+            if (hamburgerBtn && mainNavLinks) {
+                hamburgerBtn.addEventListener('click', () => {
+                    mainNavLinks.classList.toggle('active');
+                });
+            }
+
+            // Function to show notification
+            function showNotification(message, type = 'success') {
+                notificationMessage.textContent = message;
+                notificationElement.classList.remove('success', 'error');
+                notificationElement.classList.add(type);
+                notificationElement.classList.add('show');
+                setTimeout(() => {
+                    notificationElement.classList.remove('show');
+                }, 3000); // Hide after 3 seconds
+            }
+
+            // Image preview functionality
+            proofOfTransferInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreviewImg.src = e.target.result;
+                        imagePreviewDiv.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    imagePreviewDiv.classList.add('hidden');
+                    imagePreviewImg.src = '';
+                }
+            });
+
+            // Handle form submission
+            donationForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const nominal = nominalInput.value;
+                const isAnonymous = anonymousCheckbox.checked;
+                const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+                const proofFile = proofOfTransferInput.files[0];
+
+                if (!nominal || nominal < 10000) {
+                    showNotification('Nominal donasi minimal Rp 10.000', 'error');
+                    return;
+                }
+                if (selectedPaymentMethod === 'bankTransfer' && !proofFile) {
+                    showNotification('Mohon unggah bukti transfer untuk metode Bank Transfer.', 'error');
+                    return;
+                }
+
+                // Populate modal with data
+                modalNominal.textContent = `Rp ${new Intl.NumberFormat('id-ID').format(nominal)}`;
+                modalAnonymousStatus.textContent = isAnonymous ? 'Anda berdonasi secara anonim.' : 'Anda berdonasi dengan nama Anda.';
+
+                // Show confirmation modal
+                confirmationModal.classList.remove('hidden');
+            });
+
+            // Close modal functionality
+            closeModalBtn.addEventListener('click', () => {
+                confirmationModal.classList.add('fade-out');
+                confirmationModal.addEventListener('animationend', () => {
+                    confirmationModal.classList.add('hidden');
+                    confirmationModal.classList.remove('fade-out');
+                }, { once: true });
+            });
+
+            // Cancel donation from modal
+            cancelDonationBtn.addEventListener('click', () => {
+                confirmationModal.classList.add('fade-out');
+                confirmationModal.addEventListener('animationend', () => {
+                    confirmationModal.classList.add('hidden');
+                    confirmationModal.classList.remove('fade-out');
+                    showNotification('Donasi dibatalkan.', 'error');
+                }, { once: true });
+            });
+
+            // Confirm donation from modal (mock submission)
+            confirmDonationBtn.addEventListener('click', () => {
+                // Simulate API call or processing
+                setTimeout(() => {
+                    confirmationModal.classList.add('fade-out');
+                    confirmationModal.addEventListener('animationend', () => {
+                        confirmationModal.classList.add('hidden');
+                        confirmationModal.classList.remove('fade-out');
+                        // Reset form after successful submission
+                        donationForm.reset();
+                        imagePreviewDiv.classList.add('hidden');
+                        imagePreviewImg.src = '';
+
+                        showNotification('Donasi Anda berhasil dikonfirmasi! Terima kasih atas kebaikan Anda.');
+                    }, { once: true });
+                }, 500); // Simulate network delay
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target === confirmationModal) {
+                    confirmationModal.classList.add('fade-out');
+                    confirmationModal.addEventListener('animationend', () => {
+                        confirmationModal.classList.add('hidden');
+                        confirmationModal.classList.remove('fade-out');
+                    }, { once: true });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

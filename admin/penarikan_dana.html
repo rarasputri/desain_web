@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manajemen Dana - Ignite the Change</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-4 mb-6">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-indigo-600">Manajemen Dana</h1>
+      <p class="text-sm text-gray-500">Ignite the Change: Ideas in Action</p>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 space-y-10">
+
+    <!-- Form Permintaan Pencairan Dana -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Permintaan Pencairan Dana</h2>
+      <form class="space-y-4">
+        <div>
+          <label class="block font-medium">Jumlah Dana yang Diajukan</label>
+          <input type="number" class="w-full border rounded p-2 mt-1" placeholder="Contoh: 1000000" />
+        </div>
+        <div>
+          <label class="block font-medium">Tujuan Penggunaan Dana</label>
+          <textarea class="w-full border rounded p-2 mt-1" rows="3" placeholder="Contoh: Pembelian alat tulis untuk anak-anak kurang mampu"></textarea>
+        </div>
+        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Ajukan Pencairan</button>
+      </form>
+    </section>
+
+    <!-- Upload Bukti Penggunaan Dana -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Upload Bukti Penggunaan Dana</h2>
+      <form class="space-y-4">
+        <div>
+          <label class="block font-medium">Unggah Foto/Nota</label>
+          <input type="file" class="w-full mt-1" />
+        </div>
+        <div>
+          <label class="block font-medium">Deskripsi Penggunaan</label>
+          <textarea class="w-full border rounded p-2 mt-1" rows="3"></textarea>
+        </div>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Upload Bukti</button>
+      </form>
+    </section>
+
+    <!-- Laporan Penarikan Dana -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Riwayat Penarikan Dana</h2>
+      <table class="w-full table-auto border border-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left">Tanggal</th>
+            <th class="px-4 py-2 text-left">Jumlah</th>
+            <th class="px-4 py-2 text-left">Tujuan</th>
+            <th class="px-4 py-2 text-left">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr>
+            <td class="px-4 py-2">12 Juli 2025</td>
+            <td class="px-4 py-2">Rp 1.000.000</td>
+            <td class="px-4 py-2">Alat Tulis Anak</td>
+            <td class="px-4 py-2"><span class="text-green-600 font-medium">Disetujui</span></td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2">5 Juli 2025</td>
+            <td class="px-4 py-2">Rp 500.000</td>
+            <td class="px-4 py-2">Snack Edukasi</td>
+            <td class="px-4 py-2"><span class="text-yellow-600 font-medium">Menunggu</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Feedback Donatur -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Feedback Donatur</h2>
+      <div class="space-y-4">
+        <div class="border-l-4 border-indigo-600 pl-4">
+          <p class="text-gray-700 italic">“Sangat senang melihat dana digunakan dengan transparan. Terima kasih atas laporannya!”</p>
+          <p class="text-sm text-gray-500">– Donatur: Andi W.</p>
+        </div>
+        <div class="border-l-4 border-indigo-600 pl-4">
+          <p class="text-gray-700 italic">“Semoga bantuan ini benar-benar membantu anak-anak yang membutuhkan. Sukses selalu!”</p>
+          <p class="text-sm text-gray-500">– Donatur: Siti A.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-center text-gray-500 text-sm py-6 mt-10">
+    © 2025 Ignite the Change. All rights reserved.
+  </footer>
+
+</body>
+</html>

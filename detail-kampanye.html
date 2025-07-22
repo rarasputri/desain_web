@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Kampanye - KaryaMuda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+       :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #93c5fd;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links .btn-donate {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-links .btn-donate:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        /* Responsive adjustments for navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px; /* Adjust based on navbar height */
+                left: -100%; /* Hidden by default */
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 0;
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .nav-links li {
+                margin: 15px 0;
+            }
+            .nav-links a {
+                color: var(--dark);
+            }
+            .nav-links .btn-donate {
+                width: fit-content;
+            }
+        }
+
+        /* Campaign Detail Styles */
+        .campaign-detail {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        .campaign-header {
+            margin-bottom: 30px;
+        }
+
+        .campaign-badges {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+        }
+
+        .badge-active {
+            background-color: #28a745; /* Green */
+        }
+
+        .badge-category {
+            background-color: #007bff; /* Blue */
+        }
+
+        .campaign-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .campaign-creator {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: var(--gray);
+        }
+
+        .creator-avatar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+        }
+
+        .campaign-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Main content 2/3, sidebar 1/3 */
+            gap: 40px;
+        }
+
+        .main-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .gallery {
+            margin-bottom: 30px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 450px; /* Fixed height for main image */
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto; /* Enable horizontal scroll for thumbnails */
+            padding-bottom: 10px; /* Space for scrollbar */
+        }
+
+        .thumbnail {
+            width: 100px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--light-gray);
+            padding-bottom: 10px;
+        }
+
+        .about-content p {
+            margin-bottom: 15px;
+            color: var(--gray);
+        }
+        .about-content ul {
+            list-style: disc;
+            list-style-position: inside;
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        .about-content ul li {
+            margin-bottom: 8px;
+            color: var(--gray);
+        }
+
+        .update-card, .comment-card {
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .update-header, .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .update-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            margin-right: 15px;
+        }
+        .update-icon.blue { background-color: var(--primary); }
+        .update-icon.green { background-color: #28a745; }
+        .update-icon.purple { background-color: #6f42c1; }
+
+        .update-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .update-date {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        .update-content p {
+            color: var(--gray);
+        }
+
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+        .comment-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .comment-date {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        .comment-text p {
+            margin-top: 10px;
+            color: var(--gray);
+        }
+        .comment-actions {
+            margin-top: 15px;
+        }
+        .like-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .like-btn:hover {
+            color: var(--primary);
+        }
+
+        .donation-sidebar {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content; /* Adjust height to content */
+            position: sticky;
+            top: 90px; /* Adjust based on navbar height */
+        }
+
+        .sidebar-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .progress-container {
+            margin-bottom: 25px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: var(--light-gray);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 5px;
+        }
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+        .progress-info span:first-child {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .donation-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            border-top: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
+            padding: 20px 0;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .donors {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .donor-avatars {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .donor-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            margin-left: -10px; /* Overlap avatars */
+        }
+        .donor-avatar:first-child {
+            margin-left: 0;
+        }
+        .donor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .donor-count {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .donation-sidebar .btn-donate {
+            width: 100%;
+            display: block;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 18px;
+            padding: 12px 24px;
+        }
+
+        .share-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        .share-btn:hover {
+            opacity: 0.9;
+        }
+        .share-fb { background-color: #3b5998; }
+        .share-twitter { background-color: #00acee; }
+        .share-wa { background-color: #25d366; }
+
+        /* Responsive adjustments for main content and sidebar */
+        @media (max-width: 1024px) { /* Adjust for tablet/smaller desktop */
+            .campaign-content {
+                grid-template-columns: 1fr; /* Stack main content and sidebar */
+            }
+            .donation-sidebar {
+                position: static; /* Remove sticky on smaller screens */
+                top: auto;
+            }
+        }
+        @media (max-width: 768px) { /* Further adjustments for mobile */
+            .campaign-title {
+                font-size: 28px;
+                text-align: center;
+            }
+            .campaign-creator {
+                justify-content: center;
+                text-align: center;
+                flex-wrap: wrap;
+            }
+            .main-image {
+                height: 250px; /* Smaller height for mobile */
+            }
+            .section-title {
+                font-size: 24px;
+                text-align: center;
+            }
+            .about-content ul {
+                padding-left: 0;
+                list-style-position: outside;
+            }
+            .donation-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .share-buttons {
+                flex-wrap: wrap;
+            }
+            .share-btn {
+                width: calc(50% - 5px); /* Two columns on mobile */
+                justify-content: center;
+            }
+        }
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+
+    <!-- Navbar Utama -->
+    <nav>
+        <div class="container">
+            <div class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-lightbulb"></i>
+                    KaryaMuda
+                </a>
+                <ul class="nav-links" id="mainNavLinks">
+                    <li><a href="home.html">Beranda</a></li>
+                    <li><a href="karya.html">Karya</a></li>
+                    <li><a href="newsletter.html">Berita</a></li>
+                    <li><a href="about.html">Tentang</a></li>
+                    <li><a href="#">Kontak</a></li>
+                    <li><a href="form-donasi.html" class="btn-donate">Donasi Sekarang</a></li>
+                </ul>
+                <div class="hamburger" id="hamburgerBtn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Campaign Detail -->
+    <div class="container campaign-detail">
+        <div class="campaign-header">
+            <div class="campaign-badges">
+                <span class="badge badge-active">Aktif</span>
+                <span class="badge badge-category">Pendidikan</span>
+            </div>
+            <h1 class="campaign-title">Voice for Youth – Platform Aspirasi dan Aksi Remaja</h1>
+            <div class="campaign-creator">
+                <div class="creator-avatar">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Creator">
+                </div>
+                <span>Oleh: Aulia Rahmawati • Komunitas Digital Remaja Indonesia</span>
+                <i class="fas fa-check-circle" style="color: #10b981; margin-left: 5px;"></i>
+                <span style="color: #10b981; margin-left: 2px;">Terverifikasi</span>
+            </div>
+        </div>
+
+        <div class="campaign-content">
+            <div class="main-content">
+                <!-- Gallery -->
+                <div class="gallery">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Youth group discussion" class="main-image" id="mainCampaignImage">
+                    <div class="thumbnail-container">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Thumbnail 1" class="thumbnail active">
+                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Thumbnail 2" class="thumbnail">
+                        <img src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Thumbnail 3" class="thumbnail">
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div class="about-section">
+                    <h2 class="section-title">Tentang Kampanye Ini</h2>
+                    <div class="about-content">
+                        <p><em>"Voice for Youth" adalah kampanye penggalangan dana untuk membangun platform digital yang mewadahi aspirasi, karya, dan isu sosial yang diangkat oleh remaja Indonesia.</em></p>
+                        
+                        <p>Platform ini akan menampilkan:</p>
+                        
+                        <ul>
+                            <li><strong>Forum aspirasi</strong> - Ruang untuk berbagi ide dan pendapat</li>
+                            <li><strong>Ruang diskusi dengan pemangku kebijakan</strong> - Komunikasi langsung antara remaja dan pembuat keputusan</li>
+                            <li><strong>Program mentoring dan pelatihan digital</strong> - Pengembangan keterampilan untuk remaja</li>
+                        </ul>
+                        
+                        <p>Tujuan utama kampanye ini adalah:</p>
+                        
+                        <ul>
+                            <li>Meningkatkan partisipasi remaja dalam perubahan sosial</li>
+                            <li>Memberikan akses ke teknologi untuk menyuarakan pendapat secara aman dan positif</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Updates Section -->
+                <div class="updates-section">
+                    <h2 class="section-title">Update Perkembangan</h2>
+                    
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-icon blue">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h3 class="update-title">Rilis Mockup Awal</h3>
+                                <p class="update-date">Diposting pada 10 Juli 2025</p>
+                            </div>
+                        </div>
+                        <div class="update-content">
+                            <p>Desain awal platform telah dirilis dan terbuka untuk masukan dari relawan.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-icon green">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <h3 class="update-title">Kolaborasi dengan Dinas Pendidikan</h3>
+                                <p class="update-date">Diposting pada 5 Juli 2025</p>
+                            </div>
+                        </div>
+                        <div class="update-content">
+                            <p>Telag disetujui untuk uji coba platform di 5 sekolah di Jakarta.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-icon purple">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div>
+                                <h3 class="update-title">Dana Tahap 1 Digunakan</h3>
+                                <p class="update-date">Diposting pada 30 Juni 2025</p>
+                            </div>
+                        </div>
+                        <div class="update-content">
+                            <p>Rp 15 juta digunakan untuk pengembangan awal backend dan UI/UX.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <h2 class="section-title">Ucapan Terima Kasih dari Donatur</h2>
+                    
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <div class="comment-avatar">A</div>
+                            <div>
+                                <div class="comment-name">Donatur Anonim</div>
+                                <div class="comment-date">16 Juli 2025</div>
+                            </div>
+                        </div>
+                        <div class="comment-text">
+                            <p>"Platform seperti ini sangat dibutuhkan untuk memfasilitasi suara remaja dalam pembangunan!"</p>
+                        </div>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <i class="far fa-heart"></i> 24 Suka
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <div class="comment-avatar">B</div>
+                            <div>
+                                <div class="comment-name">Budi Santoso</div>
+                                <div class="comment-date">14 Juli 2025</div>
+                            </div>
+                        </div>
+                        <div class="comment-text">
+                            <p>"Senang bisa berkontribusi untuk masa depan remaja Indonesia yang lebih partisipatif!"</p>
+                        </div>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <i class="far fa-heart"></i> 18 Suka
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Donation Sidebar -->
+            <div class="donation-sidebar">
+                <h2 class="sidebar-title">Dukung Kampanye Ini</h2>
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 57.6%"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span>Rp 43.200.000</span>
+                        <span>57.6% tercapai</span>
+                    </div>
+                    <div class="progress-info">
+                        <span>Target: Rp 75.000.000</span>
+                        <span>Deadline: 31 Agustus 2025</span>
+                    </div>
+                </div>
+                
+                <div class="donation-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">320</div>
+                        <div class="stat-label">Donatur</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Hari Lagi</div>
+                    </div>
+                </div>
+                
+                <div class="donors">
+                    <div class="donor-avatars">
+                        <div class="donor-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Donor 1">
+                        </div>
+                        <div class="donor-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Donor 2">
+                        </div>
+                        <div class="donor-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Donor 3">
+                        </div>
+                    </div>
+                    <div class="donor-count">+ 317 lainnya</div>
+                </div>
+                
+                <a href="form-donasi.html" class="btn-donate">Donasi Sekarang</a>
+                
+                <h3 class="share-title">Bagikan Kampanye</h3>
+                <div class="share-buttons">
+                    <a href="#" class="share-btn share-fb">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="#" class="share-btn share-twitter">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </a>
+                    <a href="#" class="share-btn share-wa">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer id="kontak">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Column 1 -->
+                <div class="footer-column">
+                    <h3>Tentang KaryaMuda</h3>
+                    <p style="color: var(--light-gray); margin-bottom: 20px;">Platform untuk menyalurkan kreativitas anak muda Indonesia melalui dukungan komunitas.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="footer-column">
+                    <h3>Menu</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Beranda</a></li>
+                        <li><a href="#">Karya</a></li>
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Kontak</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="footer-column">
+                    <h3>Kategori</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Teknologi</a></li>
+                        <li><a href="#">Seni & Desain</a></li>
+                        <li><a href="#">Lingkungan</a></li>
+                        <li><a href="#">Pendidikan</a></li>
+                        <li><a href="#">Kewirausahaan</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 -->
+                <div class="footer-column">
+                    <h3>Kontak</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@karyamuda.id</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +62 812 3456 7890</li>
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Jakarta, Indonesia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 KaryaMuda. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            // Initialize AOS (Animate On Scroll)
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+    
+            // Mobile Menu Toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+    
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+    
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+    
+            // Simple image gallery functionality
+            const mainImage = document.querySelector('.main-image');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+    
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', () => {
+                    mainImage.src = thumbnail.src;
+                });
+            });
+    
+            // Like button functionality
+            const likeButtons = document.querySelectorAll('.like-btn');
+    
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    const countElement = this.querySelector('.like-count') || this;
+                    let count = parseInt(countElement.textContent.match(/\d+/)[0]);
+                    
+                    if (icon.classList.contains('far')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas', 'text-red-500');
+                        count++;
+                        this.innerHTML = `<i class="fas fa-heart text-red-500"></i> ${count} Suka`;
+                    } else {
+                        icon.classList.remove('fas', 'text-red-500');
+                        icon.classList.add('far');
+                        count--;
+                        this.innerHTML = `<i class="far fa-heart"></i> ${count} Suka`;
+                    }
+                });
+            });
+        </script>
+
+</body>
+</html>

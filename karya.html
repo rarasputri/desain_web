@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karya - KaryaMuda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Library for Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+    :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #93c5fd;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links .btn-donate {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-links .btn-donate:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        /* Responsive adjustments for navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px; /* Adjust based on navbar height */
+                left: -100%; /* Hidden by default */
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 0;
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .nav-links li {
+                margin: 15px 0;
+            }
+            .nav-links a {
+                color: var(--dark);
+            }
+            .nav-links .btn-donate {
+                width: fit-content;
+            }
+        }
+
+        /* Section for All Campaigns */
+        .section {
+            padding: 80px 0;
+            background-color: white; /* Or a light background like var(--light) */
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .campaigns {
+            display: grid;
+            /* Changed to auto-fit with a max-width for each column to prevent stretching */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
+            gap: 30px;
+            justify-content: center; /* Centers the grid items within the container */
+        }
+
+        .campaign-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Added opacity and visibility to transition */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campaign-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .campaign-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .campaign-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .campaign-card:hover .campaign-image img {
+            transform: scale(1.05);
+        }
+
+        .badge-verified, .badge-editors-choice, .badge-trending {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .badge-verified {
+            background-color: #28a745; /* Green */
+        }
+        .badge-editors-choice {
+            background-color: #f59e0b; /* Amber */
+        }
+        .badge-trending {
+            background-color: #ef4444; /* Red */
+        }
+
+        .time-remaining {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .campaign-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campaign-category {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .campaign-card .campaign-title { /* Specificity for card title */
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .campaign-description {
+            font-size: 15px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            flex-grow: 1; /* Allows description to take available height */
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .campaign-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+            margin-top: auto; /* Push to bottom */
+        }
+
+        .creator-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .creator-info .creator-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 8px;
+            border: 1px solid var(--primary-light);
+        }
+
+        .creator-info .creator-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .creator-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: 1px solid var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        /* Responsive for All Campaigns section */
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 0;
+            }
+            .section-title h2 {
+                font-size: 28px;
+            }
+            .section-title p {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+            .campaigns {
+                /* On mobile, ensure single column and limit its max-width */
+                grid-template-columns: minmax(280px, 350px);
+            }
+            .campaign-image {
+                height: 180px;
+            }
+            .campaign-card .campaign-title {
+                font-size: 20px;
+            }
+            .campaign-description {
+                font-size: 14px;
+            }
+        }
+
+       /* Footer */
+       footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+
+
+        /* Responsive for Footer */
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-col h3 {
+                margin-bottom: 15px;
+            }
+            .footer-col a {
+                margin-bottom: 8px;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .footer-bottom {
+                padding-top: 20px;
+            }
+        }
+
+        /* Filter Bar Styles */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-button {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            border: none;
+            outline: none;
+        }
+
+        .filter-button:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .filter-button.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); /* Shadow for active state */
+            transform: translateY(-2px);
+        }
+
+        /* Ensure hidden cards don't take space */
+        .campaign-card.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Prevent interaction */
+        }
+        .blog-hero {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        .blog-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .blog-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* Blog Content */
+        .blog-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        @media (min-width: 992px) {
+            .blog-container {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+
+    <!-- Navbar -->
+    <nav>
+        <div class="container">
+            <div class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-lightbulb"></i>
+                    KaryaMuda
+                </a>
+                <ul class="nav-links" id="mainNavLinks">
+                    <li><a href="home.html">Beranda</a></li>
+                    <li><a href="karya.html">Karya</a></li>
+                    <li><a href="newsletter.html">Berita</a></li>
+                    <li><a href="about.html">Tentang</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="form-donasi.html" class="btn-donate">Donasi Sekarang</a></li>
+                </ul>
+                <div class="hamburger" id="hamburgerBtn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="blog-hero" data-aos="fade">
+        <div class="container">
+                <h1><strong>Semua Karya yang Perlu Dukunganmu</strong></h1>
+                <p>Jelajahi berbagai karya kreatif anak muda Indonesia yang membutuhkan dukungan untuk berkembang, dari teknologi hingga seni dan lingkungan.</p>
+         </div>
+    </section>
+    
+    <!-- Section: Semua Karya -->
+    <section class="section" data-aos="fade-up">
+        <div class="container">
+           
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <button class="filter-button active" data-category="all">Semua Kategori</button>
+                <button class="filter-button" data-category="Teknologi">Teknologi</button>
+                <button class="filter-button" data-category="Seni">Seni</button>
+                <button class="filter-button" data-category="Lingkungan">Lingkungan</button>
+                <button class="filter-button" data-category="Sosial">Sosial</button>
+                <button class="filter-button" data-category="Gaya Hidup">Gaya Hidup</button>
+                <button class="filter-button" data-category="Pendidikan">Pendidikan</button>
+            </div>
+
+            <div class="campaigns" id="campaignsGrid">
+                <!-- Campaign 1 - Teknologi -->
+                <div class="campaign-card" data-aos="fade-up" data-aos-delay="100" data-category="Teknologi">
+                    <div class="badge badge-verified">
+                        <i class="fas fa-check-circle"></i> Terverifikasi
+                    </div>
+                    <div class="campaign-image">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Karya 1">
+                        <div class="time-remaining">
+                            <i class="fas fa-clock"></i> 12 hari lagi
+                        </div>
+                    </div>
+                    <div class="campaign-content">
+                        <span class="campaign-category">Teknologi</span>
+                        <h3 class="campaign-title">Aplikasi Edukasi untuk Anak Berkebutuhan Khusus</h3>
+                        <p class="campaign-description">Mengembangkan aplikasi pembelajaran interaktif untuk anak dengan autisme dengan fitur khusus yang disesuaikan.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 78%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>Rp15.600.000</span>
+                                <span>78%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <div class="creator-info">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Creator">
+                                </div>
+                                <span class="creator-name">Sarah Wijaya</span>
+                            </div>
+                            <a href="detail-kampanye.html" class="btn btn-primary btn-small">Dukung</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign 2 - Seni -->
+                <div class="campaign-card" data-aos="fade-up" data-aos-delay="200" data-category="Seni">
+                    <div class="badge badge-editors-choice">
+                        <i class="fas fa-star"></i> Pilihan Editor
+                    </div>
+                    <div class="campaign-image">
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Karya 2">
+                        <div class="time-remaining">
+                            <i class="fas fa-clock"></i> 5 hari lagi
+                        </div>
+                    </div>
+                    <div class="campaign-content">
+                        <span class="campaign-category">Seni</span>
+                        <h3 class="campaign-title">Pameran Seni Digital "Identitas Nusantara"</h3>
+                        <p class="campaign-description">Menyelenggarakan pameran seni digital yang mengeksplorasi kekayaan budaya Indonesia melalui medium kontemporer.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 42%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>Rp8.300.000</span>
+                                <span>42%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <div class="creator-info">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Creator">
+                                </div>
+                                <span class="creator-name">Arif Budiman</span>
+                            </div>
+                            <a href="detail-kampanye.html" class="btn btn-primary btn-small">Dukung</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign 3 - Lingkungan -->
+                <div class="campaign-card" data-aos="fade-up" data-aos-delay="300" data-category="Lingkungan">
+                    <div class="badge badge-trending">
+                        <i class="fas fa-fire"></i> Trending
+                    </div>
+                    <div class="campaign-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Karya 3">
+                        <div class="time-remaining">
+                            <i class="fas fa-clock"></i> 21 hari lagi
+                        </div>
+                    </div>
+                    <div class="campaign-content">
+                        <span class="campaign-category">Lingkungan</span>
+                        <h3 class="campaign-title">Komposter Portable dari Limbah Plastik</h3>
+                        <p class="campaign-description">Membuat alat komposter portable dari plastik daur ulang untuk memudahkan pengomposan sampah organik di perkotaan.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 78%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>Rp15.600.000</span>
+                                <span>78%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <div class="creator-info">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Creator">
+                                </div>
+                                <span class="creator-name">Dewi Lestari</span>
+                            </div>
+                            <a href="detail-kampanye.html" class="btn btn-primary btn-small">Dukung</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign 4 - Sosial -->
+                <div class="campaign-card" data-aos="fade-up" data-aos-delay="400" data-category="Sosial">
+                    <div class="badge badge-verified">
+                        <i class="fas fa-check-circle"></i> Terverifikasi
+                    </div>
+                    <div class="campaign-image">
+                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Karya 6">
+                        <div class="time-remaining">
+                            <i class="fas fa-clock"></i> 18 hari lagi
+                        </div>
+                    </div>
+                    <div class="campaign-content">
+                        <span class="campaign-category">Sosial</span>
+                        <h3 class="campaign-title">Program Literasi Digital untuk Lansia</h3>
+                        <p class="campaign-description">Memberikan pelatihan dasar literasi digital kepada para lansia agar tetap terhubung dan aman di dunia maya.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 55%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>Rp7.200.000</span>
+                                <span>55%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <div class="creator-info">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/70.jpg" alt="Creator">
+                                </div>
+                                <span class="creator-name">Rina Fitriani</span>
+                            </div>
+                            <a href="detail-kampanye.html" class="btn btn-primary btn-small">Dukung</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign 5 - Gaya Hidup -->
+                <div class="campaign-card" data-aos="fade-up" data-aos-delay="500" data-category="Gaya Hidup">
+                    <div class="badge badge-editors-choice">
+                        <i class="fas fa-star"></i> Pilihan Editor
+                    </div>
+                    <div class="campaign-image">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Karya 5">
+                        <div class="time-remaining">
+                            <i class="fas fa-clock"></i> 9 hari lagi
+                        </div>
+                    </div>
+                    <div class="campaign-content">
+                        <span class="campaign-category">Gaya Hidup</span>
+                        <h3 class="campaign-title">Workshop Fotografi Mobile untuk Pemula</h3>
+                        <p class="campaign-description">Workshop intensif untuk mengajarkan teknik dasar fotografi menggunakan smartphone, cocok untuk konten kreator muda.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 70%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>Rp10.500.000</span>
+                                <span>70%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <div class="creator-info">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/80.jpg" alt="Creator">
+                                </div>
+                                <span class="creator-name">Rio Pratama</span>
+                            </div>
+                            <a href="detail-kampanye.html" class="btn btn-primary btn-small">Dukung</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign 6 - Pendidikan -->
+                <div class="campaign-card" data-aos="fade-up" data-aos-delay="600" data-category="Pendidikan">
+                    <div class="badge badge-trending">
+                        <i class="fas fa-fire"></i> Trending
+                    </div>
+                    <div class="campaign-image">
+                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Karya 6">
+                        <div class="time-remaining">
+                            <i class="fas fa-clock"></i> 25 hari lagi
+                        </div>
+                    </div>
+                    <div class="campaign-content">
+                        <span class="campaign-category">Pendidikan</span>
+                        <h3 class="campaign-title">Beasiswa Coding untuk Siswa Kurang Mampu</h3>
+                        <p class="campaign-description">Memberikan kesempatan bagi siswa berprestasi dari keluarga kurang mampu untuk mengikuti kursus coding intensif.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>Rp25.000.000</span>
+                                <span>85%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <div class="creator-info">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/90.jpg" alt="Creator">
+                                </div>
+                                <span class="creator-name">Putri Anggraini</span>
+                            </div>
+                            <a href="detail-kampanye.html" class="btn btn-primary btn-small">Dukung</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div id="kontak"class="container">
+            <div class="footer-content">
+                <!-- Column 1 -->
+                <div class="footer-column">
+                    <h3>Tentang KaryaMuda</h3>
+                    <p style="color: var(--light-gray); margin-bottom: 20px;">Platform untuk menyalurkan kreativitas anak muda Indonesia melalui dukungan komunitas.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="footer-column">
+                    <h3>Menu</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Beranda</a></li>
+                        <li><a href="#">Karya</a></li>
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Kontak</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="footer-column">
+                    <h3>Kategori</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Teknologi</a></li>
+                        <li><a href="#">Seni & Desain</a></li>
+                        <li><a href="#">Lingkungan</a></li>
+                        <li><a href="#">Pendidikan</a></li>
+                        <li><a href="#">Kewirausahaan</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 -->
+                <div class="footer-column">
+                    <h3>Kontak</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@karyamuda.id</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +62 812 3456 7890</li>
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Jakarta, Indonesia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 KaryaMuda. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JavaScript -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 1000, // values from 0 to 3000, with step 50ms
+                once: true, // whether animation should happen only once - while scrolling down
+            });
+
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mainNavLinks = document.getElementById('mainNavLinks');
+            if (hamburgerBtn && mainNavLinks) {
+                hamburgerBtn.addEventListener('click', () => {
+                    mainNavLinks.classList.toggle('active');
+                });
+            }
+
+            // Filter functionality for campaigns
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const campaignCards = document.querySelectorAll('.campaign-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to the clicked button
+                    button.classList.add('active');
+
+                    const selectedCategory = button.dataset.category;
+                    // Object to keep track of how many cards have been shown for each category
+                    let categoryCounts = {}; 
+
+                    campaignCards.forEach(card => {
+                        const cardCategory = card.dataset.category;
+
+                        if (selectedCategory === 'all') {
+                            // If "Semua Kategori" is selected, show all cards
+                            card.classList.remove('hidden');
+                        } else {
+                            // If a specific category is selected
+                            if (cardCategory === selectedCategory) {
+                                // Initialize count for this specific category if not already
+                                if (!categoryCounts[selectedCategory]) {
+                                    categoryCounts[selectedCategory] = 0;
+                                }
+
+                                // If less than 2 cards of this specific category are shown, show this one
+                                if (categoryCounts[selectedCategory] < 2) {
+                                    card.classList.remove('hidden');
+                                    categoryCounts[selectedCategory]++;
+                                } else {
+                                    // If more than 2 cards of this specific category, hide them
+                                    card.classList.add('hidden');
+                                }
+                            } else {
+                                // Hide cards that do not match the selected category
+                                card.classList.add('hidden');
+                            }
+                        }
+                    });
+                    AOS.refreshHard(); // Re-calculate all AOS elements for correct animations
+                });
+            });
+        });
+    </script>
+</body>
+</html>
