@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karya Muda Berdaya - Donasi Untuk Ide Inovatif</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc; /* Light grey background */
+        }
+        .primary-green {
+            background-color: #34D399; /* A vibrant green for primary actions */
+        }
+        .primary-green-text {
+            color: #34D399;
+        }
+        .hover\:primary-green-dark:hover {
+            background-color: #10B981; /* Darker green on hover */
+        }
+        .soft-ui-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Soft shadow */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .soft-ui-card:hover {
+            transform: translateY(-5px); /* Subtle lift on hover */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        /* For Three.js and Lottie containers */
+        #threejs-container, #lottie-container {
+            width: 100%;
+            height: 400px; /* Adjust height as needed */
+            background-color: #f0fdf4; /* Light green background for animation areas */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Important for 3D scenes */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <nav class="bg-white p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold primary-green-text">Karya Muda Berdaya</a>
+            <div class="md:hidden">
+                <button id="menu-button" class="text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <ul id="nav-menu" class="hidden md:flex space-x-6 text-lg">
+                <li><a href="#tentang" class="hover:text-gray-600">Tentang Kami</a></li>
+                <li><a href="#karya" class="hover:text-gray-600">Karya Unggulan</a></li>
+                <li><a href="#donasi" class="hover:text-gray-600">Donasi</a></li>
+                <li><a href="#kontak" class="hover:text-gray-600">Kontak</a></li>
+                <li><a href="#" class="primary-green text-white px-4 py-2 rounded-full hover:primary-green-dark transition duration-300">Ajukan Karya</a></li>
+            </ul>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden mt-4">
+            <ul class="flex flex-col space-y-2 px-4">
+                <li><a href="#tentang" class="block py-2 hover:bg-gray-100 rounded">Tentang Kami</a></li>
+                <li><a href="#karya" class="block py-2 hover:bg-gray-100 rounded">Karya Unggulan</a></li>
+                <li><a href="#donasi" class="block py-2 hover:bg-gray-100 rounded">Donasi</a></li>
+                <li><a href="#kontak" class="block py-2 hover:bg-gray-100 rounded">Kontak</a></li>
+                <li><a href="#" class="block primary-green text-white px-4 py-2 rounded-full text-center mt-2 hover:primary-green-dark transition duration-300">Ajukan Karya</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="primary-green text-white py-20 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="text-5xl font-bold mb-4 leading-tight">Wujudkan Ide Hebat Anak Muda Bersama Kita</h1>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Dukung inovasi dan kreativitas generasi muda Indonesia. Setiap donasi Anda membawa impian mereka selangkah lebih dekat menjadi nyata.</p>
+            <a href="#karya" class="bg-white text-emerald-600 font-semibold px-8 py-4 rounded-full text-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105 inline-block">Lihat Karya Unggulan</a>
+        </div>
+    </header>
+
+    <section id="threejs-section" class="py-16 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-12 primary-green-text">Jelajahi Dunia Kreatif dalam 3D!</h2>
+            <div id="threejs-container" class="soft-ui-card mx-auto">
+                <p class="text-gray-500">Memuat animasi 3D...</p>
+            </div>
+            <p class="mt-8 text-gray-600 max-w-2xl mx-auto">Di sini Anda bisa menampilkan visualisasi interaktif dari konsep, ide, atau bahkan prototipe karya anak muda menggunakan **Three.js**.</p>
+        </div>
+    </section>
+
+    <section id="tentang" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-8 primary-green-text">Tentang Kami</h2>
+            <p class="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
+                **Karya Muda Berdaya** adalah platform digital yang didedikasikan untuk menjembatani ide-ide cemerlang anak muda Indonesia dengan dukungan finansial yang mereka butuhkan. Kami percaya bahwa setiap ide hebat layak mendapatkan kesempatan untuk berkembang, dan melalui platform ini, Anda dapat menjadi bagian dari perjalanan inovasi mereka.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                <div class="soft-ui-card p-6">
+                    <img src="https://via.placeholder.com/80?text=Visi" alt="Visi Icon" class="mx-auto mb-4 w-20 h-20">
+                    <h3 class="text-2xl font-semibold mb-2">Visi Kami</h3>
+                    <p class="text-gray-600">Menjadi platform terdepan yang memberdayakan potensi kreatif anak muda Indonesia.</p>
+                </div>
+                <div class="soft-ui-card p-6">
+                    <img src="https://via.placeholder.com/80?text=Misi" alt="Misi Icon" class="mx-auto mb-4 w-20 h-20">
+                    <h3 class="text-2xl font-semibold mb-2">Misi Kami</h3>
+                    <p class="text-gray-600">Menyediakan akses modal dan bimbingan bagi inovator muda.</p>
+                </div>
+                <div class="soft-ui-card p-6">
+                    <img src="https://via.placeholder.com/80?text=Nilai" alt="Nilai Icon" class="mx-auto mb-4 w-20 h-20">
+                    <h3 class="text-2xl font-semibold mb-2">Nilai Kami</h3>
+                    <p class="text-gray-600">Transparansi, Integritas, Inovasi, dan Kolaborasi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="karya" class="py-16 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-12 primary-green-text">Karya Unggulan Anak Muda</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="soft-ui-card p-6 flex flex-col items-center text-center">
+                    <img src="https://via.placeholder.com/400x250?text=Proyek+A" alt="Proyek A" class="rounded-lg mb-4 w-full h-auto object-cover">
+                    <h3 class="text-2xl font-semibold mb-2">Aplikasi Edukasi Interaktif</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Sebuah aplikasi inovatif yang menggunakan augmented reality untuk pembelajaran interaktif bagi siswa SD.</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                        <div class="primary-green h-2.5 rounded-full" style="width: 70%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Rp 7.000.000 terkumpul dari Rp 10.000.000</p>
+                    <a href="#" class="primary-green text-white px-6 py-3 rounded-full hover:primary-green-dark transition duration-300">Donasi Sekarang</a>
+                </div>
+
+                <div class="soft-ui-card p-6 flex flex-col items-center text-center">
+                    <img src="https://via.placeholder.com/400x250?text=Proyek+B" alt="Proyek B" class="rounded-lg mb-4 w-full h-auto object-cover">
+                    <h3 class="text-2xl font-semibold mb-2">Robot Pembersih Sungai Otomatis</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Robot ramah lingkungan yang dirancang untuk membersihkan sampah di sungai-sungai perkotaan secara otomatis.</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                        <div class="primary-green h-2.5 rounded-full" style="width: 45%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Rp 9.000.000 terkumpul dari Rp 20.000.000</p>
+                    <a href="#" class="primary-green text-white px-6 py-3 rounded-full hover:primary-green-dark transition duration-300">Donasi Sekarang</a>
+                </div>
+
+                <div class="soft-ui-card p-6 flex flex-col items-center text-center">
+                    <img src="https://via.placeholder.com/400x250?text=Proyek+C" alt="Proyek C" class="rounded-lg mb-4 w-full h-auto object-cover">
+                    <h3 class="text-2xl font-semibold mb-2">Platform E-commerce Produk Lokal</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Memperkenalkan platform marketplace yang fokus pada produk-produk UMKM lokal dengan teknologi AI rekomendasi.</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                        <div class="primary-green h-2.5 rounded-full" style="width: 85%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Rp 8.500.000 terkumpul dari Rp 10.000.000</p>
+                    <a href="#" class="primary-green text-white px-6 py-3 rounded-full hover:primary-green-dark transition duration-300">Donasi Sekarang</a>
+                </div>
+            </div>
+            <a href="#" class="inline-block mt-12 bg-emerald-100 primary-green-text font-semibold px-8 py-4 rounded-full text-lg hover:bg-emerald-200 transition duration-300 transform hover:scale-105">Lihat Semua Karya</a>
+        </div>
+    </section>
+
+    <section id="lottie-section" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-12 primary-green-text">Bagaimana Donasi Anda Bekerja?</h2>
+            <div id="lottie-container" class="soft-ui-card mx-auto">
+                <p class="text-gray-500">Memuat animasi proses donasi...</p>
+            </div>
+            <p class="mt-8 text-gray-600 max-w-2xl mx-auto">Saksikan visualisasi sederhana bagaimana setiap donasi Anda memberikan dampak nyata pada proyek-proyek inovatif ini menggunakan animasi **Lottie**.</p>
+        </div>
+    </section>
+
+    <section id="donasi" class="py-20 primary-green text-white text-center">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-6">Jadilah Bagian Dari Perubahan!</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Setiap kontribusi, sekecil apapun, akan sangat berarti bagi anak-anak muda yang sedang berjuang mewujudkan impian mereka.</p>
+            <a href="#" class="bg-white text-emerald-600 font-semibold px-8 py-4 rounded-full text-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105 inline-block">Mulai Berdonasi Sekarang</a>
+        </div>
+    </section>
+
+    <section id="flow" class="py-16 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-12 primary-green-text">Alur Donasi di Karya Muda Berdaya</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="soft-ui-card p-6 flex flex-col items-center">
+                    <img src="https://via.placeholder.com/100?text=1" alt="Step 1" class="mb-4 w-24 h-24">
+                    <h3 class="text-2xl font-semibold mb-2">1. Pilih Karya Favorit</h3>
+                    <p class="text-gray-600">Jelajahi berbagai proyek inovatif dari anak muda yang membutuhkan dukungan.</p>
+                </div>
+                <div class="soft-ui-card p-6 flex flex-col items-center">
+                    <img src="https://via.placeholder.com/100?text=2" alt="Step 2" class="mb-4 w-24 h-24">
+                    <h3 class="text-2xl font-semibold mb-2">2. Beri Donasi Anda</h3>
+                    <p class="text-gray-600">Pilih jumlah donasi yang ingin Anda berikan melalui metode pembayaran yang aman.</p>
+                </div>
+                <div class="soft-ui-card p-6 flex flex-col items-center">
+                    <img src="https://via.placeholder.com/100?text=3" alt="Step 3" class="mb-4 w-24 h-24">
+                    <h3 class="text-2xl font-semibold mb-2">3. Sambil Menunggu Karya Berhasil</h3>
+                    <p class="text-gray-600">Donasi Anda langsung disalurkan dan proyek akan terus diupdate perkembangannya.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-2xl font-bold mb-4 primary-green-text">Karya Muda Berdaya</h3>
+                <p class="text-gray-400">Platform donasi untuk mendukung inovasi anak muda Indonesia.</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white"><img src="https://via.placeholder.com/24?text=FB" alt="Facebook" class="w-6 h-6"></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><img src="https://via.placeholder.com/24?text=IG" alt="Instagram" class="w-6 h-6"></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><img src="https://via.placeholder.com/24?text=TW" alt="Twitter" class="w-6 h-6"></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-4">Navigasi</h3>
+                <ul class="space-y-2">
+                    <li><a href="#tentang" class="text-gray-400 hover:text-white">Tentang Kami</a></li>
+                    <li><a href="#karya" class="text-gray-400 hover:text-white">Karya Unggulan</a></li>
+                    <li><a href="#donasi" class="text-gray-400 hover:text-white">Donasi</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Ajukan Karya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-4">Dukungan</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Kebijakan Privasi</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div id="kontak">
+                <h3 class="text-xl font-semibold mb-4">Kontak Kami</h3>
+                <p class="text-gray-400">Email: info@karyamudaberdaya.com</p>
+                <p class="text-gray-400">Telepon: +62 812 3456 7890</p>
+                <p class="text-gray-400">Alamat: Jl. Inovasi No. 123, Jakarta, Indonesia</p>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 mt-8 border-t border-gray-700 pt-8">
+            &copy; 2025 Karya Muda Berdaya. Hak Cipta Dilindungi.
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.4/lottie.min.js"></script>
+
+    <script>
+        // Navbar Toggle for Mobile
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu'); // Desktop menu for closing mobile
+        
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // --- Three.js Placeholder ---
+        // You would typically have a more elaborate Three.js setup.
+        // This is a minimal example to show where it would go.
+        const threejsContainer = document.getElementById('threejs-container');
+        if (threejsContainer) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, threejsContainer.clientWidth / threejsContainer.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // alpha: true for transparent background
+            renderer.setSize(threejsContainer.clientWidth, threejsContainer.clientHeight);
+            threejsContainer.innerHTML = ''; // Clear "Memuat animasi 3D..."
+            threejsContainer.appendChild(renderer.domElement);
+
+            // Create a simple box
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshBasicMaterial({ color: 0x34D399, wireframe: true }); // Primary green color, wireframe for effect
+            const cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+
+            camera.position.z = 3;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = threejsContainer.clientWidth / threejsContainer.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(threejsContainer.clientWidth, threejsContainer.clientHeight);
+            });
+        }
+
+        // --- Lottie Animation Placeholder ---
+        // Replace 'your_lottie_animation.json' with your actual Lottie JSON file URL
+        const lottieContainer = document.getElementById('lottie-container');
+        if (lottieContainer) {
+            lottie.loadAnimation({
+                container: lottieContainer, // The DOM element to render the animation
+                renderer: 'svg', // 'svg' or 'canvas'
+                loop: true,
+                autoplay: true,
+                path: 'https://assets7.lottiefiles.com/packages/lf20_t1q11x34.json' // Example Lottie JSON URL (replace with yours)
+            });
+        }
+    </script>
+</body>
+</html>
