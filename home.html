@@ -1,1027 +1,1514 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sociotech - Platform Showcase & Donasi Anak Muda Indonesia</title>
-    <link rel="icon" type="image/x-icon" href="./assets/logo/logo_transparent.png">
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./assets/logo/logo_transparent.png"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Inter', sans-serif;
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Loading Screen Styles */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          #10b981 0%,
+          #059669 50%,
+          #047857 100%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+      }
+
+      #loading-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loading-logo {
+        font-size: 3rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 2rem;
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          transform: scale(1);
+          text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
-        
-        /* Loading Screen Styles */
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        50% {
+          transform: scale(1.05);
+          text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
         }
-        
-        #loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
+      }
+
+      .loading-progress {
+        width: 300px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+      }
+
+      .loading-bar {
+        height: 100%;
+        background: white;
+        border-radius: 2px;
+        animation: loading-animation 3s ease-in-out;
+        transform-origin: left;
+      }
+
+      @keyframes loading-animation {
+        0% {
+          transform: scaleX(0);
         }
-        
-        .loading-logo {
-            font-size: 3rem;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 2rem;
-            animation: pulse-glow 2s ease-in-out infinite;
+        50% {
+          transform: scaleX(0.7);
         }
-        
-        @keyframes pulse-glow {
-            0%, 100% { 
-                transform: scale(1);
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            }
-            50% { 
-                transform: scale(1.05);
-                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
-            }
+        100% {
+          transform: scaleX(1);
         }
-        
-        .loading-progress {
-            width: 300px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-bottom: 1rem;
+      }
+
+      .loading-text {
+        color: white;
+        font-size: 1.1rem;
+        opacity: 0.9;
+        animation: fade-in-out 2s ease-in-out infinite;
+      }
+
+      @keyframes fade-in-out {
+        0%,
+        100% {
+          opacity: 0.6;
         }
-        
-        .loading-bar {
-            height: 100%;
-            background: white;
-            border-radius: 2px;
-            animation: loading-animation 3s ease-in-out;
-            transform-origin: left;
+        50% {
+          opacity: 1;
         }
-        
-        @keyframes loading-animation {
-            0% { transform: scaleX(0); }
-            50% { transform: scaleX(0.7); }
-            100% { transform: scaleX(1); }
+      }
+
+      /* Three.js Loading Canvas */
+      #loading-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          #10b981 0%,
+          #059669 50%,
+          #047857 100%
+        );
+      }
+
+      .soft-shadow {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
+      }
+
+      .floating-animation {
+        animation: floating 3s ease-in-out infinite;
+      }
+
+      @keyframes floating {
+        0%,
+        100% {
+          transform: translateY(0px);
         }
-        
-        .loading-text {
-            color: white;
-            font-size: 1.1rem;
-            opacity: 0.9;
-            animation: fade-in-out 2s ease-in-out infinite;
+        50% {
+          transform: translateY(-20px);
         }
-        
-        @keyframes fade-in-out {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+      }
+
+      .pulse-grow {
+        animation: pulse-grow 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-grow {
+        0%,
+        100% {
+          transform: scale(1);
         }
-        
-        /* Three.js Loading Canvas */
-        #loading-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+        50% {
+          transform: scale(1.05);
         }
-        
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-        }
-        
-        .soft-shadow {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
-        }
-        
-        .floating-animation {
-            animation: floating 3s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .pulse-grow {
-            animation: pulse-grow 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse-grow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            opacity: 0.6;
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: linear-gradient(90deg, #10b981, #059669);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-        
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: scale(1.02);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #10b981, #059669);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #059669, #047857);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
-        }
-        
-        .nav-blur {
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-        }
-        
-        .text-gradient {
-            background: linear-gradient(135deg, #10b981, #059669);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+      }
+
+      #three-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        position: fixed;
+        opacity: 0.6;
+      }
+
+      .progress-bar {
+        height: 8px;
+        background: linear-gradient(90deg, #10b981, #059669);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #10b981, #059669);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #059669, #047857);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+      }
+
+      .nav-blur {
+        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease;
+      }
+
+      .text-gradient {
+        background: linear-gradient(135deg, #10b981, #059669);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* New styles for search and filter */
+      .search-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .search-input {
+        border-radius: 50px;
+        padding-left: 50px;
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s ease;
+      }
+
+      .search-input:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+      }
+
+      .search-icon {
+        left: 20px;
+        color: #9ca3af;
+      }
+
+      .filter-btn {
+        transition: all 0.3s ease;
+        border-radius: 50px;
+        border: 2px solid #e5e7eb;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background-color: #10b981;
+        color: white;
+        border-color: #10b981;
+      }
+
+      .campaign-banner {
+        border-radius: 20px;
+        overflow: hidden;
+        height: 300px;
+        position: relative;
+      }
+
+      .campaign-banner::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.1),
+          rgba(0, 0, 0, 0.7)
+        );
+      }
+
+      .campaign-banner-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 30px;
+        color: white;
+        width: 100%;
+      }
+
+      .campaign-banner-progress {
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+      }
+
+      .campaign-banner-progress-bar {
+        height: 100%;
+        background-color: white;
+        border-radius: 3px;
+      }
+
+      .hidden-project {
+        display: none;
+      }
     </style>
-</head>
-<body class="bg-gray-50 overflow-x-hidden">
+  </head>
+  <body class="bg-gray-50 overflow-x-hidden">
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <canvas id="loading-canvas"></canvas>
-        <div class="loading-logo">
-            <img src="./assets/logo/logo_white.png" alt="Logo" class="inline w-20 h-20">
-            Sociotech
-        </div>
-        <div class="loading-progress">
-            <div class="loading-bar"></div>
-        </div>
-        <div class="loading-text">Memuat Platform Inovasi...</div>
+      <canvas id="loading-canvas"></canvas>
+      <div class="loading-logo">
+        <img
+          src="./assets/logo/logo_white.png"
+          alt="Logo"
+          class="inline w-20 h-20"
+        />
+        Sociotech
+      </div>
+      <div class="loading-progress">
+        <div class="loading-bar"></div>
+      </div>
+      <div class="loading-text">Memuat Platform Inovasi...</div>
     </div>
     <!-- Three.js Background Canvas -->
-    <canvas id="three-canvas"></canvas>
+    <canvas id="three-canvas" class=""></canvas>
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-
-                <div class="flex items-center space-x-2">
-                    <img src="./assets/logo/logo_background_large.png" alt="Sociotech Logo" class="w-10 h-10">
-                    <span class="text-2xl font-bold text-gradient">Sociotech</span>
-                </div>
-                
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#beranda" class="text-gray-700 hover:text-green-600 transition-colors font-medium">Beranda</a>
-                    <a href="#showcase" class="text-gray-700 hover:text-green-600 transition-colors font-medium">Showcase</a>
-                    <a href="#cara-kerja" class="text-gray-700 hover:text-green-600 transition-colors font-medium">Cara Kerja</a>
-                    <a href="#tentang" class="text-gray-700 hover:text-green-600 transition-colors font-medium">Tentang</a>
-                    <button class="btn-primary text-white px-6 py-2 rounded-full font-medium">
-                        Mulai Donasi
-                    </button>
-                </div>
-                
-                <button class="md:hidden text-gray-700">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
+    <nav
+      id="main-navbar"
+      class="fixed top-0 w-full z-50 nav-blur border-b border-white/20 transition-all duration-300"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <div class="flex items-center space-x-2">
+            <img
+              src="./assets/logo/logo_background_large.png"
+              alt="Sociotech Logo"
+              class="w-10 h-10"
+            />
+            <span class="text-2xl font-bold text-gradient">Sociotech</span>
+          </div>
+          <!-- Desktop Menu -->
+          <ul class="hidden md:flex items-center space-x-8 font-medium">
+            <li>
+              <a
+                href="home.html"
+                class="text-gray-700 hover:text-green-600 transition-colors"
+                >Beranda</a
+              >
+            </li>
+            <li>
+              <a
+                href="karya.html"
+                class="text-gray-700 hover:text-green-600 transition-colors"
+                >Karya</a
+              >
+            </li>
+            <li>
+              <a
+                href="newsletter.html"
+                class="text-gray-700 hover:text-green-600 transition-colors"
+                >Berita</a
+              >
+            </li>
+            <li>
+              <a
+                href="about.html"
+                class="text-gray-700 hover:text-green-600 transition-colors"
+                >Tentang</a
+              >
+            </li>
+            <li>
+              <a
+                href="#kontak"
+                class="text-gray-700 hover:text-green-600 transition-colors"
+                >Kontak</a
+              >
+            </li>
+            <li>
+              <a
+                href="form-donasi.html"
+                class="btn-primary text-white px-4 py-2 rounded-full font-semibold transition"
+                >Donasi Sekarang</a
+              >
+            </li>
+            <!-- User/Guest Section -->
+            <li>
+              <div id="user-section" class="flex items-center space-x-4"></div>
+            </li>
+          </ul>
+          <!-- Mobile Menu Button -->
+          <button class="md:hidden text-gray-700" id="mobile-menu-btn">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
         </div>
+      </div>
+      <!-- Mobile Menu (JS will toggle) -->
+      <div
+        id="mobile-menu"
+        class="md:hidden bg-white border-t border-gray-200 hidden"
+      >
+        <div class="px-4 py-2 space-y-2">
+          <a
+            href="home.html"
+            class="block py-2 text-gray-700 hover:text-green-600"
+            >Beranda</a
+          >
+          <a
+            href="karya.html"
+            class="block py-2 text-gray-700 hover:text-green-600"
+            >Karya</a
+          >
+          <a
+            href="newsletter.html"
+            class="block py-2 text-gray-700 hover:text-green-600"
+            >Berita</a
+          >
+          <a
+            href="about.html"
+            class="block py-2 text-gray-700 hover:text-green-600"
+            >Tentang</a
+          >
+          <a
+            href="#kontak"
+            class="block py-2 text-gray-700 hover:text-green-600"
+            >Kontak</a
+          >
+          <a
+            href="form-donasi.html"
+            class="block btn-primary text-white px-4 py-2 rounded-full font-semibold text-center mt-2"
+            >Donasi Sekarang</a
+          >
+          <div
+            id="user-section-mobile"
+            class="pt-2 border-t border-gray-100"
+          ></div>
+        </div>
+      </div>
     </nav>
+    <script>
+      // Floating Navbar on Scroll
+      window.addEventListener("scroll", function () {
+        const nav = document.getElementById("main-navbar");
+        if (window.scrollY > 10) {
+          nav.classList.add("shadow-lg", "bg-white", "backdrop-blur-md");
+          nav.classList.remove("nav-blur");
+        } else {
+          nav.classList.remove("shadow-lg", "bg-white", "backdrop-blur-md");
+          nav.classList.add("nav-blur");
+        }
+      });
+
+      // User/Guest Section Logic
+      function renderUserSection() {
+        // Simulasi: ganti ke true jika user sudah login
+        const isLoggedIn = true; // Ubah ke true untuk simulasi user login
+        const userSection = document.getElementById("user-section");
+        const userSectionMobile = document.getElementById(
+          "user-section-mobile"
+        );
+        if (isLoggedIn) {
+          userSection.innerHTML = `
+                    <span class="text-gray-700 font-medium flex items-center gap-2">
+                        <i class="fas fa-user-circle text-green-600 text-xl"></i>
+                        <span>Halo, <b>User</b></span>
+                    </span>
+                    <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
+                `;
+          userSectionMobile.innerHTML = `
+                    <div class="flex items-center gap-2 py-2">
+                        <i class="fas fa-user-circle text-green-600 text-xl"></i>
+                        <span>Halo, <b>User</b></span>
+                    </div>
+                    <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
+                `;
+        } else {
+          userSection.innerHTML = `
+                    <span class="text-gray-500 font-medium">Guest</span>
+                    <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
+                    <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
+                `;
+          userSectionMobile.innerHTML = `
+                    <div class="py-2 text-gray-500 font-medium">Guest</div>
+                    <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
+                    <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
+                `;
+        }
+      }
+      renderUserSection();
+
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      mobileMenuBtn.addEventListener("click", function () {
+        mobileMenu.classList.toggle("hidden");
+        const icon = mobileMenuBtn.querySelector("i");
+        icon.className = mobileMenu.classList.contains("hidden")
+          ? "fas fa-bars text-xl"
+          : "fas fa-times text-xl";
+      });
+    </script>
 
     <!-- Hero Section -->
     <section id="beranda" class="relative min-h-screen flex items-center pt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="text-center lg:text-left">
-                    <div class="inline-block px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold mb-6 floating-animation">
-                        🚀 Platform Terpercaya untuk Anak Muda Indonesia
-                    </div>
-                    
-                    <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                        Wujudkan <span class="text-gradient">Karya Impian</span> 
-                        Anak Muda Indonesia
-                    </h1>
-                    
-                    <p class="text-xl text-gray-600 mb-8 max-w-2xl">
-                        Platform yang menghubungkan ide-ide brilian anak muda dengan para donatur yang peduli. 
-                        Bersama kita wujudkan inovasi masa depan Indonesia.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <button class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold flex items-center justify-center space-x-2">
-                            <i class="fas fa-rocket"></i>
-                            <span>Mulai Showcase</span>
-                        </button>
-                        <button class="bg-white text-gray-800 px-8 py-4 rounded-full text-lg font-semibold border-2 border-gray-200 hover:border-green-500 transition-colors flex items-center justify-center space-x-2">
-                            <i class="fas fa-play"></i>
-                            <span>Lihat Demo</span>
-                        </button>
-                    </div>
-                    
-                    <div class="mt-12 grid grid-cols-3 gap-8 text-center lg:text-left">
-                        <div>
-                            <div class="text-3xl font-bold text-green-600">1000+</div>
-                            <div class="text-gray-600">Karya Terdaftar</div>
-                        </div>
-                        <div>
-                            <div class="text-3xl font-bold text-green-600">₹2.5M</div>
-                            <div class="text-gray-600">Dana Terkumpul</div>
-                        </div>
-                        <div>
-                            <div class="text-3xl font-bold text-green-600">500+</div>
-                            <div class="text-gray-600">Proyek Berhasil</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="relative">
-                    <div class="relative z-10 pulse-grow">
-                        <lottie-player 
-                            src="https://assets2.lottiefiles.com/packages/lf20_qmfs6c3i.json"
-                            background="transparent"  
-                            speed="1"  
-                            style="width: 100%; height: 500px;" 
-                            loop  
-                            autoplay>
-                        </lottie-player>
-                    </div>
-                    
-                    <!-- Floating Elements -->
-                    <div class="absolute -top-4 -left-4 w-20 h-20 bg-green-200 rounded-full opacity-60 floating-animation" style="animation-delay: 0.5s;"></div>
-                    <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-green-300 rounded-full opacity-40 floating-animation" style="animation-delay: 1s;"></div>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="text-center lg:text-left">
+            <div
+              class="inline-block px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold mb-6 floating-animation"
+            >
+              🚀 Platform Terpercaya untuk Anak Muda Indonesia
             </div>
+
+            <h1
+              class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
+            >
+              Wujudkan <span class="text-gradient">Karya Impian</span>
+              Anak Muda Indonesia
+            </h1>
+
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl">
+              Platform yang menghubungkan ide-ide brilian anak muda dengan para
+              donatur yang peduli. Bersama kita wujudkan inovasi masa depan
+              Indonesia.
+            </p>
+
+            <div
+              class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            >
+              <button
+                class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold flex items-center justify-center space-x-2"
+              >
+                <i class="fas fa-rocket"></i>
+                <span>Mulai Showcase</span>
+              </button>
+              <button
+                class="bg-white text-gray-800 px-8 py-4 rounded-full text-lg font-semibold border-2 border-gray-200 hover:border-green-500 transition-colors flex items-center justify-center space-x-2"
+              >
+                <i class="fas fa-play"></i>
+                <span>Lihat Demo</span>
+              </button>
+            </div>
+
+            <div class="mt-12 grid grid-cols-3 gap-8 text-center lg:text-left">
+              <div>
+                <div class="text-3xl font-bold text-green-600">1000+</div>
+                <div class="text-gray-600">Karya Terdaftar</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-green-600">₹2.5M</div>
+                <div class="text-gray-600">Dana Terkumpul</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-green-600">500+</div>
+                <div class="text-gray-600">Proyek Berhasil</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="relative z-10 pulse-grow">
+              <lottie-player
+                src="https://assets2.lottiefiles.com/packages/lf20_qmfs6c3i.json"
+                background="transparent"
+                speed="1"
+                style="width: 100%; height: 500px"
+                loop
+                autoplay
+              >
+              </lottie-player>
+            </div>
+
+            <!-- Floating Elements -->
+            <div
+              class="absolute -top-4 -left-4 w-20 h-20 bg-green-200 rounded-full opacity-60 floating-animation"
+              style="animation-delay: 0.5s"
+            ></div>
+            <div
+              class="absolute -bottom-8 -right-8 w-32 h-32 bg-green-300 rounded-full opacity-40 floating-animation"
+              style="animation-delay: 1s"
+            ></div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Featured Projects -->
-    <section id="showcase" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Karya Terdepan</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Temukan ide-ide brilian dari anak muda Indonesia yang siap mengubah dunia
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project Card 1 -->
-                <div class="bg-white rounded-3xl soft-shadow card-hover overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                         alt="AI Education" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">AI & Teknologi</span>
-                            <span class="text-green-600 font-bold">87%</span>
-                        </div>
-                        
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">EduAI - Platform Belajar Cerdas</h3>
-                        <p class="text-gray-600 mb-4">Sistem pembelajaran adaptif menggunakan AI untuk meningkatkan hasil belajar siswa Indonesia</p>
-                        
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm text-gray-600 mb-1">
-                                <span>Target: Rp 50,000,000</span>
-                                <span>Terkumpul: Rp 43,500,000</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="progress-bar w-4/5"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                                     alt="Creator" class="w-8 h-8 rounded-full">
-                                <span class="text-sm text-gray-700">Andi Pratama</span>
-                            </div>
-                            <button class="btn-primary text-white px-4 py-2 rounded-full text-sm font-medium">
-                                Dukung Sekarang
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <!-- Popular Campaigns Banner -->
+    <section class="py-12 bg-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
+          Kampanye Populer
+        </h2>
 
-                <!-- Project Card 2 -->
-                <div class="bg-white rounded-3xl soft-shadow card-hover overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                         alt="Eco Innovation" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-semibold rounded-full">Lingkungan</span>
-                            <span class="text-green-600 font-bold">92%</span>
-                        </div>
-                        
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">EcoPlastic - Plastik Ramah Lingkungan</h3>
-                        <p class="text-gray-600 mb-4">Inovasi plastik biodegradable dari limbah organik untuk mengurangi polusi lingkungan</p>
-                        
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm text-gray-600 mb-1">
-                                <span>Target: Rp 75,000,000</span>
-                                <span>Terkumpul: Rp 69,000,000</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="progress-bar w-11/12"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b977?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                                     alt="Creator" class="w-8 h-8 rounded-full">
-                                <span class="text-sm text-gray-700">Sari Melati</span>
-                            </div>
-                            <button class="btn-primary text-white px-4 py-2 rounded-full text-sm font-medium">
-                                Dukung Sekarang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Card 3 -->
-                <div class="bg-white rounded-3xl soft-shadow card-hover overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                         alt="Health Tech" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-semibold rounded-full">Kesehatan</span>
-                            <span class="text-green-600 font-bold">76%</span>
-                        </div>
-                        
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">MedBot - Asisten Kesehatan AI</h3>
-                        <p class="text-gray-600 mb-4">Chatbot cerdas untuk konsultasi kesehatan awal dan edukasi medis masyarakat</p>
-                        
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm text-gray-600 mb-1">
-                                <span>Target: Rp 40,000,000</span>
-                                <span>Terkumpul: Rp 30,400,000</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="progress-bar w-3/4"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                                     alt="Creator" class="w-8 h-8 rounded-full">
-                                <span class="text-sm text-gray-700">Budi Santoso</span>
-                            </div>
-                            <button class="btn-primary text-white px-4 py-2 rounded-full text-sm font-medium">
-                                Dukung Sekarang
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Banner 1 -->
+          <div class="campaign-banner bg-gray-800 soft-shadow card-hover">
+            <img
+              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Film Pendek"
+              class="w-full h-full object-cover"
+            />
+            <div class="campaign-banner-content">
+              <span
+                class="px-3 py-1 bg-blue-600 text-white text-sm font-semibold rounded-full mb-2 inline-block"
+                >Film & Animasi</span
+              >
+              <h3 class="text-xl font-bold mb-2">
+                "Tanah Air" - Film Pendek Dokumenter
+              </h3>
+              <p class="text-sm mb-3">
+                Cerita tentang perubahan iklim di pesisir Indonesia
+              </p>
+              <div class="campaign-banner-progress mb-2">
+                <div
+                  class="campaign-banner-progress-bar"
+                  style="width: 78%"
+                ></div>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span>Rp 45.2 juta</span>
+                <span>78% tercapai</span>
+              </div>
+              <a
+                href="#"
+                class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium mt-4 inline-block"
+              >
+                Dukung Sekarang
+              </a>
             </div>
+          </div>
+
+          <!-- Banner 2 -->
+          <div class="campaign-banner bg-gray-800 soft-shadow card-hover">
+            <img
+              src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Eco Innovation"
+              class="w-full h-full object-cover"
+            />
+            <div class="campaign-banner-content">
+              <span
+                class="px-3 py-1 bg-green-600 text-white text-sm font-semibold rounded-full mb-2 inline-block"
+                >Lingkungan</span
+              >
+              <h3 class="text-xl font-bold mb-2">
+                EcoPlastic - Plastik Ramah Lingkungan
+              </h3>
+              <p class="text-sm mb-3">
+                Inovasi plastik biodegradable dari limbah organik
+              </p>
+              <div class="campaign-banner-progress mb-2">
+                <div
+                  class="campaign-banner-progress-bar"
+                  style="width: 92%"
+                ></div>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span>Rp 69 juta</span>
+                <span>92% tercapai</span>
+              </div>
+              <a
+                href="#"
+                class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium mt-4 inline-block"
+              >
+                Dukung Sekarang
+              </a>
+            </div>
+          </div>
+
+          <!-- Banner 3 -->
+          <div class="campaign-banner bg-gray-800 soft-shadow card-hover">
+            <img
+              src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Health Tech"
+              class="w-full h-full object-cover"
+            />
+            <div class="campaign-banner-content">
+              <span
+                class="px-3 py-1 bg-purple-600 text-white text-sm font-semibold rounded-full mb-2 inline-block"
+                >Kesehatan</span
+              >
+              <h3 class="text-xl font-bold mb-2">
+                MedBot - Asisten Kesehatan AI
+              </h3>
+              <p class="text-sm mb-3">
+                Chatbot cerdas untuk konsultasi kesehatan awal
+              </p>
+              <div class="campaign-banner-progress mb-2">
+                <div
+                  class="campaign-banner-progress-bar"
+                  style="width: 76%"
+                ></div>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span>Rp 30.4 juta</span>
+                <span>76% tercapai</span>
+              </div>
+              <a
+                href="#"
+                class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium mt-4 inline-block"
+              >
+                Dukung Sekarang
+              </a>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="text-center mt-12">
+        <button
+          class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold"
+        >
+          Lihat Lebih Banyak Proyek
+        </button>
+      </div>
     </section>
 
     <!-- How It Works -->
     <section id="cara-kerja" class="py-20 gradient-bg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Cara Kerja Platform</h2>
-                <p class="text-xl text-green-100 max-w-3xl mx-auto">
-                    Proses sederhana untuk menghubungkan ide brilian dengan dukungan yang dibutuhkan
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center glass-effect rounded-3xl p-8 hover-lift">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-lightbulb text-green-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">1. Submit Ide</h3>
-                    <p class="text-green-100">
-                        Presentasikan ide inovatif Anda dengan detail lengkap, roadmap, dan kebutuhan dana
-                    </p>
-                </div>
-                
-                <div class="text-center glass-effect rounded-3xl p-8 hover-lift">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-users text-green-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">2. Dapatkan Dukungan</h3>
-                    <p class="text-green-100">
-                        Komunitas peduli akan menilai dan memberikan dukungan finansial untuk ide terbaik
-                    </p>
-                </div>
-                
-                <div class="text-center glass-effect rounded-3xl p-8 hover-lift">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-rocket text-green-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">3. Wujudkan Karya</h3>
-                    <p class="text-green-100">
-                        Realisasikan ide menjadi kenyataan dengan dukungan pendanaan dan mentoring
-                    </p>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-white mb-4">
+            Cara Kerja Platform
+          </h2>
+          <p class="text-xl text-green-100 max-w-3xl mx-auto">
+            Proses sederhana untuk menghubungkan ide brilian dengan dukungan
+            yang dibutuhkan
+          </p>
         </div>
-    </section>
 
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center glass-effect rounded-3xl p-8 hover-lift">
+            <div
+              class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <lottie-player
+                src="https://lottie.host/6fe06ffc-0111-4bd7-b002-ae27a9a882ae/M6WAz6dIDs.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+              >
+              </lottie-player>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4">1. Submit Ide</h3>
+            <p class="text-green-100">
+              Presentasikan ide inovatif Anda dengan detail lengkap, roadmap,
+              dan kebutuhan dana
+            </p>
+          </div>
+
+          <div class="text-center glass-effect rounded-3xl p-8 hover-lift">
+            <div
+              class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <lottie-player
+                src="https://assets8.lottiefiles.com/packages/lf20_DMgKk1.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+              >
+              </lottie-player>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4">
+              2. Dapatkan Dukungan
+            </h3>
+            <p class="text-green-100">
+              Komunitas peduli akan menilai dan memberikan dukungan finansial
+              untuk ide terbaik
+            </p>
+          </div>
+
+          <div class="text-center glass-effect rounded-3xl p-8 hover-lift">
+            <div
+              class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <lottie-player
+                src="https://assets5.lottiefiles.com/packages/lf20_s2lryxtd.json "
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+              >
+              </lottie-player>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4">
+              3. Wujudkan Karya
+            </h3>
+            <p class="text-green-100">
+              Realisasikan ide menjadi kenyataan dengan dukungan pendanaan dan
+              mentoring
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- Stats Section -->
     <section class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <div class="bg-white rounded-2xl p-8 soft-shadow">
-                    <div class="text-4xl font-bold text-green-600 mb-2">1,247</div>
-                    <div class="text-gray-600">Anak Muda Terdaftar</div>
-                </div>
-                <div class="bg-white rounded-2xl p-8 soft-shadow">
-                    <div class="text-4xl font-bold text-green-600 mb-2">₹4.8M</div>
-                    <div class="text-gray-600">Total Dana Terkumpul</div>
-                </div>
-                <div class="bg-white rounded-2xl p-8 soft-shadow">
-                    <div class="text-4xl font-bold text-green-600 mb-2">852</div>
-                    <div class="text-gray-600">Proyek Berhasil</div>
-                </div>
-                <div class="bg-white rounded-2xl p-8 soft-shadow">
-                    <div class="text-4xl font-bold text-green-600 mb-2">98%</div>
-                    <div class="text-gray-600">Tingkat Kepuasan</div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8 text-center">
+          <div class="bg-white rounded-2xl p-8 soft-shadow">
+            <div class="text-4xl font-bold text-green-600 mb-2">1,247</div>
+            <div class="text-gray-600">Anak Muda Terdaftar</div>
+          </div>
+          <div class="bg-white rounded-2xl p-8 soft-shadow">
+            <div class="text-4xl font-bold text-green-600 mb-2">₹4.8M</div>
+            <div class="text-gray-600">Total Dana Terkumpul</div>
+          </div>
+          <div class="bg-white rounded-2xl p-8 soft-shadow">
+            <div class="text-4xl font-bold text-green-600 mb-2">852</div>
+            <div class="text-gray-600">Proyek Berhasil</div>
+          </div>
+          <div class="bg-white rounded-2xl p-8 soft-shadow">
+            <div class="text-4xl font-bold text-green-600 mb-2">98%</div>
+            <div class="text-gray-600">Komunitas Aktif</div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- About Section -->
     <section id="tentang" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Tentang Sociotech</h2>
-                    <p class="text-xl text-gray-600 mb-6">
-                        Kami percaya bahwa setiap anak muda Indonesia memiliki potensi luar biasa untuk menciptakan 
-                        inovasi yang mengubah dunia. Platform Sociotech hadir sebagai jembatan antara ide-ide 
-                        brilian dengan dukungan yang dibutuhkan.
-                    </p>
-                    <p class="text-gray-600 mb-8">
-                        Dengan sistem yang transparan dan komunitas yang suportif, kami telah membantu ratusan 
-                        anak muda mewujudkan impian mereka dalam bidang teknologi, lingkungan, kesehatan, dan 
-                        berbagai sektor lainnya.
-                    </p>
-                    <button class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold">
-                        Bergabung Sekarang
-                    </button>
-                </div>
-                <div class="relative">
-                    <lottie-player 
-                        src="https://assets9.lottiefiles.com/packages/lf20_V9t630.json"
-                        background="transparent"  
-                        speed="1"  
-                        style="width: 100%; height: 400px;" 
-                        loop  
-                        autoplay>
-                    </lottie-player>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">
+              Tentang Sociotech
+            </h2>
+            <p class="text-xl text-gray-600 mb-6">
+              Kami percaya bahwa setiap anak muda Indonesia memiliki potensi
+              luar biasa untuk menciptakan inovasi yang mengubah dunia. Platform
+              Sociotech hadir sebagai jembatan antara ide-ide brilian dengan
+              dukungan yang dibutuhkan.
+            </p>
+            <p class="text-gray-600 mb-8">
+              Dengan sistem yang transparan dan komunitas yang suportif, kami
+              telah membantu ratusan anak muda mewujudkan impian mereka dalam
+              bidang teknologi, lingkungan, kesehatan, dan berbagai sektor
+              lainnya.
+            </p>
+            <button
+              class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold"
+            >
+              Bergabung Sekarang
+            </button>
+          </div>
+          <div class="relative">
+            <lottie-player
+              src="https://assets9.lottiefiles.com/packages/lf20_V9t630.json"
+              background="transparent"
+              speed="1"
+              style="width: 100%; height: 400px"
+              loop
+              autoplay
+            >
+            </lottie-player>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="md:col-span-2">
-                    <div class="flex items-center space-x-2 mb-6">
-                        <img src="./assets/logo/logo_transparent.png" alt="Sociotech Logo" class="w-10 h-10">
-                        <span class="text-3xl font-bold">Sociotech</span>
-                    </div>
-                    <p class="text-gray-400 mb-6 max-w-md">
-                        Platform terdepan untuk mendukung inovasi dan kreativitas anak muda Indonesia 
-                        menuju masa depan yang lebih baik.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-6">Platform</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Showcase Karya</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cara Donasi</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Bergabung</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-6">Perusahaan</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Tentang Kami</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Tim</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Karir</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Kontak</a></li>
-                    </ul>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div class="md:col-span-2">
+            <div class="flex items-center space-x-2 mb-6">
+              <img
+                src="./assets/logo/logo_transparent.png"
+                alt="Sociotech Logo"
+                class="w-10 h-10"
+              />
+              <span class="text-3xl font-bold">Sociotech</span>
             </div>
-            
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
-                <p class="text-gray-400">
-                    © 2025 Sociotech. Seluruh hak cipta dilindungi. Dibuat dengan ❤️ untuk anak muda Indonesia.
-                </p>
+            <p class="text-gray-400 mb-6 max-w-md">
+              Platform terdepan untuk mendukung inovasi dan kreativitas anak
+              muda Indonesia menuju masa depan yang lebih baik.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
             </div>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-6">Platform</h4>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Showcase Karya</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Cara Donasi</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Bergabung</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >FAQ</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-6">Perusahaan</h4>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Tentang Kami</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Tim</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Karir</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Kontak</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+          <p class="text-gray-400">
+            © 2025 Sociotech. Seluruh hak cipta dilindungi. Dibuat dengan ❤️
+            untuk anak muda Indonesia.
+          </p>
+        </div>
+      </div>
     </footer>
 
     <script>
-        // Loading Screen Three.js Animation
-        let loadingScene, loadingCamera, loadingRenderer;
-        // let loadingGeometry, loadingMesh; // Hapus mesh donut
-        let loadingParticles = [];
+      // Loading Screen Three.js Animation
+      let loadingScene, loadingCamera, loadingRenderer;
+      let loadingParticles = [];
 
-        function initLoadingAnimation() {
-            const canvas = document.getElementById('loading-canvas');
-            loadingScene = new THREE.Scene();
-            loadingCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            loadingRenderer = new THREE.WebGLRenderer({
-                canvas: canvas,
-                alpha: true
-            });
-            
-            loadingRenderer.setSize(window.innerWidth, window.innerHeight);
-            
-            // Hapus animated geometry (donut/torus knot)
-            // const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-            // const material = new THREE.MeshBasicMaterial({
-            //     color: 0xffffff,
-            //     wireframe: true,
-            //     transparent: true,
-            //     opacity: 0.3
-            // });
-            // loadingMesh = new THREE.Mesh(geometry, material);
-            // loadingScene.add(loadingMesh);
-            
-            // Create floating particles
-            const particleGeometry = new THREE.BufferGeometry();
-            const particleVertices = [];
-            
-            for (let i = 0; i < 500; i++) {
-                particleVertices.push(
-                    (Math.random() - 0.5) * 200,
-                    (Math.random() - 0.5) * 200,
-                    (Math.random() - 0.5) * 200
-                );
-            }
-            
-            particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(particleVertices, 3));
-            
-            const particleMaterial = new THREE.PointsMaterial({
-                color: 0xffffff,
-                size: 2,
-                transparent: true,
-                opacity: 0.6
-            });
-            
-            const particles = new THREE.Points(particleGeometry, particleMaterial);
-            loadingScene.add(particles);
-            loadingParticles.push(particles);
-            
-            loadingCamera.position.z = 50;
-            
-            animateLoading();
-        }
-        
-        function animateLoading() {
-            requestAnimationFrame(animateLoading);
-            
-            // Hapus rotasi torus knot
-            // if (loadingMesh) {
-            //     loadingMesh.rotation.x += 0.01;
-            //     loadingMesh.rotation.y += 0.02;
-            //     loadingMesh.rotation.z += 0.005;
-            // }
-            
-            // Animate particles
-            loadingParticles.forEach(particle => {
-                particle.rotation.x += 0.001;
-                particle.rotation.y += 0.002;
-            });
-            
-            loadingRenderer.render(loadingScene, loadingCamera);
-        }
-        
-        // Main Three.js Background Animation
-        let scene, camera, renderer, particles;
+      function initLoadingAnimation() {
+        const canvas = document.getElementById("loading-canvas");
+        loadingScene = new THREE.Scene();
+        loadingCamera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        loadingRenderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          alpha: true,
+        });
 
-        function initThreeJS() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({
-                canvas: document.getElementById('three-canvas'),
-                alpha: true
-            });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            
-            // Create particles
-            const geometry = new THREE.BufferGeometry();
-            const vertices = [];
-            
-            for (let i = 0; i < 2000; i++) {
-                vertices.push(
-                    Math.random() * 2000 - 1000,
-                    Math.random() * 2000 - 1000,
-                    Math.random() * 2000 - 1000
-                );
-            }
-            
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-            
-            const material = new THREE.PointsMaterial({
-                color: 0x10b981,
-                size: 2,
-                transparent: true,
-                opacity: 0.6
-            });
-            
-            particles = new THREE.Points(geometry, material);
-            scene.add(particles);
-            
-            camera.position.z = 1000;
-            
-            animate();
+        loadingRenderer.setSize(window.innerWidth, window.innerHeight);
+
+        // Create floating particles
+        const particleGeometry = new THREE.BufferGeometry();
+        const particleVertices = [];
+
+        for (let i = 0; i < 500; i++) {
+          particleVertices.push(
+            (Math.random() - 0.5) * 200,
+            (Math.random() - 0.5) * 200,
+            (Math.random() - 0.5) * 200
+          );
         }
-        
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            particles.rotation.x += 0.0005;
-            particles.rotation.y += 0.001;
-            
-            renderer.render(scene, camera);
+
+        particleGeometry.setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(particleVertices, 3)
+        );
+
+        const particleMaterial = new THREE.PointsMaterial({
+          color: 0xffffff,
+          size: 2,
+          transparent: true,
+          opacity: 0.6,
+        });
+
+        const particles = new THREE.Points(particleGeometry, particleMaterial);
+        loadingScene.add(particles);
+        loadingParticles.push(particles);
+
+        loadingCamera.position.z = 50;
+
+        animateLoading();
+      }
+
+      function animateLoading() {
+        requestAnimationFrame(animateLoading);
+
+        // Animate particles
+        loadingParticles.forEach((particle) => {
+          particle.rotation.x += 0.001;
+          particle.rotation.y += 0.002;
+        });
+
+        loadingRenderer.render(loadingScene, loadingCamera);
+      }
+
+      // Main Three.js Background Animation
+      let scene, camera, renderer, particles;
+
+      function initThreeJS() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        renderer = new THREE.WebGLRenderer({
+          canvas: document.getElementById("three-canvas"),
+          alpha: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // Create particles
+        const geometry = new THREE.BufferGeometry();
+        const vertices = [];
+
+        for (let i = 0; i < 2000; i++) {
+          vertices.push(
+            Math.random() * 2000 - 1000,
+            Math.random() * 2000 - 1000,
+            Math.random() * 2000 - 1000
+          );
         }
-        
-        // Loading Screen Management
-        function hideLoadingScreen() {
-            const loadingScreen = document.getElementById('loading-screen');
-            const loadingTexts = [
-                'Memuat Platform Inovasi...',
-                'Menyiapkan Showcase Karya...',
-                'Menghubungkan Komunitas...',
-                'Hampir Selesai...',
-                'Selamat Datang!'
-            ];
-            
-            let textIndex = 0;
-            const loadingText = document.querySelector('.loading-text');
-            
-            const textInterval = setInterval(() => {
-                if (textIndex < loadingTexts.length - 1) {
-                    loadingText.textContent = loadingTexts[++textIndex];
-                } else {
-                    clearInterval(textInterval);
-                }
-            }, 600);
-            
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-                
-                // Initialize main Three.js after loading
-                setTimeout(() => {
-                    initThreeJS();
-                }, 500);
-                
-                // Clean up loading animation
-                if (loadingRenderer) {
-                    loadingRenderer.dispose();
-                }
-            }, 3500);
+
+        geometry.setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(vertices, 3)
+        );
+
+        const material = new THREE.PointsMaterial({
+          color: 0x10b981,
+          size: 2,
+          transparent: true,
+          opacity: 0.6,
+        });
+
+        particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        camera.position.z = 1000;
+
+        animate();
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        particles.rotation.x += 0.0005;
+        particles.rotation.y += 0.001;
+
+        renderer.render(scene, camera);
+      }
+
+      // Loading Screen Management
+      function hideLoadingScreen() {
+        const loadingScreen = document.getElementById("loading-screen");
+        const loadingTexts = [
+          "Memuat Platform Inovasi...",
+          "Menyiapkan Showcase Karya...",
+          "Menghubungkan Komunitas...",
+          "Hampir Selesai...",
+          "Selamat Datang!",
+        ];
+
+        let textIndex = 0;
+        const loadingText = document.querySelector(".loading-text");
+
+        const textInterval = setInterval(() => {
+          if (textIndex < loadingTexts.length - 1) {
+            loadingText.textContent = loadingTexts[++textIndex];
+          } else {
+            clearInterval(textInterval);
+          }
+        }, 600);
+
+        setTimeout(() => {
+          loadingScreen.classList.add("hidden");
+          document.body.style.overflow = "auto";
+
+          // Initialize main Three.js after loading
+          setTimeout(() => {
+            initThreeJS();
+          }, 500);
+
+          // Clean up loading animation
+          if (loadingRenderer) {
+            loadingRenderer.dispose();
+          }
+        }, 3500);
+      }
+
+      // Start loading animation immediately
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.style.overflow = "hidden";
+        initLoadingAnimation();
+
+        // Simulate loading time
+        hideLoadingScreen();
+
+        // Initialize filter functionality
+        initFilterFunctionality();
+      });
+
+      // Navbar scroll effect
+      window.addEventListener("scroll", () => {
+        const nav = document.querySelector("nav");
+        if (window.scrollY > 50) {
+          nav.classList.add("shadow-lg");
+        } else {
+          nav.classList.remove("shadow-lg");
         }
-        
-        // Start loading animation immediately
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.style.overflow = 'hidden';
-            initLoadingAnimation();
-            
-            // Simulate loading time
-            hideLoadingScreen();
-        });
-        
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-lg');
-            } else {
-                nav.classList.remove('shadow-lg');
-            }
-        });
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+      });
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
             });
+          }
         });
-        
-        // Initialize animations on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-        
-        // Observe elements for animation
-        document.querySelectorAll('.card-hover, .hover-lift').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
+      });
+
+      // Initialize animations on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
         });
-        
-        // Mobile menu toggle
-        const mobileMenuButton = document.querySelector('.md\\:hidden button');
-        const mobileMenu = document.createElement('div');
-        mobileMenu.className = 'md:hidden bg-white border-t border-gray-200';
-        mobileMenu.style.display = 'none';
-        mobileMenu.innerHTML = `
+      }, observerOptions);
+
+      // Observe elements for animation
+      document.querySelectorAll(".card-hover, .hover-lift").forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(30px)";
+        el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.observe(el);
+      });
+
+      // Mobile menu toggle
+      const mobileMenuButton = document.querySelector(".md\\:hidden button");
+      mobileMenu.className = "md:hidden bg-white border-t border-gray-200";
+      mobileMenu.style.display = "none";
+      mobileMenu.innerHTML = `
             <div class="px-4 py-2 space-y-2">
-                <a href="#beranda" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
-                <a href="#showcase" class="block py-2 text-gray-700 hover:text-green-600">Showcase</a>
-                <a href="#cara-kerja" class="block py-2 text-gray-700 hover:text-green-600">Cara Kerja</a>
-                <a href="#tentang" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
-                <button class="btn-primary text-white px-6 py-2 rounded-full font-medium mt-2">Mulai Donasi</button>
+                <a href="home.html" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
+                <a href="karya.html" class="block py-2 text-gray-700 hover:text-green-600">Karya</a>
+                <a href="newsletter.html" class="block py-2 text-gray-700 hover:text-green-600">Berita</a>
+                <a href="about.html" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
+                <a href="#kontak" class="block py-2 text-gray-700 hover:text-green-600">Kontak</a>
+                <button class="btn-primary text-white px-6 py-2 rounded-full font-medium">
+                    Mulai Donasi
+                </button>
             </div>
         `;
-        
-        mobileMenuButton.parentNode.parentNode.appendChild(mobileMenu);
-        
-        mobileMenuButton.addEventListener('click', () => {
-            const isVisible = mobileMenu.style.display !== 'none';
-            mobileMenu.style.display = isVisible ? 'none' : 'block';
-            const icon = mobileMenuButton.querySelector('i');
-            icon.className = isVisible ? 'fas fa-bars text-xl' : 'fas fa-times text-xl';
-        });
-        
-        // Counter animation for stats
-        function animateCounter(element, target, duration = 2000) {
-            let start = 0;
-            const increment = target / (duration / 16);
-            
-            const updateCounter = () => {
-                start += increment;
-                if (start < target) {
-                    element.textContent = Math.floor(start).toLocaleString();
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    element.textContent = target.toLocaleString();
-                }
-            };
-            
-            updateCounter();
-        }
-        
-        // Initialize stats animation when in view
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const statElements = entry.target.querySelectorAll('.text-4xl');
-                    const targets = [1247, 4.8, 852, 98];
-                    
-                    statElements.forEach((el, index) => {
-                        if (index === 1) {
-                            // For money values
-                            let start = 0;
-                            const target = 4.8;
-                            const increment = target / 120;
-                            
-                            const updateMoney = () => {
-                                start += increment;
-                                if (start < target) {
-                                    el.textContent = '₹' + start.toFixed(1) + 'M';
-                                    requestAnimationFrame(updateMoney);
-                                } else {
-                                    el.textContent = '₹4.8M';
-                                }
-                            };
-                            updateMoney();
-                        } else if (index === 3) {
-                            // For percentage
-                            let start = 0;
-                            const target = 98;
-                            const increment = target / 120;
-                            
-                            const updatePercent = () => {
-                                start += increment;
-                                if (start < target) {
-                                    el.textContent = Math.floor(start) + '%';
-                                    requestAnimationFrame(updatePercent);
-                                } else {
-                                    el.textContent = '98%';
-                                }
-                            };
-                            updatePercent();
-                        } else {
-                            animateCounter(el, targets[index]);
-                        }
-                    });
-                    
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        const statsSection = document.querySelector('.py-20.bg-gray-50');
-        if (statsSection) {
-            statsObserver.observe(statsSection);
-        }
-        
-        // Dynamic project progress animation
-        document.querySelectorAll('.progress-bar').forEach(bar => {
-            const width = bar.style.width || bar.className.match(/w-(\d+\/\d+|\d+\/12)/)?.[1];
-            bar.style.width = '0%';
-            
-            const progressObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            if (bar.classList.contains('w-4/5')) {
-                                bar.style.width = '87%';
-                            } else if (bar.classList.contains('w-11/12')) {
-                                bar.style.width = '92%';
-                            } else if (bar.classList.contains('w-3/4')) {
-                                bar.style.width = '76%';
-                            }
-                        }, 500);
-                        progressObserver.unobserve(entry.target);
+
+      mobileMenuButton.parentNode.parentNode.appendChild(mobileMenu);
+
+      mobileMenuButton.addEventListener("click", () => {
+        const isVisible = mobileMenu.style.display !== "none";
+        mobileMenu.style.display = isVisible ? "none" : "block";
+        const icon = mobileMenuButton.querySelector("i");
+        icon.className = isVisible
+          ? "fas fa-bars text-xl"
+          : "fas fa-times text-xl";
+      });
+
+      // Counter animation for stats
+      function animateCounter(element, target, duration = 2000) {
+        let start = 0;
+        const increment = target / (duration / 16);
+
+        const updateCounter = () => {
+          start += increment;
+          if (start < target) {
+            element.textContent = Math.floor(start).toLocaleString();
+            requestAnimationFrame(updateCounter);
+          } else {
+            element.textContent = target.toLocaleString();
+          }
+        };
+
+        updateCounter();
+      }
+
+      // Initialize stats animation when in view
+      const statsObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const statElements = entry.target.querySelectorAll(".text-4xl");
+              const targets = [1247, 4.8, 852, 98];
+
+              statElements.forEach((el, index) => {
+                if (index === 1) {
+                  // For money values
+                  let start = 0;
+                  const target = 4.8;
+                  const increment = target / 120;
+
+                  const updateMoney = () => {
+                    start += increment;
+                    if (start < target) {
+                      el.textContent = "₹" + start.toFixed(1) + "M";
+                      requestAnimationFrame(updateMoney);
+                    } else {
+                      el.textContent = "₹4.8M";
                     }
-                });
-            }, { threshold: 0.5 });
-            
-            progressObserver.observe(bar);
-        });
-        
-        // Add floating elements animation
-        function createFloatingElement() {
-            const floatingEl = document.createElement('div');
-            floatingEl.className = 'fixed w-2 h-2 bg-green-300 rounded-full opacity-30 pointer-events-none z-0';
-            floatingEl.style.left = Math.random() * window.innerWidth + 'px';
-            floatingEl.style.top = window.innerHeight + 'px';
-            
-            document.body.appendChild(floatingEl);
-            
-            const duration = Math.random() * 3000 + 2000;
-            const drift = (Math.random() - 0.5) * 100;
-            
-            floatingEl.animate([
-                {
-                    transform: `translateY(0px) translateX(0px)`,
-                    opacity: 0
-                },
-                {
-                    transform: `translateY(-${window.innerHeight + 100}px) translateX(${drift}px)`,
-                    opacity: 0.6
-                },
-                {
-                    transform: `translateY(-${window.innerHeight + 200}px) translateX(${drift * 1.5}px)`,
-                    opacity: 0
+                  };
+                  updateMoney();
+                } else if (index === 3) {
+                  // For percentage
+                  let start = 0;
+                  const target = 98;
+                  const increment = target / 120;
+
+                  const updatePercent = () => {
+                    start += increment;
+                    if (start < target) {
+                      el.textContent = Math.floor(start) + "%";
+                      requestAnimationFrame(updatePercent);
+                    } else {
+                      el.textContent = "98%";
+                    }
+                  };
+                  updatePercent();
+                } else {
+                  animateCounter(el, targets[index]);
                 }
-            ], {
-                duration: duration,
-                easing: 'ease-out'
-            }).onfinish = () => {
-                floatingEl.remove();
-            };
+              });
+
+              statsObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      const statsSection = document.querySelector(".py-20.bg-gray-50");
+      if (statsSection) {
+        statsObserver.observe(statsSection);
+      }
+
+      // Dynamic project progress animation
+      document.querySelectorAll(".progress-bar").forEach((bar) => {
+        const width =
+          bar.style.width || bar.className.match(/w-(\d+\/\d+|\d+\/12)/)?.[1];
+        bar.style.width = "0%";
+
+        const progressObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  if (bar.classList.contains("w-4/5")) {
+                    bar.style.width = "87%";
+                  } else if (bar.classList.contains("w-11/12")) {
+                    bar.style.width = "92%";
+                  } else if (bar.classList.contains("w-3/4")) {
+                    bar.style.width = "76%";
+                  } else if (bar.classList.contains("w-2/3")) {
+                    bar.style.width = "65%";
+                  } else if (bar.classList.contains("w-1/2")) {
+                    bar.style.width = "54%";
+                  }
+                }, 500);
+                progressObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.5 }
+        );
+
+        progressObserver.observe(bar);
+      });
+
+      // Add floating elements animation
+      function createFloatingElement() {
+        const floatingEl = document.createElement("div");
+        floatingEl.className =
+          "fixed w-2 h-2 bg-green-300 rounded-full opacity-30 pointer-events-none z-0";
+        floatingEl.style.left = Math.random() * window.innerWidth + "px";
+        floatingEl.style.top = window.innerHeight + "px";
+
+        document.body.appendChild(floatingEl);
+
+        const duration = Math.random() * 3000 + 2000;
+        const drift = (Math.random() - 0.5) * 100;
+
+        floatingEl.animate(
+          [
+            {
+              transform: `translateY(0px) translateX(0px)`,
+              opacity: 0,
+            },
+            {
+              transform: `translateY(-${
+                window.innerHeight + 100
+              }px) translateX(${drift}px)`,
+              opacity: 0.6,
+            },
+            {
+              transform: `translateY(-${
+                window.innerHeight + 200
+              }px) translateX(${drift * 1.5}px)`,
+              opacity: 0,
+            },
+          ],
+          {
+            duration: duration,
+            easing: "ease-out",
+          }
+        ).onfinish = () => {
+          floatingEl.remove();
+        };
+      }
+
+      // Create floating elements periodically
+      setInterval(createFloatingElement, 2000);
+
+      // Parallax effect for hero section
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector("#beranda .relative.z-10");
+        const speed = scrolled * 0.1;
+
+        if (parallax) {
+          parallax.style.transform = `translateY(${speed}px)`;
         }
-        
-        // Create floating elements periodically
-        setInterval(createFloatingElement, 2000);
-        
-        // Parallax effect for hero section
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('#beranda .relative.z-10');
-            const speed = scrolled * 0.1;
-            
-            if (parallax) {
-                parallax.style.transform = `translateY(${speed}px)`;
+      });
+
+      // Initialize Three.js when page loads
+      window.addEventListener("load", () => {
+        // Loading screen is already handled in DOMContentLoaded
+      });
+
+      // Handle window resize for Three.js
+      window.addEventListener("resize", () => {
+        if (camera && renderer) {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        if (loadingCamera && loadingRenderer) {
+          loadingCamera.aspect = window.innerWidth / window.innerHeight;
+          loadingCamera.updateProjectionMatrix();
+          loadingRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+      });
+
+      // Add cursor glow effect
+      const cursor = document.createElement("div");
+      cursor.className =
+        "fixed w-6 h-6 bg-green-400 rounded-full opacity-30 pointer-events-none z-50 transition-all duration-100 ease-out";
+      cursor.style.transform = "translate(-50%, -50%)";
+      document.body.appendChild(cursor);
+
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+      });
+
+      document.addEventListener("mouseenter", () => {
+        cursor.style.opacity = "0.3";
+      });
+
+      document.addEventListener("mouseleave", () => {
+        cursor.style.opacity = "0";
+      });
+
+      // Add hover effects for buttons
+      document.querySelectorAll(".btn-primary").forEach((btn) => {
+        btn.addEventListener("mouseenter", () => {
+          cursor.style.transform = "translate(-50%, -50%) scale(2)";
+          cursor.style.opacity = "0.2";
+        });
+
+        btn.addEventListener("mouseleave", () => {
+          cursor.style.transform = "translate(-50%, -50%) scale(1)";
+          cursor.style.opacity = "0.3";
+        });
+      });
+
+      // Initialize filter functionality
+      function initFilterFunctionality() {
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const searchInput = document.getElementById("search-input");
+        const projectCards = document.querySelectorAll(".project-card");
+
+        // Filter by category
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            // Remove active class from all buttons
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            // Add active class to clicked button
+            button.classList.add("active");
+
+            const category = button.dataset.category;
+            filterProjects(category, searchInput.value);
+          });
+        });
+
+        // Search functionality
+        searchInput.addEventListener("input", () => {
+          const activeCategory =
+            document.querySelector(".filter-btn.active").dataset.category;
+          filterProjects(activeCategory, searchInput.value);
+        });
+
+        function filterProjects(category, searchTerm) {
+          projectCards.forEach((card) => {
+            const matchesCategory =
+              category === "all" || card.dataset.categories.includes(category);
+
+            const title = card.querySelector("h3").textContent.toLowerCase();
+            const description = card
+              .querySelector("p")
+              .textContent.toLowerCase();
+            const creator = card
+              .querySelector(".text-sm.text-gray-700")
+              .textContent.toLowerCase();
+            const matchesSearch =
+              searchTerm === "" ||
+              title.includes(searchTerm.toLowerCase()) ||
+              description.includes(searchTerm.toLowerCase()) ||
+              creator.includes(searchTerm.toLowerCase());
+
+            if (matchesCategory && matchesSearch) {
+              card.classList.remove("hidden-project");
+            } else {
+              card.classList.add("hidden-project");
             }
-        });
-        
-        // Initialize Three.js when page loads
-        window.addEventListener('load', () => {
-            // Loading screen is already handled in DOMContentLoaded
-        });
-        
-        // Handle window resize for Three.js
-        window.addEventListener('resize', () => {
-            if (camera && renderer) {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-            
-            if (loadingCamera && loadingRenderer) {
-                loadingCamera.aspect = window.innerWidth / window.innerHeight;
-                loadingCamera.updateProjectionMatrix();
-                loadingRenderer.setSize(window.innerWidth, window.innerHeight);
-            }
-        });
-        
-        // Add cursor glow effect
-        const cursor = document.createElement('div');
-        cursor.className = 'fixed w-6 h-6 bg-green-400 rounded-full opacity-30 pointer-events-none z-50 transition-all duration-100 ease-out';
-        cursor.style.transform = 'translate(-50%, -50%)';
-        document.body.appendChild(cursor);
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-        
-        document.addEventListener('mouseenter', () => {
-            cursor.style.opacity = '0.3';
-        });
-        
-        document.addEventListener('mouseleave', () => {
-            cursor.style.opacity = '0';
-        });
-        
-        // Add hover effects for buttons
-        document.querySelectorAll('.btn-primary').forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-                cursor.style.opacity = '0.2';
-            });
-            
-            btn.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursor.style.opacity = '0.3';
-            });
-        });
+          });
+        }
+      }
     </script>
-</body>
+  </body>
 </html>

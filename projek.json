@@ -1,0 +1,254 @@
+[
+  {
+    "id": "proj-001",
+    "judul": "EduAI - Platform Belajar Cerdas",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1546410531-bb4486586071?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1509062522224-375591325171?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Andi Pratama",
+    "kategori": ["teknologi", "pendidikan"],
+    "detail_singkat": "Sistem pembelajaran adaptif menggunakan AI untuk meningkatkan hasil belajar siswa Indonesia.",
+    "deskripsi_lengkap": "EduAI adalah platform pembelajaran inovatif yang dirancang untuk merevolusi cara siswa di Indonesia belajar. Dengan memanfaatkan kecerdasan buatan (AI), platform ini mampu menganalisis gaya belajar, kekuatan, dan kelemahan individu siswa, kemudian menyesuaikan materi dan metode pengajaran secara real-time. Tujuannya adalah menciptakan pengalaman belajar yang personal, menarik, dan efektif, sehingga setiap siswa dapat mencapai potensi maksimalnya. Dana yang terkumpul akan digunakan untuk pengembangan fitur AI, perluasan basis data materi pelajaran, serta pelatihan guru untuk mengintegrasikan EduAI di kelas.",
+    "donasi": {
+      "target": 50000000,
+      "terkumpul": 43500000
+    },
+    "jumlah_donatur": 125,
+    "persentase_terkumpul": 87,
+    "status": "Sedang Berjalan",
+    "tanggal_dimulai": "2024-09-01",
+    "tenggat_waktu": "2025-12-31",
+    "tim_proyek": [
+      {"nama": "Andi Pratama", "peran": "Project Lead"},
+      {"nama": "Budi Cahya", "peran": "AI Engineer"},
+      {"nama": "Sinta Dewi", "peran": "Education Specialist"}
+    ]
+  },
+  {
+    "id": "proj-002",
+    "judul": "EcoPlastic - Plastik Ramah Lingkungan",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1616712134945-b463b7c8f8b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1579275549725-47201ad7f3b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1593181807380-ae93237199f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Sari Melati",
+    "kategori": ["lingkungan", "sosial"],
+    "detail_singkat": "Inovasi plastik biodegradable dari limbah organik untuk mengurangi polusi lingkungan.",
+    "deskripsi_lengkap": "EcoPlastic adalah inisiatif pengembangan plastik biodegradable yang sepenuhnya terbuat dari limbah organik, seperti kulit pisang dan singkong. Proyek ini bertujuan untuk menciptakan alternatif ramah lingkungan bagi plastik konvensional yang sulit terurai dan menyebabkan polusi. Dengan penelitian dan pengembangan yang intensif, kami berupaya menghadirkan solusi plastik yang dapat terurai secara alami tanpa meninggalkan jejak berbahaya bagi lingkungan. Dana akan digunakan untuk riset lanjutan, pengembangan prototipe, pengujian produk, serta edukasi masyarakat tentang pentingnya penggunaan plastik ramah lingkungan.",
+    "donasi": {
+      "target": 75000000,
+      "terkumpul": 69000000
+    },
+    "jumlah_donatur": 180,
+    "persentase_terkumpul": 92,
+    "status": "Sedang Berjalan",
+    "tanggal_dimulai": "2024-08-15",
+    "tenggat_waktu": "2026-01-15",
+    "tim_proyek": [
+      {"nama": "Sari Melati", "peran": "Project Lead"},
+      {"nama": "Dina Permata", "peran": "Material Scientist"},
+      {"nama": "Rudi Hartono", "peran": "Community Outreach"}
+    ]
+  },
+  {
+    "id": "proj-003",
+    "judul": "MedBot - Asisten Kesehatan AI",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1606836920393-279c670a440e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1530213031121-aa02d1d23b20?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1582236688583-92f750244430?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Budi Santoso",
+    "kategori": ["kesehatan", "teknologi"],
+    "detail_singkat": "Chatbot cerdas untuk konsultasi kesehatan awal dan edukasi medis masyarakat.",
+    "deskripsi_lengkap": "MedBot adalah aplikasi chatbot berbasis AI yang dirancang untuk menjadi asisten kesehatan pribadi Anda. Aplikasi ini menyediakan informasi kesehatan awal, menjawab pertanyaan umum tentang gejala penyakit, memberikan edukasi medis yang terpercaya, serta mengarahkan pengguna ke fasilitas kesehatan terdekat jika diperlukan. MedBot bukan pengganti dokter, melainkan alat pendukung yang meningkatkan literasi kesehatan masyarakat dan membantu dalam pengambilan keputusan kesehatan awal. Donasi akan dialokasikan untuk pengembangan algoritma AI, integrasi data medis yang akurat, serta sertifikasi medis untuk validitas informasi.",
+    "donasi": {
+      "target": 40000000,
+      "terkumpul": 30400000
+    },
+    "jumlah_donatur": 95,
+    "persentase_terkumpul": 76,
+    "status": "Sedang Berjalan",
+    "tanggal_dimulai": "2024-10-01",
+    "tenggat_waktu": "2025-11-20",
+    "tim_proyek": [
+      {"nama": "Budi Santoso", "peran": "Project Lead"},
+      {"nama": "Dr. Rina Wijaya", "peran": "Medical Consultant"},
+      {"nama": "Fahmi Aziz", "peran": "Software Developer"}
+    ]
+  },
+  {
+    "id": "proj-004",
+    "judul": "\"Tanah Air\" - Film Pendek Dokumenter",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1518779578902-c9a9d7018c1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1518779578902-c9a9d7018c1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1473773509115-e217066928e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Dewi Lestari",
+    "kategori": ["film", "sosial"],
+    "detail_singkat": "Cerita tentang dampak perubahan iklim di pesisir Indonesia melalui sudut pandang nelayan lokal.",
+    "deskripsi_lengkap": "Film dokumenter pendek 'Tanah Air' akan menyoroti kisah nyata para nelayan di pesisir Indonesia yang berjuang menghadapi dampak langsung perubahan iklim, seperti kenaikan permukaan air laut, abrasi, dan perubahan pola ikan. Melalui narasi personal dan visual yang kuat, film ini bertujuan untuk meningkatkan kesadaran publik tentang krisis iklim dan urgensi tindakan nyata. Dana yang terkumpul akan menutupi biaya produksi (peralatan, kru, pasca-produksi), distribusi festival film, dan kampanye kesadaran publik.",
+    "donasi": {
+      "target": 58000000,
+      "terkumpul": 45240000
+    },
+    "jumlah_donatur": 110,
+    "persentase_terkumpul": 78,
+    "status": "Pra-Produksi",
+    "tanggal_dimulai": "2024-11-01",
+    "tenggat_waktu": "2026-02-28",
+    "tim_proyek": [
+      {"nama": "Dewi Lestari", "peran": "Sutradara & Penulis"},
+      {"nama": "Kresna Wijaya", "peran": "Produser"},
+      {"nama": "Maya Putri", "peran": "Sinematografer"}
+    ]
+  },
+  {
+    "id": "proj-005",
+    "judul": "\"Nusantara\" - Album Musik Etnik Modern",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1507567086082-f5424578b868?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1514757046221-509531548842?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1520625340625-f938740f925c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Rizky Maulana",
+    "kategori": ["musik"],
+    "detail_singkat": "Kolaborasi alat musik tradisional Indonesia dengan aransemen modern.",
+    "deskripsi_lengkap": "Album 'Nusantara' adalah proyek musik ambisius yang menggabungkan kekayaan alat musik tradisional Indonesia (seperti gamelan, sasando, atau angklung) dengan sentuhan aransemen musik modern (jazz, elektronik, orkestra). Tujuannya adalah memperkenalkan keindahan musik etnik Indonesia kepada audiens yang lebih luas, baik di dalam maupun luar negeri, serta menginspirasi generasi muda untuk melestarikan warisan budaya. Dana akan digunakan untuk biaya rekaman studio, *mixing*, *mastering*, pembayaran musisi tradisional, pembuatan video klip, dan promosi album.",
+    "donasi": {
+      "target": 35000000,
+      "terkumpul": 22750000
+    },
+    "jumlah_donatur": 70,
+    "persentase_terkumpul": 65,
+    "status": "Sedang Rekaman",
+    "tanggal_dimulai": "2025-01-20",
+    "tenggat_waktu": "2025-10-31",
+    "tim_proyek": [
+      {"nama": "Rizky Maulana", "peran": "Komposer & Produser Musik"},
+      {"nama": "Gita Larasati", "peran": "Arranger"},
+      {"nama": "Tim Etnik Nusantara", "peran": "Musisi"}
+    ]
+  },
+  {
+    "id": "proj-006",
+    "judul": "\"Cerita Nusantara\" - Buku Anak Interaktif",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1579373903781-fd40518d73d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1572979201509-c124a9e59d4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1606046604972-74bf56ea0666?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Anisa Fitriani",
+    "kategori": ["buku", "pendidikan"],
+    "detail_singkat": "Kumpulan cerita rakyat Indonesia dengan ilustrasi interaktif dan AR.",
+    "deskripsi_lengkap": "'Cerita Nusantara' adalah seri buku anak yang menghidupkan kembali dongeng dan legenda Indonesia melalui ilustrasi yang memukau dan teknologi *Augmented Reality* (AR). Anak-anak dapat memindai halaman buku dengan *smartphone* atau *tablet* mereka untuk melihat karakter bergerak, mendengarkan narasi, dan berinteraksi dengan elemen cerita. Proyek ini bertujuan untuk menanamkan kecintaan pada budaya Indonesia sejak dini. Dana akan digunakan untuk biaya ilustrator, pengembang AR, penulis cerita, pencetakan buku, dan distribusi ke sekolah-sekolah serta perpustakaan.",
+    "donasi": {
+      "target": 25000000,
+      "terkumpul": 13500000
+    },
+    "jumlah_donatur": 55,
+    "persentase_terkumpul": 54,
+    "status": "Pengembangan Konten",
+    "tanggal_dimulai": "2025-03-01",
+    "tenggat_waktu": "2025-12-01",
+    "tim_proyek": [
+      {"nama": "Anisa Fitriani", "peran": "Penulis & Konseptor"},
+      {"nama": "Galih Senja", "peran": "Ilustrator Utama"},
+      {"nama": "Tim AR Dev", "peran": "Pengembang AR"}
+    ]
+  },
+  {
+    "id": "proj-007",
+    "judul": "\"Pulau Budaya\" - Game Edukasi Sejarah",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1582236688583-92f750244430?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1511988949827-0c75a401c10d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1621258079815-38c4c37e6f8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Ahmad Fauzi",
+    "kategori": ["game", "teknologi"],
+    "detail_singkat": "Game petualangan untuk mempelajari sejarah dan budaya Indonesia secara interaktif.",
+    "deskripsi_lengkap": "Pulau Budaya adalah game petualangan edukatif yang mengajak pemain menjelajahi kepulauan Indonesia, memecahkan teka-teki, dan berinteraksi dengan karakter berdasarkan tokoh sejarah dan legenda lokal. Setiap 'pulau' merepresentasikan daerah tertentu dengan budaya dan sejarah uniknya, memungkinkan pemain belajar secara imersif dan menyenangkan. Proyek ini bertujuan untuk membuat belajar sejarah lebih menarik bagi generasi muda. Dana akan mendukung pengembangan game (desain, programming, aset grafis), riset sejarah, dan kampanye promosi game.",
+    "donasi": {
+      "target": 65000000,
+      "terkumpul": 53300000
+    },
+    "jumlah_donatur": 150,
+    "persentase_terkumpul": 82,
+    "status": "Tahap Alpha",
+    "tanggal_dimulai": "2024-07-10",
+    "tenggat_waktu": "2026-03-10",
+    "tim_proyek": [
+      {"nama": "Ahmad Fauzi", "peran": "Game Director"},
+      {"nama": "Bima Sakti", "peran": "Lead Programmer"},
+      {"nama": "Citra Kirana", "peran": "Art Director"}
+    ]
+  },
+  {
+    "id": "proj-008",
+    "judul": "Perpustakaan Keliling untuk Daerah 3T",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1574488998705-2d4e7d9b9d31?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1563276686-2911b33945e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1610484838685-61266b0a7c4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Nia Kurniasih",
+    "kategori": ["sosial", "pendidikan"],
+    "detail_singkat": "Menyediakan akses buku dan literasi untuk anak-anak di daerah terdepan, terluar, tertinggal.",
+    "deskripsi_lengkap": "Proyek 'Perpustakaan Keliling' berupaya mengatasi kesenjangan akses pendidikan di daerah 3T (Terdepan, Terluar, Tertinggal) di Indonesia. Kami akan menggunakan kendaraan yang dimodifikasi untuk membawa ribuan buku, alat tulis, dan fasilitas belajar ke desa-desa yang sulit dijangkau. Selain itu, kami juga akan mengadakan kegiatan membaca, workshop literasi, dan bimbingan belajar singkat untuk anak-anak. Dana akan digunakan untuk pembelian dan modifikasi kendaraan, pengadaan buku dan materi belajar, serta operasional tim relawan di lapangan.",
+    "donasi": {
+      "target": 45000000,
+      "terkumpul": 40950000
+    },
+    "jumlah_donatur": 130,
+    "persentase_terkumpul": 91,
+    "status": "Berjalan",
+    "tanggal_dimulai": "2024-09-15",
+    "tenggat_waktu": "2025-11-05",
+    "tim_proyek": [
+      {"nama": "Nia Kurniasih", "peran": "Koordinator Proyek"},
+      {"nama": "Joko Susilo", "peran": "Logistik & Transportasi"},
+      {"nama": "Relawan Pendidikan", "peran": "Tim Lapangan"}
+    ]
+  },
+  {
+    "id": "proj-009",
+    "judul": "Alat Deteksi Dini Stunting Portabel",
+    "gambar_url": [
+      "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1623955620163-5e92b8d03099?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1616788812684-2f22b8f4112e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1594916307379-45e05c75c02b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    ],
+    "pembuat": "Dr. Arif Rahman",
+    "kategori": ["teknologi", "kesehatan"],
+    "detail_singkat": "Perangkat murah dan mudah digunakan untuk deteksi dini risiko stunting pada balita.",
+    "deskripsi_lengkap": "Stunting adalah masalah serius di Indonesia. Proyek ini mengembangkan perangkat deteksi dini stunting yang portabel, terjangkau, dan mudah digunakan oleh tenaga kesehatan di lapangan atau bahkan orang tua. Alat ini akan mengukur parameter pertumbuhan anak (tinggi, berat badan, lingkar kepala) dan secara otomatis mengidentifikasi risiko stunting dengan akurasi tinggi. Tujuannya adalah mempercepat intervensi dan pencegahan stunting. Dana akan dipakai untuk riset dan pengembangan prototipe, sertifikasi medis, produksi massal awal, dan distribusi ke posyandu di daerah terpencil.",
+    "donasi": {
+      "target": 80000000,
+      "terkumpul": 54400000
+    },
+    "jumlah_donatur": 90,
+    "persentase_terkumpul": 68,
+    "status": "Prototipe",
+    "tanggal_dimulai": "2025-02-01",
+    "tenggat_waktu": "2026-01-25",
+    "tim_proyek": [
+      {"nama": "Dr. Arif Rahman", "peran": "Project Lead & Medical Expert"},
+      {"nama": "Lisa Anggraini", "peran": "Hardware Engineer"},
+      {"nama": "Tomo Putra", "peran": "Software Developer"}
+    ]
+  }
+]
