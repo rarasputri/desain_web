@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sociotech - Platform Showcase & Donasi Anak Muda Indonesia</title>
+    <link rel="icon" type="image/x-icon" href="./assets/logo/logo_transparent.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -194,7 +195,7 @@
     <div id="loading-screen">
         <canvas id="loading-canvas"></canvas>
         <div class="loading-logo">
-            <i class="fas fa-seedling mr-3"></i>
+            <img src="./assets/logo/logo_white.png" alt="Logo" class="inline w-20 h-20">
             Sociotech
         </div>
         <div class="loading-progress">
@@ -204,15 +205,13 @@
     </div>
     <!-- Three.js Background Canvas -->
     <canvas id="three-canvas"></canvas>
-
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
+
                 <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 gradient-bg rounded-xl flex items-center justify-center">
-                        <i class="fas fa-seedling text-white text-lg"></i>
-                    </div>
+                    <img src="./assets/logo/logo_background_large.png" alt="Sociotech Logo" class="w-10 h-10">
                     <span class="text-2xl font-bold text-gradient">Sociotech</span>
                 </div>
                 
@@ -529,9 +528,7 @@
             <div class="grid md:grid-cols-4 gap-8">
                 <div class="md:col-span-2">
                     <div class="flex items-center space-x-2 mb-6">
-                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
-                            <i class="fas fa-seedling text-white text-xl"></i>
-                        </div>
+                        <img src="./assets/logo/logo_transparent.png" alt="Sociotech Logo" class="w-10 h-10">
                         <span class="text-3xl font-bold">Sociotech</span>
                     </div>
                     <p class="text-gray-400 mb-6 max-w-md">
@@ -539,16 +536,16 @@
                         menuju masa depan yang lebih baik.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors">
+                        <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors">
+                        <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors">
+                        <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors">
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                     </div>
@@ -586,7 +583,7 @@
     <script>
         // Loading Screen Three.js Animation
         let loadingScene, loadingCamera, loadingRenderer;
-        let loadingGeometry, loadingMesh;
+        // let loadingGeometry, loadingMesh; // Hapus mesh donut
         let loadingParticles = [];
 
         function initLoadingAnimation() {
@@ -600,17 +597,16 @@
             
             loadingRenderer.setSize(window.innerWidth, window.innerHeight);
             
-            // Create animated geometry
-            const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-            const material = new THREE.MeshBasicMaterial({
-                color: 0xffffff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.3
-            });
-            
-            loadingMesh = new THREE.Mesh(geometry, material);
-            loadingScene.add(loadingMesh);
+            // Hapus animated geometry (donut/torus knot)
+            // const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+            // const material = new THREE.MeshBasicMaterial({
+            //     color: 0xffffff,
+            //     wireframe: true,
+            //     transparent: true,
+            //     opacity: 0.3
+            // });
+            // loadingMesh = new THREE.Mesh(geometry, material);
+            // loadingScene.add(loadingMesh);
             
             // Create floating particles
             const particleGeometry = new THREE.BufferGeometry();
@@ -645,12 +641,12 @@
         function animateLoading() {
             requestAnimationFrame(animateLoading);
             
-            // Rotate the torus knot
-            if (loadingMesh) {
-                loadingMesh.rotation.x += 0.01;
-                loadingMesh.rotation.y += 0.02;
-                loadingMesh.rotation.z += 0.005;
-            }
+            // Hapus rotasi torus knot
+            // if (loadingMesh) {
+            //     loadingMesh.rotation.x += 0.01;
+            //     loadingMesh.rotation.y += 0.02;
+            //     loadingMesh.rotation.z += 0.005;
+            // }
             
             // Animate particles
             loadingParticles.forEach(particle => {
