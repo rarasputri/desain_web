@@ -20,12 +20,7 @@
     "persentase_terkumpul": 87,
     "status": "Sedang Berjalan",
     "tanggal_dimulai": "2024-09-01",
-    "tenggat_waktu": "2025-12-31",
-    "tim_proyek": [
-      {"nama": "Andi Pratama", "peran": "Project Lead"},
-      {"nama": "Budi Cahya", "peran": "AI Engineer"},
-      {"nama": "Sinta Dewi", "peran": "Education Specialist"}
-    ]
+    "tenggat_waktu": "2025-12-31"
   },
   {
     "id": "proj-002",
@@ -48,12 +43,7 @@
     "persentase_terkumpul": 92,
     "status": "Sedang Berjalan",
     "tanggal_dimulai": "2024-08-15",
-    "tenggat_waktu": "2026-01-15",
-    "tim_proyek": [
-      {"nama": "Sari Melati", "peran": "Project Lead"},
-      {"nama": "Dina Permata", "peran": "Material Scientist"},
-      {"nama": "Rudi Hartono", "peran": "Community Outreach"}
-    ]
+    "tenggat_waktu": "2026-01-15"
   },
   {
     "id": "proj-003",
@@ -76,12 +66,7 @@
     "persentase_terkumpul": 76,
     "status": "Sedang Berjalan",
     "tanggal_dimulai": "2024-10-01",
-    "tenggat_waktu": "2025-11-20",
-    "tim_proyek": [
-      {"nama": "Budi Santoso", "peran": "Project Lead"},
-      {"nama": "Dr. Rina Wijaya", "peran": "Medical Consultant"},
-      {"nama": "Fahmi Aziz", "peran": "Software Developer"}
-    ]
+    "tenggat_waktu": "2025-11-20"
   },
   {
     "id": "proj-004",
@@ -104,12 +89,7 @@
     "persentase_terkumpul": 78,
     "status": "Pra-Produksi",
     "tanggal_dimulai": "2024-11-01",
-    "tenggat_waktu": "2026-02-28",
-    "tim_proyek": [
-      {"nama": "Dewi Lestari", "peran": "Sutradara & Penulis"},
-      {"nama": "Kresna Wijaya", "peran": "Produser"},
-      {"nama": "Maya Putri", "peran": "Sinematografer"}
-    ]
+    "tenggat_waktu": "2026-02-28"
   },
   {
     "id": "proj-005",
@@ -132,12 +112,7 @@
     "persentase_terkumpul": 65,
     "status": "Sedang Rekaman",
     "tanggal_dimulai": "2025-01-20",
-    "tenggat_waktu": "2025-10-31",
-    "tim_proyek": [
-      {"nama": "Rizky Maulana", "peran": "Komposer & Produser Musik"},
-      {"nama": "Gita Larasati", "peran": "Arranger"},
-      {"nama": "Tim Etnik Nusantara", "peran": "Musisi"}
-    ]
+    "tenggat_waktu": "2025-10-31"
   },
   {
     "id": "proj-006",
@@ -160,12 +135,7 @@
     "persentase_terkumpul": 54,
     "status": "Pengembangan Konten",
     "tanggal_dimulai": "2025-03-01",
-    "tenggat_waktu": "2025-12-01",
-    "tim_proyek": [
-      {"nama": "Anisa Fitriani", "peran": "Penulis & Konseptor"},
-      {"nama": "Galih Senja", "peran": "Ilustrator Utama"},
-      {"nama": "Tim AR Dev", "peran": "Pengembang AR"}
-    ]
+    "tenggat_waktu": "2025-12-01"
   },
   {
     "id": "proj-007",
@@ -188,12 +158,7 @@
     "persentase_terkumpul": 82,
     "status": "Tahap Alpha",
     "tanggal_dimulai": "2024-07-10",
-    "tenggat_waktu": "2026-03-10",
-    "tim_proyek": [
-      {"nama": "Ahmad Fauzi", "peran": "Game Director"},
-      {"nama": "Bima Sakti", "peran": "Lead Programmer"},
-      {"nama": "Citra Kirana", "peran": "Art Director"}
-    ]
+    "tenggat_waktu": "2026-03-10"
   },
   {
     "id": "proj-008",
@@ -216,12 +181,7 @@
     "persentase_terkumpul": 91,
     "status": "Berjalan",
     "tanggal_dimulai": "2024-09-15",
-    "tenggat_waktu": "2025-11-05",
-    "tim_proyek": [
-      {"nama": "Nia Kurniasih", "peran": "Koordinator Proyek"},
-      {"nama": "Joko Susilo", "peran": "Logistik & Transportasi"},
-      {"nama": "Relawan Pendidikan", "peran": "Tim Lapangan"}
-    ]
+    "tenggat_waktu": "2025-11-05"
   },
   {
     "id": "proj-009",
@@ -244,11 +204,6 @@
     "persentase_terkumpul": 68,
     "status": "Prototipe",
     "tanggal_dimulai": "2025-02-01",
-    "tenggat_waktu": "2026-01-25",
-    "tim_proyek": [
-      {"nama": "Dr. Arif Rahman", "peran": "Project Lead & Medical Expert"},
-      {"nama": "Lisa Anggraini", "peran": "Hardware Engineer"},
-      {"nama": "Tomo Putra", "peran": "Software Developer"}
-    ]
+    "tenggat_waktu": "2026-01-25"
   }
 ]

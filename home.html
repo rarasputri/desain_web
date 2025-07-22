@@ -186,7 +186,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 0;
+        z-index: -1;
         position: fixed;
         opacity: 0.6;
       }
@@ -339,8 +339,8 @@
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <!-- Logo -->
-          <div class="flex items-center space-x-2">
+          <!-- Logo (kiri) -->
+          <div class="flex items-center space-x-2 flex-shrink-0">
             <img
               src="./assets/logo/logo_background_large.png"
               alt="Sociotech Logo"
@@ -348,8 +348,10 @@
             />
             <span class="text-2xl font-bold text-gradient">Sociotech</span>
           </div>
-          <!-- Desktop Menu -->
-          <ul class="hidden md:flex items-center space-x-8 font-medium">
+          <!-- Menu (tengah) -->
+          <ul
+            class="hidden md:flex flex-1 justify-center items-center space-x-8 font-medium"
+          >
             <li>
               <a
                 href="home.html"
@@ -381,7 +383,7 @@
             <li>
               <a
                 href="#kontak"
-                class="text-gray-700 hover:text-green-600 transition-colors"
+                class="text-gray-700 hidden hover:text-green-600 transition-colors"
                 >Kontak</a
               >
             </li>
@@ -392,18 +394,23 @@
                 >Donasi Sekarang</a
               >
             </li>
-            <!-- User/Guest Section -->
-            <li>
-              <div id="user-section" class="flex items-center space-x-4"></div>
-            </li>
           </ul>
+          <!-- User/Guest Section (kanan) -->
+          <div
+            class="hidden md:flex items-center space-x-4"
+            id="user-section"
+          ></div>
           <!-- Mobile Menu Button -->
-          <button class="md:hidden text-gray-700" id="mobile-menu-btn">
+          <button
+            class="md:hidden text-gray-700"
+            id="mobile-menu-btn"
+            aria-label="Menu"
+          >
             <i class="fas fa-bars text-xl"></i>
           </button>
         </div>
       </div>
-      <!-- Mobile Menu (JS will toggle) -->
+      <!-- Mobile Menu -->
       <div
         id="mobile-menu"
         class="md:hidden bg-white border-t border-gray-200 hidden"
@@ -469,30 +476,30 @@
         );
         if (isLoggedIn) {
           userSection.innerHTML = `
-                    <span class="text-gray-700 font-medium flex items-center gap-2">
-                        <i class="fas fa-user-circle text-green-600 text-xl"></i>
-                        <span>Halo, <b>User</b></span>
-                    </span>
-                    <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
-                `;
+        <span class="text-gray-700 font-medium flex items-center gap-2">
+          <i class="fas fa-user-circle text-green-600 text-xl"></i>
+          <span>Halo, <b>User</b></span>
+        </span>
+        <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
+      `;
           userSectionMobile.innerHTML = `
-                    <div class="flex items-center gap-2 py-2">
-                        <i class="fas fa-user-circle text-green-600 text-xl"></i>
-                        <span>Halo, <b>User</b></span>
-                    </div>
-                    <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
-                `;
+        <div class="flex items-center gap-2 py-2">
+          <i class="fas fa-user-circle text-green-600 text-xl"></i>
+          <span>Halo, <b>User</b></span>
+        </div>
+        <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
+      `;
         } else {
           userSection.innerHTML = `
-                    <span class="text-gray-500 font-medium">Guest</span>
-                    <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
-                    <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
-                `;
+        <span class="text-gray-500 font-medium">Guest</span>
+        <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
+        <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
+      `;
           userSectionMobile.innerHTML = `
-                    <div class="py-2 text-gray-500 font-medium">Guest</div>
-                    <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
-                    <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
-                `;
+        <div class="py-2 text-gray-500 font-medium">Guest</div>
+        <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
+        <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
+      `;
         }
       }
       renderUserSection();
@@ -630,7 +637,7 @@
                 <span>78% tercapai</span>
               </div>
               <a
-                href="#"
+                href="./tes.html?id=proj-001"
                 class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium mt-4 inline-block"
               >
                 Dukung Sekarang
@@ -667,7 +674,7 @@
                 <span>92% tercapai</span>
               </div>
               <a
-                href="#"
+                href="./tes.html?id=proj-002"
                 class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium mt-4 inline-block"
               >
                 Dukung Sekarang
@@ -704,7 +711,7 @@
                 <span>76% tercapai</span>
               </div>
               <a
-                href="#"
+                href="./tes.html?id=proj-003"
                 class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium mt-4 inline-block"
               >
                 Dukung Sekarang
@@ -714,11 +721,11 @@
         </div>
       </div>
       <div class="text-center mt-12">
-        <button
+        <a href="./karya.html"
           class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold"
         >
-          Lihat Lebih Banyak Proyek
-        </button>
+          Lihat Lebih Banyak Karya
+        </a>
       </div>
     </section>
 
@@ -846,11 +853,11 @@
               bidang teknologi, lingkungan, kesehatan, dan berbagai sektor
               lainnya.
             </p>
-            <button
-              class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold"
+            <a href="./konten.html"
+              class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold z-10"
             >
               Bergabung Sekarang
-            </button>
+            </a>
           </div>
           <div class="relative">
             <lottie-player

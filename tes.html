@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Kampanye - Sociotech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+        }
+        
+        .soft-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Campaign Detail Specific Styles */
+        .campaign-hero {
+            background: linear-gradient(rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.8)), 
+                        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 400px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .badge-active {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .badge-category {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .gallery-main {
+            height: 450px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .gallery-thumbnail {
+            width: 100px;
+            height: 70px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .gallery-thumbnail:hover, .gallery-thumbnail.active {
+            border-color: #10b981;
+            transform: translateY(-3px);
+        }
+        
+        .section-divider {
+            border-top: 2px solid #e5e7eb;
+            margin: 40px 0;
+        }
+        
+        .update-card {
+            border-left: 4px solid #10b981;
+        }
+        
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #d1fae5;
+            color: #065f46;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .donation-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+        
+        .donor-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-left: -10px;
+        }
+        
+        .donor-avatar:first-child {
+            margin-left: 0;
+        }
+        
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .share-btn i {
+            margin-right: 8px;
+        }
+        
+        .share-fb { background-color: #3b5998; }
+        .share-twitter { background-color: #1da1f2; }
+        .share-wa { background-color: #25d366; }
+        
+        @media (max-width: 1024px) {
+            .donation-sidebar {
+                position: static;
+            }
+            
+            .gallery-main {
+                height: 350px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-main {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <img src="./assets/logo/logo_background_large.png" alt="Sociotech Logo" class="w-10 h-10">
+                    <span class="text-2xl font-bold text-gradient">Sociotech</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="home.html" class="text-gray-700 hover:text-green-600 transition-colors font-medium">Beranda</a>
+                    <a href="proyek.html" class="text-green-600 font-medium">Proyek</a>
+                    <a href="#cara-kerja" class="text-gray-700 hover:text-green-600 transition-colors font-medium">Cara Kerja</a>
+                    <a href="#tentang" class="text-gray-700 hover:text-green-600 transition-colors font-medium">Tentang</a>
+                    <button class="btn-primary text-white px-6 py-2 rounded-full font-medium">
+                        Mulai Donasi
+                    </button>
+                </div>
+                
+                <button class="md:hidden text-gray-700" id="mobileMenuButton">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="md:hidden hidden bg-white border-t border-gray-200" id="mobileMenu">
+        <div class="px-4 py-2 space-y-2">
+            <a href="home.html" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
+            <a href="proyek.html" class="block py-2 text-green-600">Proyek</a>
+            <a href="#cara-kerja" class="block py-2 text-gray-700 hover:text-green-600">Cara Kerja</a>
+            <a href="#tentang" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
+            <button class="btn-primary text-white px-6 py-2 rounded-full font-medium w-full mt-2">
+                Mulai Donasi
+            </button>
+        </div>
+    </div>
+
+    <section class="campaign-hero flex items-center pt-16 text-white" id="campaignHero">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="max-w-3xl">
+                <div class="flex flex-wrap gap-2 mb-4" id="campaignBadges">
+                    </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4" id="campaignTitle"></h1>
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Creator" class="w-10 h-10 rounded-full mr-3 border-2 border-white" id="creatorAvatar">
+                    <span class="mr-4" id="campaignCreator"></span>
+                    <i class="fas fa-check-circle text-green-300"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl soft-shadow overflow-hidden mb-8">
+                        <img src="" 
+                             alt="Campaign main image" class="w-full h-full object-cover gallery-main" id="mainCampaignImage">
+                        <div class="p-4 flex gap-3 overflow-x-auto" id="thumbnailContainer">
+                            </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl soft-shadow p-8 mb-8 card-hover">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Tentang Kampanye Ini</h2>
+                        <div class="prose max-w-none">
+                            <p class="text-lg text-gray-600 mb-4" id="shortDescription"></p>
+                            <p class="text-gray-600 mb-4" id="fullDescription"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="section-divider"></div>
+                    
+                    <div class="mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Tim Proyek</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="projectTeam">
+                            </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+                    
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Ucapan Terima Kasih dari Donatur</h2>
+                        
+                        <div class="space-y-6" id="commentsSection">
+                            </div>
+                    </div>
+                </div>
+                
+                <div class="donation-sidebar">
+                    <div class="bg-white rounded-xl soft-shadow p-8 card-hover">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Dukung Kampanye Ini</h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm text-gray-600 mb-2">
+                                <span class="font-medium" id="donasiTerkumpul"></span>
+                                <span id="persentaseTerkumpul"></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                <div class="progress-bar h-2 rounded-full" id="progressBar"></div>
+                            </div>
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span id="donasiTarget"></span>
+                                <span id="tenggatWaktu"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between border-t border-b border-gray-200 py-6 mb-6">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-green-600" id="jumlahDonatur"></div>
+                                <div class="text-gray-600">Donatur</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-green-600" id="hariLagi"></div>
+                                <div class="text-gray-600">Hari Lagi</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col items-center mb-6">
+                            <div class="flex -space-x-2 mb-3" id="donorAvatars">
+                                </div>
+                            <p class="text-gray-600 text-sm" id="otherDonors"></p>
+                        </div>
+                        
+                        <button class="btn-primary text-white w-full py-4 rounded-xl text-lg font-semibold mb-6">
+                            Donasi Sekarang
+                        </button>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3 text-center">Bagikan Kampanye</h3>
+                            <div class="flex flex-wrap gap-3 justify-center">
+                                <a href="#" class="share-btn share-fb">
+                                    <i class="fab fa-facebook-f"></i>
+                                    <span>Facebook</span>
+                                </a>
+                                <a href="#" class="share-btn share-twitter">
+                                    <i class="fab fa-twitter"></i>
+                                    <span>Twitter</span>
+                                </a>
+                                <a href="#" class="share-btn share-wa">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span>WhatsApp</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-6">
+                        <img src="./assets/logo/logo_transparent.png" alt="Sociotech Logo" class="w-10 h-10">
+                        <span class="text-3xl font-bold">Sociotech</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-md">
+                        Platform terdepan untuk mendukung inovasi dan kreativitas anak muda Indonesia 
+                        menuju masa depan yang lebih baik.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Platform</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Showcase Karya</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cara Donasi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Bergabung</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Perusahaan</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Tim</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Karir</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Kontak</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 Sociotech. Seluruh hak cipta dilindungi. Dibuat dengan ❤️ untuk anak muda Indonesia.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            mobileMenu.classList.toggle('hidden', !isHidden);
+            mobileMenuButton.innerHTML = isHidden 
+                ? '<i class="fas fa-times text-xl"></i>' 
+                : '<i class="fas fa-bars text-xl"></i>';
+        });
+        
+        // Image gallery functionality
+        const mainImage = document.getElementById('mainCampaignImage');
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+        
+        function updateGallery(images) {
+            thumbnailContainer.innerHTML = ''; // Clear existing thumbnails
+            if (images && images.length > 0) {
+                mainImage.src = images[0];
+                images.forEach((imgSrc, index) => {
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = `Thumbnail ${index + 1}`;
+                    img.classList.add('gallery-thumbnail');
+                    if (index === 0) {
+                        img.classList.add('active');
+                    }
+                    img.addEventListener('click', () => {
+                        document.querySelectorAll('.gallery-thumbnail').forEach(t => t.classList.remove('active'));
+                        img.classList.add('active');
+                        mainImage.src = imgSrc;
+                    });
+                    thumbnailContainer.appendChild(img);
+                });
+            }
+        }
+
+        // Like button functionality
+        document.querySelectorAll('[class*="fa-heart"]').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isSolid = this.classList.contains('fas');
+                if (isSolid) {
+                    this.classList.remove('fas', 'text-red-500');
+                    this.classList.add('far');
+                } else {
+                    this.classList.remove('far');
+                    this.classList.add('fas', 'text-red-500');
+                }
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Function to format currency
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
+        }
+
+        // Function to calculate days remaining
+        function getDaysRemaining(endDate) {
+            const today = new Date();
+            const end = new Date(endDate);
+            const diffTime = end - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays > 0 ? diffDays : 0;
+        }
+
+        // Load project data
+        document.addEventListener('DOMContentLoaded', () => {
+            const projects = {
+                "proj-001": {
+                    "id": "proj-001",
+                    "judul": "EduAI - Platform Belajar Cerdas",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1546410531-bb4486586071?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1509062522224-375591325171?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Andi Pratama",
+                    "kategori": ["teknologi", "pendidikan"],
+                    "detail_singkat": "Sistem pembelajaran adaptif menggunakan AI untuk meningkatkan hasil belajar siswa Indonesia.",
+                    "deskripsi_lengkap": "EduAI adalah platform pembelajaran inovatif yang dirancang untuk merevolusi cara siswa di Indonesia belajar. Dengan memanfaatkan kecerdasan buatan (AI), platform ini mampu menganalisis gaya belajar, kekuatan, dan kelemahan individu siswa, kemudian menyesuaikan materi dan metode pengajaran secara real-time. Tujuannya adalah menciptakan pengalaman belajar yang personal, menarik, dan efektif, sehingga setiap siswa dapat mencapai potensi maksimalnya. Dana yang terkumpul akan digunakan untuk pengembangan fitur AI, perluasan basis data materi pelajaran, serta pelatihan guru untuk mengintegrasikan EduAI di kelas.",
+                    "donasi": {
+                        "target": 50000000,
+                        "terkumpul": 43500000
+                    },
+                    "jumlah_donatur": 125,
+                    "persentase_terkumpul": 87,
+                    "status": "Sedang Berjalan",
+                    "tanggal_dimulai": "2024-09-01",
+                    "tenggat_waktu": "2025-12-31",
+                    "tim_proyek": [
+                        {"nama": "Andi Pratama", "peran": "Project Lead"},
+                        {"nama": "Budi Cahya", "peran": "AI Engineer"},
+                        {"nama": "Sinta Dewi", "peran": "Education Specialist"}
+                    ]
+                },
+                "proj-002": {
+                    "id": "proj-002",
+                    "judul": "EcoPlastic - Plastik Ramah Lingkungan",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1616712134945-b463b7c8f8b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1579275549725-47201ad7f3b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1593181807380-ae93237199f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Sari Melati",
+                    "kategori": ["lingkungan", "sosial"],
+                    "detail_singkat": "Inovasi plastik biodegradable dari limbah organik untuk mengurangi polusi lingkungan.",
+                    "deskripsi_lengkap": "EcoPlastic adalah inisiatif pengembangan plastik biodegradable yang sepenuhnya terbuat dari limbah organik, seperti kulit pisang dan singkong. Proyek ini bertujuan untuk menciptakan alternatif ramah lingkungan bagi plastik konvensional yang sulit terurai dan menyebabkan polusi. Dengan penelitian dan pengembangan yang intensif, kami berupaya menghadirkan solusi plastik yang dapat terurai secara alami tanpa meninggalkan jejak berbahaya bagi lingkungan. Dana akan digunakan untuk riset lanjutan, pengembangan prototipe, pengujian produk, serta edukasi masyarakat tentang pentingnya penggunaan plastik ramah lingkungan.",
+                    "donasi": {
+                        "target": 75000000,
+                        "terkumpul": 69000000
+                    },
+                    "jumlah_donatur": 180,
+                    "persentase_terkumpul": 92,
+                    "status": "Sedang Berjalan",
+                    "tanggal_dimulai": "2024-08-15",
+                    "tenggat_waktu": "2026-01-15",
+                    "tim_proyek": [
+                        {"nama": "Sari Melati", "peran": "Project Lead"},
+                        {"nama": "Dina Permata", "peran": "Material Scientist"},
+                        {"nama": "Rudi Hartono", "peran": "Community Outreach"}
+                    ]
+                },
+                "proj-003": {
+                    "id": "proj-003",
+                    "judul": "MedBot - Asisten Kesehatan AI",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1606836920393-279c670a440e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1530213031121-aa02d1d23b20?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1582236688583-92f750244430?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Budi Santoso",
+                    "kategori": ["kesehatan", "teknologi"],
+                    "detail_singkat": "Chatbot cerdas untuk konsultasi kesehatan awal dan edukasi medis masyarakat.",
+                    "deskripsi_lengkap": "MedBot adalah aplikasi chatbot berbasis AI yang dirancang untuk menjadi asisten kesehatan pribadi Anda. Aplikasi ini menyediakan informasi kesehatan awal, menjawab pertanyaan umum tentang gejala penyakit, memberikan edukasi medis yang terpercaya, serta mengarahkan pengguna ke fasilitas kesehatan terdekat jika diperlukan. MedBot bukan pengganti dokter, melainkan alat pendukung yang meningkatkan literasi kesehatan masyarakat dan membantu dalam pengambilan keputusan kesehatan awal. Donasi akan dialokasikan untuk pengembangan algoritma AI, integrasi data medis yang akurat, serta sertifikasi medis untuk validitas informasi.",
+                    "donasi": {
+                        "target": 40000000,
+                        "terkumpul": 30400000
+                    },
+                    "jumlah_donatur": 95,
+                    "persentase_terkumpul": 76,
+                    "status": "Sedang Berjalan",
+                    "tanggal_dimulai": "2024-10-01",
+                    "tenggat_waktu": "2025-11-20",
+                    "tim_proyek": [
+                        {"nama": "Budi Santoso", "peran": "Project Lead"},
+                        {"nama": "Dr. Rina Wijaya", "peran": "Medical Consultant"},
+                        {"nama": "Fahmi Aziz", "peran": "Software Developer"}
+                    ]
+                },
+                "proj-004": {
+                    "id": "proj-004",
+                    "judul": "\"Tanah Air\" - Film Pendek Dokumenter",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1518779578902-c9a9d7018c1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1518779578902-c9a9d7018c1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1473773509115-e217066928e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Dewi Lestari",
+                    "kategori": ["film", "sosial"],
+                    "detail_singkat": "Cerita tentang dampak perubahan iklim di pesisir Indonesia melalui sudut pandang nelayan lokal.",
+                    "deskripsi_lengkap": "Film dokumenter pendek 'Tanah Air' akan menyoroti kisah nyata para nelayan di pesisir Indonesia yang berjuang menghadapi dampak langsung perubahan iklim, seperti kenaikan permukaan air laut, abrasi, dan perubahan pola ikan. Melalui narasi personal dan visual yang kuat, film ini bertujuan untuk meningkatkan kesadaran publik tentang krisis iklim dan urgensi tindakan nyata. Dana yang terkumpul akan menutupi biaya produksi (peralatan, kru, pasca-produksi), distribusi festival film, dan kampanye kesadaran publik.",
+                    "donasi": {
+                        "target": 58000000,
+                        "terkumpul": 45240000
+                    },
+                    "jumlah_donatur": 110,
+                    "persentase_terkumpul": 78,
+                    "status": "Pra-Produksi",
+                    "tanggal_dimulai": "2024-11-01",
+                    "tenggat_waktu": "2026-02-28",
+                    "tim_proyek": [
+                        {"nama": "Dewi Lestari", "peran": "Sutradara & Penulis"},
+                        {"nama": "Kresna Wijaya", "peran": "Produser"},
+                        {"nama": "Maya Putri", "peran": "Sinematografer"}
+                    ]
+                },
+                "proj-005": {
+                    "id": "proj-005",
+                    "judul": "\"Nusantara\" - Album Musik Etnik Modern",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1507567086082-f5424578b868?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1514757046221-509531548842?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1520625340625-f938740f925c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Rizky Maulana",
+                    "kategori": ["musik"],
+                    "detail_singkat": "Kolaborasi alat musik tradisional Indonesia dengan aransemen modern.",
+                    "deskripsi_lengkap": "Album 'Nusantara' adalah proyek musik ambisius yang menggabungkan kekayaan alat musik tradisional Indonesia (seperti gamelan, sasando, atau angklung) dengan sentuhan aransemen musik modern (jazz, elektronik, orkestra). Tujuannya adalah memperkenalkan keindahan musik etnik Indonesia kepada audiens yang lebih luas, baik di dalam maupun luar negeri, serta menginspirasi generasi muda untuk melestarikan warisan budaya. Dana akan digunakan untuk biaya rekaman studio, *mixing*, *mastering*, pembayaran musisi tradisional, pembuatan video klip, dan promosi album.",
+                    "donasi": {
+                        "target": 35000000,
+                        "terkumpul": 22750000
+                    },
+                    "jumlah_donatur": 70,
+                    "persentase_terkumpul": 65,
+                    "status": "Sedang Rekaman",
+                    "tanggal_dimulai": "2025-01-20",
+                    "tenggat_waktu": "2025-10-31",
+                    "tim_proyek": [
+                        {"nama": "Rizky Maulana", "peran": "Komposer & Produser Musik"},
+                        {"nama": "Gita Larasati", "peran": "Arranger"},
+                        {"nama": "Tim Etnik Nusantara", "peran": "Musisi"}
+                    ]
+                },
+                "proj-006": {
+                    "id": "proj-006",
+                    "judul": "\"Cerita Nusantara\" - Buku Anak Interaktif",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1579373903781-fd40518d73d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1572979201509-c124a9e59d4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1606046604972-74bf56ea0666?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Anisa Fitriani",
+                    "kategori": ["buku", "pendidikan"],
+                    "detail_singkat": "Kumpulan cerita rakyat Indonesia dengan ilustrasi interaktif dan AR.",
+                    "deskripsi_lengkap": "'Cerita Nusantara' adalah seri buku anak yang menghidupkan kembali dongeng dan legenda Indonesia melalui ilustrasi yang memukau dan teknologi *Augmented Reality* (AR). Anak-anak dapat memindai halaman buku dengan *smartphone* atau *tablet* mereka untuk melihat karakter bergerak, mendengarkan narasi, dan berinteraksi dengan elemen cerita. Proyek ini bertujuan untuk menanamkan kecintaan pada budaya Indonesia sejak dini. Dana akan digunakan untuk biaya ilustrator, pengembang AR, penulis cerita, pencetakan buku, dan distribusi ke sekolah-sekolah serta perpustakaan.",
+                    "donasi": {
+                        "target": 25000000,
+                        "terkumpul": 13500000
+                    },
+                    "jumlah_donatur": 55,
+                    "persentase_terkumpul": 54,
+                    "status": "Pengembangan Konten",
+                    "tanggal_dimulai": "2025-03-01",
+                    "tenggat_waktu": "2025-12-01",
+                    "tim_proyek": [
+                        {"nama": "Anisa Fitriani", "peran": "Penulis & Konseptor"},
+                        {"nama": "Galih Senja", "peran": "Ilustrator Utama"},
+                        {"nama": "Tim AR Dev", "peran": "Pengembang AR"}
+                    ]
+                },
+                "proj-007": {
+                    "id": "proj-007",
+                    "judul": "\"Pulau Budaya\" - Game Edukasi Sejarah",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1582236688583-92f750244430?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1511988949827-0c75a401c10d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1621258079815-38c4c37e6f8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Ahmad Fauzi",
+                    "kategori": ["game", "teknologi"],
+                    "detail_singkat": "Game petualangan untuk mempelajari sejarah dan budaya Indonesia secara interaktif.",
+                    "deskripsi_lengkap": "Pulau Budaya adalah game petualangan edukatif yang mengajak pemain menjelajahi kepulauan Indonesia, memecahkan teka-teki, dan berinteraksi dengan karakter berdasarkan tokoh sejarah dan legenda lokal. Setiap 'pulau' merepresentasikan daerah tertentu dengan budaya dan sejarah uniknya, memungkinkan pemain belajar secara imersif dan menyenangkan. Proyek ini bertujuan untuk membuat belajar sejarah lebih menarik bagi generasi muda. Dana akan mendukung pengembangan game (desain, programming, aset grafis), riset sejarah, dan kampanye promosi game.",
+                    "donasi": {
+                        "target": 65000000,
+                        "terkumpul": 53300000
+                    },
+                    "jumlah_donatur": 150,
+                    "persentase_terkumpul": 82,
+                    "status": "Tahap Alpha",
+                    "tanggal_dimulai": "2024-07-10",
+                    "tenggat_waktu": "2026-03-10",
+                    "tim_proyek": [
+                        {"nama": "Ahmad Fauzi", "peran": "Game Director"},
+                        {"nama": "Bima Sakti", "peran": "Lead Programmer"},
+                        {"nama": "Citra Kirana", "peran": "Art Director"}
+                    ]
+                },
+                "proj-008": {
+                    "id": "proj-008",
+                    "judul": "Perpustakaan Keliling untuk Daerah 3T",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1574488998705-2d4e7d9b9d31?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1563276686-2911b33945e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1610484838685-61266b0a7c4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Nia Kurniasih",
+                    "kategori": ["sosial", "pendidikan"],
+                    "detail_singkat": "Menyediakan akses buku dan literasi untuk anak-anak di daerah terdepan, terluar, tertinggal.",
+                    "deskripsi_lengkap": "Proyek 'Perpustakaan Keliling' berupaya mengatasi kesenjangan akses pendidikan di daerah 3T (Terdepan, Terluar, Tertinggal) di Indonesia. Kami akan menggunakan kendaraan yang dimodifikasi untuk membawa ribuan buku, alat tulis, dan fasilitas belajar ke desa-desa yang sulit dijangkau. Selain itu, kami juga akan mengadakan kegiatan membaca, workshop literasi, dan bimbingan belajar singkat untuk anak-anak. Dana akan digunakan untuk pembelian dan modifikasi kendaraan, pengadaan buku dan materi belajar, serta operasional tim relawan di lapangan.",
+                    "donasi": {
+                        "target": 45000000,
+                        "terkumpul": 40950000
+                    },
+                    "jumlah_donatur": 130,
+                    "persentase_terkumpul": 91,
+                    "status": "Berjalan",
+                    "tanggal_dimulai": "2024-09-15",
+                    "tenggat_waktu": "2025-11-05",
+                    "tim_proyek": [
+                        {"nama": "Nia Kurniasih", "peran": "Koordinator Proyek"},
+                        {"nama": "Joko Susilo", "peran": "Logistik & Transportasi"},
+                        {"nama": "Relawan Pendidikan", "peran": "Tim Lapangan"}
+                    ]
+                },
+                "proj-009": {
+                    "id": "proj-009",
+                    "judul": "Alat Deteksi Dini Stunting Portabel",
+                    "gambar_url": [
+                        "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1623955620163-5e92b8d03099?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1616788812684-2f22b8f4112e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                        "https://images.unsplash.com/photo-1594916307379-45e05c75c02b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    ],
+                    "pembuat": "Dr. Arif Rahman",
+                    "kategori": ["teknologi", "kesehatan"],
+                    "detail_singkat": "Perangkat murah dan mudah digunakan untuk deteksi dini risiko stunting pada balita.",
+                    "deskripsi_lengkap": "Stunting adalah masalah serius di Indonesia. Proyek ini mengembangkan perangkat deteksi dini stunting yang portabel, terjangkau, dan mudah digunakan oleh tenaga kesehatan di lapangan atau bahkan orang tua. Alat ini akan mengukur parameter pertumbuhan anak (tinggi, berat badan, lingkar kepala) dan secara otomatis mengidentifikasi risiko stunting dengan akurasi tinggi. Tujuannya adalah mempercepat intervensi dan pencegahan stunting. Dana akan dipakai untuk riset dan pengembangan prototipe, sertifikasi medis, produksi massal awal, dan distribusi ke posyandu di daerah terpencil.",
+                    "donasi": {
+                        "target": 80000000,
+                        "terkumpul": 54400000
+                    },
+                    "jumlah_donatur": 90,
+                    "persentase_terkumpul": 68,
+                    "status": "Prototipe",
+                    "tanggal_dimulai": "2025-02-01",
+                    "tenggat_waktu": "2026-01-25",
+                    "tim_proyek": [
+                        {"nama": "Dr. Arif Rahman", "peran": "Project Lead & Medical Expert"},
+                        {"nama": "Lisa Anggraini", "peran": "Hardware Engineer"},
+                        {"nama": "Tomo Putra", "peran": "Software Developer"}
+                    ]
+                }
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+            const project = projects[projectId];
+
+            if (project) {
+                document.getElementById('campaignTitle').textContent = project.judul;
+                document.getElementById('campaignCreator').textContent = `Oleh: ${project.pembuat}`;
+                document.getElementById('shortDescription').textContent = project.detail_singkat;
+                document.getElementById('fullDescription').textContent = project.deskripsi_lengkap;
+
+                // Update hero background image
+                const campaignHero = document.getElementById('campaignHero');
+                if (project.gambar_url && project.gambar_url.length > 0) {
+                    campaignHero.style.backgroundImage = `linear-gradient(rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.8)), url('${project.gambar_url[0]}')`;
+                }
+
+                // Populate badges
+                const campaignBadges = document.getElementById('campaignBadges');
+                campaignBadges.innerHTML = `<span class="badge badge-active">${project.status}</span>`;
+                project.kategori.forEach(category => {
+                    const span = document.createElement('span');
+                    span.classList.add('badge', 'badge-category');
+                    span.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                    campaignBadges.appendChild(span);
+                });
+
+                // Populate gallery
+                updateGallery(project.gambar_url);
+
+                // Populate donation sidebar
+                document.getElementById('donasiTerkumpul').textContent = formatRupiah(project.donasi.terkumpul);
+                document.getElementById('persentaseTerkumpul').textContent = `${project.persentase_terkumpul}% tercapai`;
+                document.getElementById('progressBar').style.width = `${project.persentase_terkumpul}%`;
+                document.getElementById('donasiTarget').textContent = `Target: ${formatRupiah(project.donasi.target)}`;
+                document.getElementById('tenggatWaktu').textContent = `Deadline: ${new Date(project.tenggat_waktu).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+                document.getElementById('jumlahDonatur').textContent = project.jumlah_donatur;
+                document.getElementById('hariLagi').textContent = getDaysRemaining(project.tenggat_waktu);
+
+                // Populate donor avatars (simple placeholder logic)
+                const donorAvatars = document.getElementById('donorAvatars');
+                donorAvatars.innerHTML = '';
+                const maxAvatars = 3; // Show a few avatars, then "+X others"
+                for (let i = 0; i < Math.min(project.jumlah_donatur, maxAvatars); i++) {
+                    const img = document.createElement('img');
+                    img.src = `https://randomuser.me/api/portraits/${i % 2 === 0 ? 'women' : 'men'}/${30 + i}.jpg`; // Placeholder random avatars
+                    img.alt = `Donor ${i + 1}`;
+                    img.classList.add('donor-avatar');
+                    donorAvatars.appendChild(img);
+                }
+                document.getElementById('otherDonors').textContent = `+ ${Math.max(0, project.jumlah_donatur - maxAvatars)} lainnya`;
+
+                // Populate team members
+                const projectTeam = document.getElementById('projectTeam');
+                projectTeam.innerHTML = '';
+                project.tim_proyek.forEach(member => {
+                    const div = document.createElement('div');
+                    div.classList.add('bg-gray-100', 'p-6', 'rounded-lg', 'flex', 'items-center', 'space-x-4');
+                    div.innerHTML = `
+                        <div class="w-16 h-16 rounded-full bg-green-200 flex items-center justify-center text-green-700 text-2xl font-bold">
+                            ${member.nama.charAt(0)}
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">${member.nama}</h3>
+                            <p class="text-gray-600">${member.peran}</p>
+                        </div>
+                    `;
+                    projectTeam.appendChild(div);
+                });
+
+                // Populate comments (placeholder data)
+                const commentsSection = document.getElementById('commentsSection');
+                commentsSection.innerHTML = `
+                    <div class="bg-white rounded-xl soft-shadow p-6 card-hover">
+                        <div class="flex items-start mb-4">
+                            <div class="comment-avatar mr-4">A</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Donatur Anonim</h4>
+                                <p class="text-gray-500 text-sm">16 Juli 2025</p>
+                            </div>
+                        </div>
+                        <div class="text-gray-600 pl-16 mb-4">
+                            <p>"Sangat menginspirasi! Semoga proyek ini sukses!"</p>
+                        </div>
+                        <div class="pl-16">
+                            <button class="text-gray-500 hover:text-red-500 transition-colors">
+                                <i class="far fa-heart mr-1"></i> 24 Suka
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl soft-shadow p-6 card-hover">
+                        <div class="flex items-start mb-4">
+                            <div class="comment-avatar mr-4">B</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Budi Santoso</h4>
+                                <p class="text-gray-500 text-sm">14 Juli 2025</p>
+                            </div>
+                        </div>
+                        <div class="text-gray-600 pl-16 mb-4">
+                            <p>"Senang bisa berkontribusi untuk masa depan Indonesia!"</p>
+                        </div>
+                        <div class="pl-16">
+                            <button class="text-gray-500 hover:text-red-500 transition-colors">
+                                <i class="far fa-heart mr-1"></i> 18 Suka
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Handle project not found
+                document.getElementById('campaignTitle').textContent = 'Proyek Tidak Ditemukan';
+                document.getElementById('shortDescription').textContent = 'Maaf, proyek yang Anda cari tidak ada.';
+                // Hide other sections or show an error message
+            }
+        });
+    </script>
+</body>
+</html>
