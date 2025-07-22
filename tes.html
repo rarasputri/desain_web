@@ -15,6 +15,91 @@
             font-family: 'Inter', sans-serif;
         }
         
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loading-logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 2rem;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                transform: scale(1);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+            50% { 
+                transform: scale(1.05);
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            }
+        }
+        
+        .loading-progress {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .loading-bar {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            animation: loading-animation 3s ease-in-out;
+            transform-origin: left;
+        }
+        
+        @keyframes loading-animation {
+            0% { transform: scaleX(0); }
+            50% { transform: scaleX(0.7); }
+            100% { transform: scaleX(1); }
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            animation: fade-in-out 2s ease-in-out infinite;
+        }
+        
+        @keyframes fade-in-out {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        /* Three.js Loading Canvas */
+        #loading-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
         .glass-effect {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -105,6 +190,18 @@
     </style>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <canvas id="loading-canvas"></canvas>
+        <div class="loading-logo">
+            <i class="fas fa-seedling mr-3"></i>
+            KaryaMuda
+        </div>
+        <div class="loading-progress">
+            <div class="loading-bar"></div>
+        </div>
+        <div class="loading-text">Memuat Platform Inovasi...</div>
+    </div>
     <!-- Three.js Background Canvas -->
     <canvas id="three-canvas"></canvas>
 
@@ -487,7 +584,84 @@
     </footer>
 
     <script>
-        // Three.js Background Animation
+        // Loading Screen Three.js Animation
+        let loadingScene, loadingCamera, loadingRenderer;
+        let loadingGeometry, loadingMesh;
+        let loadingParticles = [];
+
+        function initLoadingAnimation() {
+            const canvas = document.getElementById('loading-canvas');
+            loadingScene = new THREE.Scene();
+            loadingCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            loadingRenderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true
+            });
+            
+            loadingRenderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Create animated geometry
+            const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3
+            });
+            
+            loadingMesh = new THREE.Mesh(geometry, material);
+            loadingScene.add(loadingMesh);
+            
+            // Create floating particles
+            const particleGeometry = new THREE.BufferGeometry();
+            const particleVertices = [];
+            
+            for (let i = 0; i < 500; i++) {
+                particleVertices.push(
+                    (Math.random() - 0.5) * 200,
+                    (Math.random() - 0.5) * 200,
+                    (Math.random() - 0.5) * 200
+                );
+            }
+            
+            particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(particleVertices, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 2,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            loadingScene.add(particles);
+            loadingParticles.push(particles);
+            
+            loadingCamera.position.z = 50;
+            
+            animateLoading();
+        }
+        
+        function animateLoading() {
+            requestAnimationFrame(animateLoading);
+            
+            // Rotate the torus knot
+            if (loadingMesh) {
+                loadingMesh.rotation.x += 0.01;
+                loadingMesh.rotation.y += 0.02;
+                loadingMesh.rotation.z += 0.005;
+            }
+            
+            // Animate particles
+            loadingParticles.forEach(particle => {
+                particle.rotation.x += 0.001;
+                particle.rotation.y += 0.002;
+            });
+            
+            loadingRenderer.render(loadingScene, loadingCamera);
+        }
+        
+        // Main Three.js Background Animation
         let scene, camera, renderer, particles;
 
         function initThreeJS() {
@@ -537,6 +711,53 @@
             
             renderer.render(scene, camera);
         }
+        
+        // Loading Screen Management
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingTexts = [
+                'Memuat Platform Inovasi...',
+                'Menyiapkan Showcase Karya...',
+                'Menghubungkan Komunitas...',
+                'Hampir Selesai...',
+                'Selamat Datang!'
+            ];
+            
+            let textIndex = 0;
+            const loadingText = document.querySelector('.loading-text');
+            
+            const textInterval = setInterval(() => {
+                if (textIndex < loadingTexts.length - 1) {
+                    loadingText.textContent = loadingTexts[++textIndex];
+                } else {
+                    clearInterval(textInterval);
+                }
+            }, 600);
+            
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+                
+                // Initialize main Three.js after loading
+                setTimeout(() => {
+                    initThreeJS();
+                }, 500);
+                
+                // Clean up loading animation
+                if (loadingRenderer) {
+                    loadingRenderer.dispose();
+                }
+            }, 3500);
+        }
+        
+        // Start loading animation immediately
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.overflow = 'hidden';
+            initLoadingAnimation();
+            
+            // Simulate loading time
+            hideLoadingScreen();
+        });
         
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
@@ -755,7 +976,9 @@
         });
         
         // Initialize Three.js when page loads
-        window.addEventListener('load', initThreeJS);
+        window.addEventListener('load', () => {
+            // Loading screen is already handled in DOMContentLoaded
+        });
         
         // Handle window resize for Three.js
         window.addEventListener('resize', () => {
@@ -763,6 +986,12 @@
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+            
+            if (loadingCamera && loadingRenderer) {
+                loadingCamera.aspect = window.innerWidth / window.innerHeight;
+                loadingCamera.updateProjectionMatrix();
+                loadingRenderer.setSize(window.innerWidth, window.innerHeight);
             }
         });
         
