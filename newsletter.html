@@ -1,820 +1,820 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog & Newsletter - KaryaMuda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sociotech - Blog & Newsletter</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./assets/logo/logo_transparent.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #93c5fd;
-            --secondary: #f59e0b;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --light-gray: #e2e8f0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Navbar */
-        nav {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo i {
-            margin-right: 10px;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links .btn-donate {
-            background-color: var(--primary);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-        }
-
-        .nav-links .btn-donate:hover {
-            background-color: var(--primary-dark);
-            color: white;
-        }
-
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        /* Hero Section */
-        .blog-hero {
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
-            padding: 80px 0;
-            text-align: center;
-            color: white;
-            margin-bottom: 60px;
-        }
-
-        .blog-hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .blog-hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-
-        /* Blog Content */
-        .blog-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-        }
-
-        @media (min-width: 992px) {
-            .blog-container {
-                grid-template-columns: 2fr 1fr;
-            }
-        }
-
-        /* Blog Posts */
-        .blog-posts {
-            display: grid;
-            gap: 40px;
-        }
-
-        .blog-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .blog-image {
-            height: 250px;
-            overflow: hidden;
-        }
-
-        .blog-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .blog-card:hover .blog-image img {
-            transform: scale(1.05);
-        }
-
-        .blog-content {
-            padding: 25px;
-        }
-
-        .blog-category {
-            display: inline-block;
-            background-color: var(--primary-light);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .blog-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-
-        .blog-excerpt {
-            color: var(--gray);
-            margin-bottom: 20px;
-        }
-
-        .blog-meta {
-            display: flex;
-            align-items: center;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .blog-meta i {
-            margin-right: 5px;
-        }
-
-        .blog-meta span {
-            margin-right: 15px;
-        }
-
-        .read-more {
-            display: inline-block;
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-            margin-top: 15px;
-            transition: color 0.3s;
-        }
-
-        .read-more:hover {
-            color: var(--primary-dark);
-        }
-
-        /* Newsletter Sidebar */
-        .newsletter-sidebar {
-            position: sticky;
-            top: 100px;
-        }
-
-        .sidebar-card {
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-title {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--dark);
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .sidebar-title::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--primary);
-        }
-
-        .newsletter-form {
-            display: grid;
-            gap: 15px;
-        }
-
-        .form-group {
-            display: grid;
-            gap: 5px;
-        }
-
-        .form-group label {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .form-control {
-            padding: 12px 15px;
-            border: 1px solid var(--light-gray);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn-subscribe {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn-subscribe:hover {
-            background-color: var(--primary-dark);
-        }
-
-        /* Popular Posts */
-        .popular-post {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .popular-post:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .popular-post-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 6px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .popular-post-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .popular-post-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .popular-post-date {
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        /* Categories */
-        .category-list {
-            list-style: none;
-        }
-
-        .category-item {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .category-item:last-child {
-            border-bottom: none;
-        }
-
-        .category-link {
-            display: flex;
-            justify-content: space-between;
-            color: var(--dark);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .category-link:hover {
-            color: var(--primary);
-        }
-
-        .category-count {
-            background-color: var(--light-gray);
-            color: var(--dark);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-        }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
-        }
-
-        .page-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            margin: 0 5px;
-            border-radius: 6px;
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .page-link:hover {
-            background-color: var(--light-gray);
-        }
-
-        .page-link.active {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 60px 0 20px;
-            margin-top: 60px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--primary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: var(--light-gray);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: var(--light-gray);
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 70px);
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                padding: 40px 0;
-                transition: left 0.3s;
-            }
-            
-            .nav-links.active {
-                left: 0;
-            }
-            
-            .nav-links li {
-                margin: 15px 0;
-            }
-            
-            .blog-hero h1 {
-                font-size: 2rem;
-            }
-            
-            .blog-hero p {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .blog-hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .blog-image {
-                height: 200px;
-            }
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          #10b981 0%,
+          #059669 50%,
+          #047857 100%
+        );
+      }
+
+      .soft-shadow {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
+      }
+
+      .floating-animation {
+        animation: floating 3s ease-in-out infinite;
+      }
+
+      @keyframes floating {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .pulse-grow {
+        animation: pulse-grow 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-grow {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      #three-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        position: fixed;
+        opacity: 0.6;
+      }
+
+      .progress-bar {
+        height: 8px;
+        background: linear-gradient(90deg, #10b981, #059669);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #10b981, #059669);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #059669, #047857);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+      }
+
+      .nav-blur {
+        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease;
+      }
+
+      .text-gradient {
+        background: linear-gradient(135deg, #10b981, #059669);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Blog specific styles */
+      .blog-hero {
+        background: linear-gradient(135deg, #10b981, #059669);
+        padding: 120px 0 80px;
+        text-align: center;
+        color: white;
+        margin-bottom: 60px;
+      }
+
+      .blog-card {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .blog-image {
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .blog-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+
+      .blog-card:hover .blog-image img {
+        transform: scale(1.05);
+      }
+
+      .blog-content {
+        padding: 25px;
+      }
+
+      .blog-category {
+        display: inline-block;
+        background-color: #d1fae5;
+        color: #059669;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .blog-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #1f2937;
+      }
+
+      .blog-excerpt {
+        color: #6b7280;
+        margin-bottom: 20px;
+      }
+
+      .blog-meta {
+        display: flex;
+        align-items: center;
+        color: #6b7280;
+        font-size: 0.9rem;
+      }
+
+      .blog-meta i {
+        margin-right: 5px;
+      }
+
+      .blog-meta span {
+        margin-right: 15px;
+      }
+
+      .read-more {
+        display: inline-block;
+        color: #059669;
+        font-weight: 600;
+        text-decoration: none;
+        margin-top: 15px;
+        transition: color 0.3s;
+      }
+
+      .read-more:hover {
+        color: #047857;
+      }
+
+      .sidebar-card {
+        background-color: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar-title {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: #1f2937;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .sidebar-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        height: 2px;
+        background-color: #10b981;
+      }
+
+      .form-control {
+        padding: 12px 15px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+        width: 100%;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+      }
+
+      .popular-post {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .popular-post-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .popular-post-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .popular-post-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #1f2937;
+      }
+
+      .popular-post-date {
+        font-size: 0.8rem;
+        color: #6b7280;
+      }
+
+      .category-list {
+        list-style: none;
+      }
+
+      .category-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .category-link {
+        display: flex;
+        justify-content: space-between;
+        color: #1f2937;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .category-link:hover {
+        color: #10b981;
+      }
+
+      .category-count {
+        background-color: #e5e7eb;
+        color: #1f2937;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin: 0 5px;
+        border-radius: 8px;
+        color: #1f2937;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+
+      .page-link:hover {
+        background-color: #e5e7eb;
+      }
+
+      .page-link.active {
+        background-color: #10b981;
+        color: white;
+      }
     </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav>
-        <div class="container">
-            <div class="navbar">
-                <a href="#" class="logo">
-                    <i class="fas fa-lightbulb"></i>
-                    KaryaMuda
-                </a>
-                <ul class="nav-links">
-                    <li><a href="home.html">Beranda</a></li>
-                    <li><a href="karya.html">Karya</a></li>
-                    <li><a href="newsletter.html">Berita</a></li>
-                    <li><a href="about.html">Tentang</a></li>
-                    <li><a href="#kontak">Kontak</a></li>
-                    <li><a href="form-donasi.html" class="btn-donate">Donasi Sekarang</a></li>
-                </ul>
-                <div class="hamburger">
-                    <i class="fas fa-bars"></i>
-                </div>
+  </head>
+  <body class="bg-gray-50 overflow-x-hidden">
+    <canvas id="three-canvas"></canvas>
+    <nav id="main-navbar" class="fixed top-0 w-full z-50 nav-blur border-b border-white/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-2 flex-shrink-0">
+              <img src="./assets/logo/logo_background_large.png" alt="Sociotech Logo" class="w-10 h-10" />
+              <span class="text-2xl font-bold text-gradient">Sociotech</span>
             </div>
+            <ul class="hidden md:flex flex-1 justify-center items-center space-x-8 font-medium">
+              <li>
+                <a href="home.html" class="text-gray-700 hover:text-green-600 transition-colors">Beranda</a>
+              </li>
+              <li>
+                <a href="karya.html" class="text-gray-700 hover:text-green-600 transition-colors">Karya</a>
+              </li>
+              <li>
+                <a href="newsletter.html" class="text-gray-700 hover:text-green-600 transition-colors">Berita</a>
+              </li>
+              <li>
+                <a href="about.html" class="text-gray-700 hover:text-green-600 transition-colors">Tentang</a>
+              </li>
+              <li>
+                <a href="#kontak" class="text-gray-700 hidden hover:text-green-600 transition-colors">Kontak</a>
+              </li>
+              <li>
+                <a href="form-donasi.html"
+                  class="btn-primary text-white px-4 py-2 rounded-full hidden sm:block font-semibold transition">Donasi
+                  Sekarang</a>
+              </li>
+            </ul>
+            <div class="hidden md:flex items-center space-x-4" id="user-section"></div>
+            <button class="md:hidden text-gray-700" id="mobile-menu-btn" aria-label="Menu">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
         </div>
-    </nav>
-
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+          <div class="px-4 py-2 space-y-2">
+            <a href="home.html" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
+            <a href="karya.html" class="block py-2 text-gray-700 hover:text-green-600">Karya</a>
+            <a href="newsletter.html" class="block py-2 text-gray-700 hover:text-green-600">Berita</a>
+            <a href="about.html" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
+            <a href="#kontak" class="block py-2 text-gray-700 hover:text-green-600">Kontak</a>
+            <a href="form-donasi.html"
+              class="block btn-primary text-white px-4 py-2 rounded-full font-semibold text-center mt-2">Donasi Sekarang</a>
+            <div id="user-section-mobile" class="pt-2 border-t border-gray-100"></div>
+          </div>
+        </div>
+      </nav>
+      <script>
+        // Floating Navbar on Scroll
+        window.addEventListener("scroll", function () {
+          const nav = document.getElementById("main-navbar");
+          if (window.scrollY > 10) {
+            nav.classList.add("shadow-lg", "bg-white", "backdrop-blur-md");
+            nav.classList.remove("nav-blur");
+          } else {
+            nav.classList.remove("shadow-lg", "bg-white", "backdrop-blur-md");
+            nav.classList.add("nav-blur");
+          }
+        });
+    
+        // User/Guest Section Logic
+        function renderUserSection() {
+          // Simulasi: ganti ke true jika user sudah login
+          const isLoggedIn = false; // Ubah ke true untuk simulasi user login
+          const userSection = document.getElementById("user-section");
+          const userSectionMobile = document.getElementById(
+            "user-section-mobile"
+          );
+          if (isLoggedIn) {
+            userSection.innerHTML = `
+            <span class="text-gray-700 font-medium flex items-center gap-2">
+              <i class="fas fa-user-circle text-green-600 text-xl"></i>
+              <span>Halo, <b>User</b></span>
+            </span>
+            <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
+          `;
+            userSectionMobile.innerHTML = `
+            <div class="flex items-center gap-2 py-2">
+              <i class="fas fa-user-circle text-green-600 text-xl"></i>
+              <span>Halo, <b>User</b></span>
+            </div>
+            <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
+          `;
+          } else {
+            userSection.innerHTML = `
+            <span class="text-gray-500 font-medium">Guest</span>
+            <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
+            <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
+          `;
+            userSectionMobile.innerHTML = `
+            <div class="py-2 text-gray-500 font-medium">Guest</div>
+            <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
+            <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
+          `;
+          }
+        }
+        renderUserSection();
+    
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenuBtn.addEventListener("click", function () {
+          mobileMenu.classList.toggle("hidden");
+          const icon = mobileMenuBtn.querySelector("i");
+          icon.className = mobileMenu.classList.contains("hidden")
+            ? "fas fa-bars text-xl"
+            : "fas fa-times text-xl";
+        });
+      </script>
+    
     <!-- Blog Hero -->
     <section class="blog-hero" data-aos="fade">
-        <div class="container">
-            <h1>Blog & Newsletter KaryaMuda</h1>
-            <p>Temukan inspirasi, berita terbaru, dan tips seputar kreativitas anak muda Indonesia</p>
-        </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6">Blog & Newsletter Sociotech</h1>
+        <p class="text-xl max-w-3xl mx-auto">Temukan inspirasi, berita terbaru, dan tips seputar kreativitas anak muda Indonesia</p>
+      </div>
     </section>
 
     <!-- Blog Content -->
-    <div id="blog" class="container">
-        <div class="blog-container">
-            <main class="blog-posts">
-                <!-- Blog Post 1 -->
-                <article class="blog-card" data-aos="fade-up">
-                    <div class="blog-image">
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Blog Post 1">
-                    </div>
-                    <div class="blog-content">
-                        <span class="blog-category">Inspirasi</span>
-                        <h2 class="blog-title">5 Karya Anak Muda yang Mengubah Lingkungan Sekitarnya</h2>
-                        <p class="blog-excerpt">Kisah inspiratif tentang bagaimana anak muda dengan ide sederhana mampu menciptakan perubahan besar di komunitas mereka...</p>
-                        <div class="blog-meta">
-                            <span><i class="far fa-calendar-alt"></i> 15 Juli 2025</span>
-                            <span><i class="far fa-eye"></i> 1.2K Views</span>
-                            <span><i class="far fa-comments"></i> 24 Komentar</span>
-                        </div>
-                        <a href="#" class="read-more">Baca Selengkapnya →</a>
-                    </div>
-                </article>
-
-                <!-- Blog Post 2 -->
-                <article class="blog-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="blog-image">
-                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Blog Post 2">
-                    </div>
-                    <div class="blog-content">
-                        <span class="blog-category">Tips</span>
-                        <h2 class="blog-title">Cara Mengajukan Proyek Kreatif untuk Mendapatkan Pendanaan</h2>
-                        <p class="blog-excerpt">Panduan lengkap untuk mengajukan proyek kreatif Anda di platform KaryaMuda dan meningkatkan peluang mendapatkan dukungan...</p>
-                        <div class="blog-meta">
-                            <span><i class="far fa-calendar-alt"></i> 10 Juli 2025</span>
-                            <span><i class="far fa-eye"></i> 890 Views</span>
-                            <span><i class="far fa-comments"></i> 15 Komentar</span>
-                        </div>
-                        <a href="#" class="read-more">Baca Selengkapnya →</a>
-                    </div>
-                </article>
-
-                <!-- Blog Post 3 -->
-                <article class="blog-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="blog-image">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Blog Post 3">
-                    </div>
-                    <div class="blog-content">
-                        <span class="blog-category">Kisah Sukses</span>
-                        <h2 class="blog-title">Dari Ide Sederhana Menjadi Bisnis Sosial: Kisah Komposter Portable</h2>
-                        <p class="blog-excerpt">Bagaimana sebuah ide sederhana tentang pengomposan sampah berkembang menjadi bisnis sosial yang berdampak...</p>
-                        <div class="blog-meta">
-                            <span><i class="far fa-calendar-alt"></i> 5 Juli 2025</span>
-                            <span><i class="far fa-eye"></i> 1.5K Views</span>
-                            <span><i class="far fa-comments"></i> 32 Komentar</span>
-                        </div>
-                        <a href="#" class="read-more">Baca Selengkapnya →</a>
-                    </div>
-                </article>
-
-                <!-- Pagination -->
-                <div class="pagination" data-aos="fade-up">
-                    <a href="#" class="page-link active">1</a>
-                    <a href="#" class="page-link">2</a>
-                    <a href="#" class="page-link">3</a>
-                    <a href="#" class="page-link">4</a>
-                    <a href="#" class="page-link">→</a>
+    <section class="py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="md:col-span-2">
+            <!-- Blog Post 1 -->
+            <article class="blog-card mb-8" data-aos="fade-up">
+              <div class="blog-image">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Blog Post 1">
+              </div>
+              <div class="blog-content">
+                <span class="blog-category">Inspirasi</span>
+                <h2 class="blog-title">5 Karya Anak Muda yang Mengubah Lingkungan Sekitarnya</h2>
+                <p class="blog-excerpt">Kisah inspiratif tentang bagaimana anak muda dengan ide sederhana mampu menciptakan perubahan besar di komunitas mereka...</p>
+                <div class="blog-meta">
+                  <span><i class="far fa-calendar-alt"></i> 15 Juli 2025</span>
+                  <span><i class="far fa-eye"></i> 1.2K Views</span>
+                  <span><i class="far fa-comments"></i> 24 Komentar</span>
                 </div>
-            </main>
+                <a href="#" class="read-more">Baca Selengkapnya →</a>
+              </div>
+            </article>
 
-            <!-- Sidebar -->
-            <aside class="newsletter-sidebar">
-                <!-- Newsletter Form -->
-                <div class="sidebar-card" data-aos="fade-left">
-                    <h3 class="sidebar-title">Berlangganan Newsletter</h3>
-                    <p style="margin-bottom: 20px; color: var(--gray);">Dapatkan update terbaru tentang proyek kreatif dan artikel inspiratif langsung ke email Anda</p>
-                    <form class="newsletter-form">
-                        <div class="form-group">
-                            <label for="name">Nama Lengkap</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Alamat Email</label>
-                            <input type="email" id="email" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn-subscribe">Berlangganan Sekarang</button>
-                    </form>
+            <!-- Blog Post 2 -->
+            <article class="blog-card mb-8" data-aos="fade-up" data-aos-delay="100">
+              <div class="blog-image">
+                <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Blog Post 2">
+              </div>
+              <div class="blog-content">
+                <span class="blog-category">Tips</span>
+                <h2 class="blog-title">Cara Mengajukan Proyek Kreatif untuk Mendapatkan Pendanaan</h2>
+                <p class="blog-excerpt">Panduan lengkap untuk mengajukan proyek kreatif Anda di platform Sociotech dan meningkatkan peluang mendapatkan dukungan...</p>
+                <div class="blog-meta">
+                  <span><i class="far fa-calendar-alt"></i> 10 Juli 2025</span>
+                  <span><i class="far fa-eye"></i> 890 Views</span>
+                  <span><i class="far fa-comments"></i> 15 Komentar</span>
                 </div>
+                <a href="#" class="read-more">Baca Selengkapnya →</a>
+              </div>
+            </article>
 
-                <!-- Popular Posts -->
-                <div class="sidebar-card" data-aos="fade-left" data-aos-delay="100">
-                    <h3 class="sidebar-title">Populer Minggu Ini</h3>
-                    <div class="popular-posts">
-                        <div class="popular-post">
-                            <div class="popular-post-image">
-                                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Popular Post 1">
-                            </div>
-                            <div>
-                                <h4 class="popular-post-title">10 Platform Crowdfunding Terbaik untuk Kreator Muda</h4>
-                                <p class="popular-post-date">12 Juli 2025</p>
-                            </div>
-                        </div>
-                        <div class="popular-post">
-                            <div class="popular-post-image">
-                                <img src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Popular Post 2">
-                            </div>
-                            <div>
-                                <h4 class="popular-post-title">Workshop Gratis: Mengubah Ide Kreatif Menjadi Proyek Nyata</h4>
-                                <p class="popular-post-date">8 Juli 2025</p>
-                            </div>
-                        </div>
-                        <div class="popular-post">
-                            <div class="popular-post-image">
-                                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Popular Post 3">
-                            </div>
-                            <div>
-                                <h4 class="popular-post-title">Kisah Sukses: Aplikasi Edukasi untuk Anak Berkebutuhan Khusus</h4>
-                                <p class="popular-post-date">3 Juli 2025</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Blog Post 3 -->
+            <article class="blog-card mb-8" data-aos="fade-up" data-aos-delay="200">
+              <div class="blog-image">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Blog Post 3">
+              </div>
+              <div class="blog-content">
+                <span class="blog-category">Kisah Sukses</span>
+                <h2 class="blog-title">Dari Ide Sederhana Menjadi Bisnis Sosial: Kisah Komposter Portable</h2>
+                <p class="blog-excerpt">Bagaimana sebuah ide sederhana tentang pengomposan sampah berkembang menjadi bisnis sosial yang berdampak...</p>
+                <div class="blog-meta">
+                  <span><i class="far fa-calendar-alt"></i> 5 Juli 2025</span>
+                  <span><i class="far fa-eye"></i> 1.5K Views</span>
+                  <span><i class="far fa-comments"></i> 32 Komentar</span>
                 </div>
+                <a href="#" class="read-more">Baca Selengkapnya →</a>
+              </div>
+            </article>
 
-                <!-- Categories -->
-                <div class="sidebar-card" data-aos="fade-left" data-aos-delay="200">
-                    <h3 class="sidebar-title">Kategori</h3>
-                    <ul class="category-list">
-                        <li class="category-item">
-                            <a href="#" class="category-link">
-                                <span>Inspirasi</span>
-                                <span class="category-count">24</span>
-                            </a>
-                        </li>
-                        <li class="category-item">
-                            <a href="#" class="category-link">
-                                <span>Tips</span>
-                                <span class="category-count">18</span>
-                            </a>
-                        </li>
-                        <li class="category-item">
-                            <a href="#" class="category-link">
-                                <span>Kisah Sukses</span>
-                                <span class="category-count">15</span>
-                            </a>
-                        </li>
-                        <li class="category-item">
-                            <a href="#" class="category-link">
-                                <span>Pengumuman</span>
-                                <span class="category-count">8</span>
-                            </a>
-                        </li>
-                        <li class="category-item">
-                            <a href="#" class="category-link">
-                                <span>Event</span>
-                                <span class="category-count">12</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer id="kontak">
-        <div class="container">
-            <div class="footer-content">
-                <!-- Column 1 -->
-                <div class="footer-column">
-                    <h3>Tentang KaryaMuda</h3>
-                    <p style="color: var(--light-gray); margin-bottom: 20px;">Platform untuk menyalurkan kreativitas anak muda Indonesia melalui dukungan komunitas.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-
-                <!-- Column 2 -->
-                <div class="footer-column">
-                    <h3>Menu</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Beranda</a></li>
-                        <li><a href="#">Karya</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Kontak</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3 -->
-                <div class="footer-column">
-                    <h3>Kategori Blog</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Inspirasi</a></li>
-                        <li><a href="#">Tips</a></li>
-                        <li><a href="#">Kisah Sukses</a></li>
-                        <li><a href="#">Pengumuman</a></li>
-                        <li><a href="#">Event</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 4 -->
-                <div class="footer-column">
-                    <h3>Kontak</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@karyamuda.id</li>
-                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +62 812 3456 7890</li>
-                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Jakarta, Indonesia</li>
-                    </ul>
-                </div>
+            <!-- Pagination -->
+            <div class="pagination" data-aos="fade-up">
+              <a href="#" class="page-link active">1</a>
+              <a href="#" class="page-link">2</a>
+              <a href="#" class="page-link">3</a>
+              <a href="#" class="page-link">4</a>
+              <a href="#" class="page-link">→</a>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 KaryaMuda. All rights reserved.</p>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="md:col-span-1">
+            <!-- Newsletter Form -->
+            <div class="sidebar-card mb-6" data-aos="fade-left">
+              <h3 class="sidebar-title">Berlangganan Newsletter</h3>
+              <p class="text-gray-600 mb-4">Dapatkan update terbaru tentang proyek kreatif dan artikel inspiratif langsung ke email Anda</p>
+              <form class="space-y-4">
+                <div>
+                  <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                  <input type="text" id="name" class="form-control" required>
+                </div>
+                <div>
+                  <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Alamat Email</label>
+                  <input type="email" id="email" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-primary text-white px-4 py-3 rounded-lg w-full font-semibold">
+                  Berlangganan Sekarang
+                </button>
+              </form>
             </div>
+
+            <!-- Popular Posts -->
+            <div class="sidebar-card mb-6" data-aos="fade-left" data-aos-delay="100">
+              <h3 class="sidebar-title">Populer Minggu Ini</h3>
+              <div class="space-y-4">
+                <div class="popular-post">
+                  <div class="popular-post-image">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Popular Post 1">
+                  </div>
+                  <div>
+                    <h4 class="popular-post-title">10 Platform Crowdfunding Terbaik untuk Kreator Muda</h4>
+                    <p class="popular-post-date">12 Juli 2025</p>
+                  </div>
+                </div>
+                <div class="popular-post">
+                  <div class="popular-post-image">
+                    <img src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Popular Post 2">
+                  </div>
+                  <div>
+                    <h4 class="popular-post-title">Workshop Gratis: Mengubah Ide Kreatif Menjadi Proyek Nyata</h4>
+                    <p class="popular-post-date">8 Juli 2025</p>
+                  </div>
+                </div>
+                <div class="popular-post">
+                  <div class="popular-post-image">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Popular Post 3">
+                  </div>
+                  <div>
+                    <h4 class="popular-post-title">Kisah Sukses: Aplikasi Edukasi untuk Anak Berkebutuhan Khusus</h4>
+                    <p class="popular-post-date">3 Juli 2025</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="sidebar-card" data-aos="fade-left" data-aos-delay="200">
+              <h3 class="sidebar-title">Kategori</h3>
+              <ul class="category-list">
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <span>Inspirasi</span>
+                    <span class="category-count">24</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <span>Tips</span>
+                    <span class="category-count">18</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <span>Kisah Sukses</span>
+                    <span class="category-count">15</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <span>Pengumuman</span>
+                    <span class="category-count">8</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <span>Event</span>
+                    <span class="category-count">12</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div class="md:col-span-2">
+            <div class="flex items-center space-x-2 mb-6">
+              <img
+                src="./assets/logo/logo_transparent.png"
+                alt="Sociotech Logo"
+                class="w-10 h-10"
+              />
+              <span class="text-3xl font-bold">Sociotech</span>
+            </div>
+            <p class="text-gray-400 mb-6 max-w-md">
+              Platform terdepan untuk mendukung inovasi dan kreativitas anak
+              muda Indonesia menuju masa depan yang lebih baik.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-6">Platform</h4>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Showcase Karya</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Cara Donasi</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Bergabung</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >FAQ</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-6">Perusahaan</h4>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Tentang Kami</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Tim</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Karir</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS (Animate On Scroll)
-        AOS.init({
-            duration: 800,
-            once: true
-        });
+      // Initialize AOS (Animate On Scroll)
+      AOS.init({
+          duration: 800,
+          once: true
+      });
 
-        // Mobile Menu Toggle
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Newsletter form submission
-        const newsletterForm = document.querySelector('.newsletter-form');
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Terima kasih telah berlangganan newsletter kami!');
-                this.reset();
-            });
+      // Floating Navbar on Scroll
+      window.addEventListener("scroll", function () {
+        const nav = document.getElementById("main-navbar");
+        if (window.scrollY > 10) {
+          nav.classList.add("shadow-lg", "bg-white", "backdrop-blur-md");
+          nav.classList.remove("nav-blur");
+        } else {
+          nav.classList.remove("shadow-lg", "bg-white", "backdrop-blur-md");
+          nav.classList.add("nav-blur");
         }
+      });
+
+      // User/Guest Section Logic
+      function renderUserSection() {
+        // Simulasi: ganti ke true jika user sudah login
+        const isLoggedIn = false; // Ubah ke true untuk simulasi user login
+        const userSection = document.getElementById("user-section");
+        const userSectionMobile = document.getElementById(
+          "user-section-mobile"
+        );
+        if (isLoggedIn) {
+          userSection.innerHTML = `
+        <span class="text-gray-700 font-medium flex items-center gap-2">
+          <i class="fas fa-user-circle text-green-600 text-xl"></i>
+          <span>Halo, <b>User</b></span>
+        </span>
+        <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
+      `;
+          userSectionMobile.innerHTML = `
+        <div class="flex items-center gap-2 py-2">
+          <i class="fas fa-user-circle text-green-600 text-xl"></i>
+          <span>Halo, <b>User</b></span>
+        </div>
+        <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
+      `;
+        } else {
+          userSection.innerHTML = `
+        <span class="text-gray-500 font-medium">Guest</span>
+        <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
+        <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
+      `;
+          userSectionMobile.innerHTML = `
+        <div class="py-2 text-gray-500 font-medium">Guest</div>
+        <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
+        <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
+      `;
+        }
+      }
+      renderUserSection();c
+      // Newsletter form submission
+      const newsletterForm = document.querySelector('form');
+      if (newsletterForm) {
+          newsletterForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              alert('Terima kasih telah berlangganan newsletter kami!');
+              this.reset();
+          });
+      }
     </script>
-</body>
+  </body>
 </html>

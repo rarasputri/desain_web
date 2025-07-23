@@ -3,576 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pelajari Lebih Lanjut - KaryaMuda</title>
+    <title>Pelajari Lebih Lanjut - Sociotech</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- AOS Library for Animate On Scroll -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-      :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #93c5fd;
-            --secondary: #f59e0b;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --light-gray: #e2e8f0;
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      * {
+        font-family: "Inter", sans-serif;
+      }
 
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-        }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          #10b981 0%,
+          #059669 50%,
+          #047857 100%
+        );
+      }
 
-        nav {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+      .soft-shadow {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
+      .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
+      .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
+      }
 
-        .logo i {
-            margin-right: 10px;
-        }
+      .floating-animation {
+        animation: floating 3s ease-in-out infinite;
+      }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
+      @keyframes floating {
+        0%,
+        100% {
+          transform: translateY(0px);
         }
-
-        .nav-links li {
-            margin-left: 30px;
+        50% {
+          transform: translateY(-20px);
         }
+      }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s;
+      .pulse-grow {
+        animation: pulse-grow 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-grow {
+        0%,
+        100% {
+          transform: scale(1);
         }
-
-        .nav-links a:hover {
-            color: var(--primary);
+        50% {
+          transform: scale(1.05);
         }
+      }
 
-        .nav-links .btn-donate {
-            background-color: var(--primary);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-        }
+      #three-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        position: fixed;
+        opacity: 0.6;
+      }
 
-        .nav-links .btn-donate:hover {
-            background-color: var(--primary-dark);
-            color: white;
-        }
+      .progress-bar {
+        height: 8px;
+        background: linear-gradient(90deg, #10b981, #059669);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
 
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            font-size: 24px;
-            color: var(--primary);
-        }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
 
-        /* Responsive adjustments for navigation */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-            .nav-links {
-                position: fixed;
-                top: 70px; /* Adjust based on navbar height */
-                left: -100%; /* Hidden by default */
-                width: 100%;
-                height: calc(100vh - 70px);
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                padding: 40px 0;
-                transition: left 0.3s ease-in-out;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            }
-            .nav-links.active {
-                left: 0;
-            }
-            .nav-links li {
-                margin: 15px 0;
-            }
-            .nav-links a {
-                color: var(--dark);
-            }
-            .nav-links .btn-donate {
-                width: fit-content;
-            }
-        }
+      .card-hover:hover {
+        transform: scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
 
-        /* Hero Section for Learn More */
-        .hero-learn-more {
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
-            padding: 80px 0;
-            text-align: center;
-            color: white;
-        }
+      .btn-primary {
+        background: linear-gradient(135deg, #10b981, #059669);
+        transition: all 0.3s ease;
+      }
 
-        .hero-learn-more h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #059669, #047857);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+      }
 
-        .hero-learn-more h1:hover {
-            text-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover */
-        }
+      .nav-blur {
+        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease;
+      }
 
-        .hero-learn-more p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
+      .text-gradient {
+        background: linear-gradient(135deg, #10b981, #059669);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-        /* General Section Styles */
-        .section-common {
-            padding: 80px 0;
-            background-color: white;
-        }
+      /* About page specific styles */
+      .mvv-item {
+        background-color: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
 
-        .section-common:nth-child(even) {
-            background-color: var(--light); /* Alternate background for readability */
-        }
+      .mvv-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+      }
 
-        .section-title-common {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--dark);
-            text-align: center;
-            margin-bottom: 40px;
-        }
+      .mvv-item i {
+        font-size: 48px;
+        color: #10b981;
+        margin-bottom: 20px;
+      }
 
-        /* Mission, Vision, Values */
-        .mvv-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            text-align: center;
-        }
+      .how-it-works-item {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        margin-bottom: 40px;
+        padding: 30px;
+        border-radius: 16px;
+        background-color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
 
-        .mvv-item {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+      .how-it-works-item .icon-box {
+        min-width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        color: white;
+        flex-shrink: 0;
+      }
 
-        .mvv-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-        }
+      .impact-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
 
-        .mvv-item i {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
+      .impact-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+      }
 
-        .mvv-item h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 15px;
-        }
+      .impact-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
 
-        .mvv-item p {
-            font-size: 16px;
-            color: var(--gray);
-        }
+      .impact-card-content {
+        padding: 25px;
+      }
 
-        /* How It Works */
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
         .how-it-works-item {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            margin-bottom: 40px;
-            padding: 20px;
-            border-radius: 12px;
-            background-color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+          flex-direction: column;
+          text-align: center;
         }
-
-        .how-it-works-item:nth-child(even) {
-            flex-direction: row-reverse; /* Alternate layout */
-        }
-
+        
         .how-it-works-item .icon-box {
-            min-width: 80px;
-            height: 80px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            color: white;
-            flex-shrink: 0;
+          margin-bottom: 20px;
         }
-
-        .how-it-works-item .text-content h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 10px;
-        }
-
-        .how-it-works-item .text-content p {
-            font-size: 16px;
-            color: var(--gray);
-        }
-
-        /* Impact Section */
-        .impact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .impact-card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .impact-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .impact-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
-
-        .impact-card-content {
-            padding: 25px;
-        }
-
-        .impact-card-content h3 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 10px;
-        }
-
-        .impact-card-content p {
-            font-size: 15px;
-            color: var(--gray);
-            margin-bottom: 15px;
-        }
-
-        .impact-card-content .btn-primary {
-            padding: 10px 20px;
-            font-size: 15px;
-        }
-
-        /* CTA Section */
-        .cta {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            padding: 60px 0;
-            text-align: center;
-            color: white;
-        }
-
-        .cta h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .cta p {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 60px 0 20px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--primary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: var(--light-gray);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: var(--light-gray);
-        }
-        /* Responsive adjustments for Learn More page */
-        @media (max-width: 768px) {
-            .hero-learn-more {
-                padding: 60px 0;
-            }
-            .hero-learn-more h1 {
-                font-size: 38px;
-            }
-            .hero-learn-more p {
-                font-size: 18px;
-            }
-            .section-common {
-                padding: 50px 0;
-            }
-            .section-title-common {
-                font-size: 30px;
-            }
-            .how-it-works-item {
-                flex-direction: column !important; /* Force column stack on mobile */
-                text-align: center;
-            }
-            .how-it-works-item .icon-box {
-                margin-bottom: 20px;
-            }
-            .how-it-works-item .text-content h3 {
-                font-size: 20px;
-            }
-            .cta-section h2 {
-                font-size: 32px;
-            }
-            .cta-section p {
-                font-size: 18px;
-            }
-        }
-        .btn {
-            display: inline-block;
-            background-color: white;
-            color: var(--primary);
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-            margin-right: 15px;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            color: white;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-outline:hover {
-            background-color: white;
-            color: var(--primary);
-        }
-
+      }
     </style>
 </head>
-<body class="bg-gray-50 font-sans antialiased">
-
-    <!-- Navbar -->
-    <nav>
-        <div class="container">
-            <div class="navbar">
-                <a href="#" class="logo">
-                    <i class="fas fa-lightbulb"></i>
-                    KaryaMuda
-                </a>
-                <ul class="nav-links" id="mainNavLinks">
-                    <li><a href="home.html">Beranda</a></li>
-                    <li><a href="karya.html">Karya</a></li>
-                    <li><a href="newsletter.html">Berita</a></li>
-                    <li><a href="about.html">Tentang</a></li>
-                    <li><a href="#kontak">Kontak</a></li>
-                    <li><a href="form-donasi.html" class="btn-donate">Donasi Sekarang</a></li>
-                </ul>
-                <div class="hamburger" id="hamburgerBtn">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </div>
+<body class="bg-gray-50 overflow-x-hidden">
+    <canvas id="three-canvas"></canvas>
+    
+    <nav id="main-navbar" class="fixed top-0 w-full z-50 nav-blur border-b border-white/20 transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <img src="./assets/logo/logo_background_large.png" alt="Sociotech Logo" class="w-10 h-10" />
+            <span class="text-2xl font-bold text-gradient">Sociotech</span>
+          </div>
+          <ul class="hidden md:flex flex-1 justify-center items-center space-x-8 font-medium">
+            <li>
+              <a href="home.html" class="text-gray-700 hover:text-green-600 transition-colors">Beranda</a>
+            </li>
+            <li>
+              <a href="karya.html" class="text-gray-700 hover:text-green-600 transition-colors">Karya</a>
+            </li>
+            <li>
+              <a href="newsletter.html" class="text-gray-700 hover:text-green-600 transition-colors">Berita</a>
+            </li>
+            <li>
+              <a href="about.html" class="text-gray-700 hover:text-green-600 transition-colors">Tentang</a>
+            </li>
+            <li>
+              <a href="#kontak" class="text-gray-700 hidden hover:text-green-600 transition-colors">Kontak</a>
+            </li>
+            <li>
+              <a href="form-donasi.html"
+                class="btn-primary text-white px-4 py-2 rounded-full hidden sm:block font-semibold transition">Donasi
+                Sekarang</a>
+            </li>
+          </ul>
+          <div class="hidden md:flex items-center space-x-4" id="user-section"></div>
+          <button class="md:hidden text-gray-700" id="mobile-menu-btn" aria-label="Menu">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
         </div>
+      </div>
+      <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+        <div class="px-4 py-2 space-y-2">
+          <a href="home.html" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
+          <a href="karya.html" class="block py-2 text-gray-700 hover:text-green-600">Karya</a>
+          <a href="newsletter.html" class="block py-2 text-gray-700 hover:text-green-600">Berita</a>
+          <a href="about.html" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
+          <a href="#kontak" class="block py-2 text-gray-700 hover:text-green-600">Kontak</a>
+          <a href="form-donasi.html"
+            class="block btn-primary text-white px-4 py-2 rounded-full font-semibold text-center mt-2">Donasi Sekarang</a>
+          <div id="user-section-mobile" class="pt-2 border-t border-gray-100"></div>
+        </div>
+      </div>
     </nav>
+    <script>
+      // Floating Navbar on Scroll
+      window.addEventListener("scroll", function () {
+        const nav = document.getElementById("main-navbar");
+        if (window.scrollY > 10) {
+          nav.classList.add("shadow-lg", "bg-white", "backdrop-blur-md");
+          nav.classList.remove("nav-blur");
+        } else {
+          nav.classList.remove("shadow-lg", "bg-white", "backdrop-blur-md");
+          nav.classList.add("nav-blur");
+        }
+      });
+  
+      // User/Guest Section Logic
+      function renderUserSection() {
+        // Simulasi: ganti ke true jika user sudah login
+        const isLoggedIn = false; // Ubah ke true untuk simulasi user login
+        const userSection = document.getElementById("user-section");
+        const userSectionMobile = document.getElementById(
+          "user-section-mobile"
+        );
+        if (isLoggedIn) {
+          userSection.innerHTML = `
+          <span class="text-gray-700 font-medium flex items-center gap-2">
+            <i class="fas fa-user-circle text-green-600 text-xl"></i>
+            <span>Halo, <b>User</b></span>
+          </span>
+          <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
+        `;
+          userSectionMobile.innerHTML = `
+          <div class="flex items-center gap-2 py-2">
+            <i class="fas fa-user-circle text-green-600 text-xl"></i>
+            <span>Halo, <b>User</b></span>
+          </div>
+          <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
+        `;
+        } else {
+          userSection.innerHTML = `
+          <span class="text-gray-500 font-medium">Guest</span>
+          <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
+          <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
+        `;
+          userSectionMobile.innerHTML = `
+          <div class="py-2 text-gray-500 font-medium">Guest</div>
+          <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
+          <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
+        `;
+        }
+      }
+      renderUserSection();
+  
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      mobileMenuBtn.addEventListener("click", function () {
+        mobileMenu.classList.toggle("hidden");
+        const icon = mobileMenuBtn.querySelector("i");
+        icon.className = mobileMenu.classList.contains("hidden")
+          ? "fas fa-bars text-xl"
+          : "fas fa-times text-xl";
+      });
+    </script>
+  
 
     <!-- Hero Section -->
-    <section class="hero-learn-more" data-aos="fade-in">
-        <div class="container">
-            <h1><strong>Mewujudkan Potensi Muda Indonesia</strong></h1>
-            <p>KaryaMuda adalah jembatan bagi inovasi dan kreativitas anak muda untuk mendapatkan dukungan yang mereka butuhkan.</p>
-          
+    <section class="relative pt-32 pb-20 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-block px-4 py-2 bg-white/20 text-white rounded-full text-sm font-semibold mb-6 floating-animation">
+                🚀 Tentang Sociotech
+            </div>
+            <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Mewujudkan <span class="text-white">Potensi Muda</span> Indonesia
+            </h1>
+            <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                Sociotech adalah jembatan bagi inovasi dan kreativitas anak muda untuk mendapatkan dukungan yang mereka butuhkan.
+            </p>
         </div>
     </section>
 
     <!-- Mission, Vision, Values Section -->
-    <section class="section-common" data-aos="fade-up">
-        <div class="container">
-            <h2 class="section-title-common">Misi, Visi, dan Nilai Kami</h2>
-            <div class="mvv-grid">
-                <div class="mvv-item" data-aos="fade-up" data-aos-delay="100">
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Misi, Visi, dan Nilai Kami</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="mvv-item hover-lift">
                     <i class="fas fa-bullseye"></i>
-                    <h3>Misi</h3>
-                    <p>Mendukung dan memfasilitasi proyek-proyek kreatif serta inovatif anak muda Indonesia melalui platform crowdfunding yang transparan dan terpercaya.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Misi</h3>
+                    <p class="text-gray-600">
+                        Mendukung dan memfasilitasi proyek-proyek kreatif serta inovatif anak muda Indonesia melalui platform crowdfunding yang transparan dan terpercaya.
+                    </p>
                 </div>
-                <div class="mvv-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="mvv-item hover-lift">
                     <i class="fas fa-eye"></i>
-                    <h3>Visi</h3>
-                    <p>Menjadi ekosistem terdepan yang memberdayakan generasi muda untuk menciptakan dampak positif dan berkelanjutan bagi bangsa.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Visi</h3>
+                    <p class="text-gray-600">
+                        Menjadi ekosistem terdepan yang memberdayakan generasi muda untuk menciptakan dampak positif dan berkelanjutan bagi bangsa.
+                    </p>
                 </div>
-                <div class="mvv-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="mvv-item hover-lift">
                     <i class="fas fa-handshake"></i>
-                    <h3>Nilai</h3>
-                    <p>Integritas, Kolaborasi, Inovasi, Dampak, dan Pemberdayaan adalah pilar utama yang kami junjung tinggi dalam setiap langkah.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Nilai</h3>
+                    <p class="text-gray-600">
+                        Integritas, Kolaborasi, Inovasi, Dampak, dan Pemberdayaan adalah pilar utama yang kami junjung tinggi dalam setiap langkah.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="section-common" data-aos="fade-up">
-        <div class="container">
-            <h2 class="section-title-common">Bagaimana KaryaMuda Bekerja?</h2>
-            <div class="how-it-works-list">
-                <div class="how-it-works-item" data-aos="fade-right">
+    <section id="how-it-works" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Bagaimana Sociotech Bekerja?</h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="how-it-works-item hover-lift">
                     <div class="icon-box"><i class="fas fa-lightbulb"></i></div>
                     <div class="text-content">
-                        <h3>1. Ajukan Proyekmu</h3>
-                        <p>Kreator muda dapat mengajukan ide proyek inovatif mereka di platform kami. Tim KaryaMuda akan melakukan verifikasi untuk memastikan kualitas dan kelayakan.</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">1. Ajukan Proyekmu</h3>
+                        <p class="text-gray-600">
+                            Kreator muda dapat mengajukan ide proyek inovatif mereka di platform kami. Tim Sociotech akan melakukan verifikasi untuk memastikan kualitas dan kelayakan.
+                        </p>
                     </div>
                 </div>
-                <div class="how-it-works-item" data-aos="fade-left">
+                <div class="how-it-works-item hover-lift">
                     <div class="icon-box"><i class="fas fa-hands-helping"></i></div>
                     <div class="text-content">
-                        <h3>2. Dapatkan Dukungan</h3>
-                        <p>Proyek yang telah terverifikasi akan ditampilkan kepada ribuan donatur dan komunitas kami yang siap mendukung ide-ide brilian.</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">2. Dapatkan Dukungan</h3>
+                        <p class="text-gray-600">
+                            Proyek yang telah terverifikasi akan ditampilkan kepada ribuan donatur dan komunitas kami yang siap mendukung ide-ide brilian.
+                        </p>
                     </div>
                 </div>
-                <div class="how-it-works-item" data-aos="fade-right">
+                <div class="how-it-works-item hover-lift">
                     <div class="icon-box"><i class="fas fa-rocket"></i></div>
                     <div class="text-content">
-                        <h3>3. Wujudkan Karyamu</h3>
-                        <p>Setelah target dana tercapai, kreator dapat mulai merealisasikan proyek mereka dengan bimbingan dan dukungan dari KaryaMuda.</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">3. Wujudkan Karyamu</h3>
+                        <p class="text-gray-600">
+                            Setelah target dana tercapai, kreator dapat mulai merealisasikan proyek mereka dengan bimbingan dan dukungan dari Sociotech.
+                        </p>
                     </div>
                 </div>
-                <div class="how-it-works-item" data-aos="fade-left">
+                <div class="how-it-works-item hover-lift">
                     <div class="icon-box"><i class="fas fa-chart-line"></i></div>
                     <div class="text-content">
-                        <h3>4. Laporkan Dampak</h3>
-                        <p>Kreator wajib melaporkan perkembangan dan dampak proyek secara berkala, menjaga transparansi dan akuntabilitas kepada para donatur.</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">4. Laporkan Dampak</h3>
+                        <p class="text-gray-600">
+                            Kreator wajib melaporkan perkembangan dan dampak proyek secara berkala, menjaga transparansi dan akuntabilitas kepada para donatur.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -580,122 +407,254 @@
     </section>
 
     <!-- Impact Section -->
-    <section class="section-common" data-aos="fade-up">
-        <div class="container">
-            <h2 class="section-title-common">Dampak yang Telah Kami Ciptakan</h2>
-            <div class="impact-grid">
-                <div class="impact-card" data-aos="fade-up" data-aos-delay="100">
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Dampak yang Telah Kami Ciptakan</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="impact-card hover-lift">
                     <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Karya 1">
                     <div class="impact-card-content">
-                        <h3>Inovasi Teknologi</h3>
-                        <p>Mendukung pengembangan <strong>50+ aplikasi dan perangkat lunak</strong> yang memecahkan masalah sosial dan meningkatkan kualitas hidup.</p>
-                        <a href="karya.html" class="btn btn-primary">Lihat Proyek</a>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Inovasi Teknologi</h3>
+                        <p class="text-gray-600 mb-4">
+                            Mendukung pengembangan <strong>50+ aplikasi dan perangkat lunak</strong> yang memecahkan masalah sosial dan meningkatkan kualitas hidup.
+                        </p>
+                        <a href="karya.html" class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium inline-block">Lihat Proyek</a>
                     </div>
                 </div>
-                <div class="impact-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="impact-card hover-lift">
                     <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Karya 2">
                     <div class="impact-card-content">
-                        <h3>Ekspresi Seni & Budaya</h3>
-                        <p>Memfasilitasi <strong>30+ pameran seni dan pertunjukan budaya</strong> yang memperkenalkan kekayaan Indonesia kepada dunia.</p>
-                        <a href="karya.html" class="btn btn-primary">Lihat Proyek</a>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Ekspresi Seni & Budaya</h3>
+                        <p class="text-gray-600 mb-4">
+                            Memfasilitasi <strong>30+ pameran seni dan pertunjukan budaya</strong> yang memperkenalkan kekayaan Indonesia kepada dunia.
+                        </p>
+                        <a href="karya.html" class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium inline-block">Lihat Proyek</a>
                     </div>
                 </div>
-                <div class="impact-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="impact-card hover-lift">
                     <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Karya 3">
                     <div class="impact-card-content">
-                        <h3>Inisiatif Lingkungan</h3>
-                        <p>Berhasil mendanai <strong>20+ proyek lingkungan</strong>, dari daur ulang hingga konservasi alam, untuk masa depan yang lebih hijau.</p>
-                        <a href="karya.html" class="btn btn-primary">Lihat Proyek</a>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Inisiatif Lingkungan</h3>
+                        <p class="text-gray-600 mb-4">
+                            Berhasil mendanai <strong>20+ proyek lingkungan</strong>, dari daur ulang hingga konservasi alam, untuk masa depan yang lebih hijau.
+                        </p>
+                        <a href="karya.html" class="btn-primary text-white px-6 py-2 rounded-full text-sm font-medium inline-block">Lihat Proyek</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta" data-aos="fade-up">
-        <div class="container">
-            <h2><strong>Siap Berpartisipasi?</strong></h2>
-            <p>Baik sebagai kreator yang ingin mengajukan karya atau sebagai pendukung yang ingin berkontribusi, mari bersama-sama membangun ekosistem kreatif anak muda Indonesia.</p>
-            <div class="btn-container">
-                <a href="konten.html" class="btn btn-outline" style="margin-right: 15px;">Ajukan Karyamu</a>
-                <a href="karya.html" class="btn btn-primary">Temukan Karya</a>
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">Siap Berpartisipasi?</h2>
+            <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                Baik sebagai kreator yang ingin mengajukan karya atau sebagai pendukung yang ingin berkontribusi, mari bersama-sama membangun ekosistem kreatif anak muda Indonesia.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="konten.html" class="bg-white text-gray-800 px-8 py-3 rounded-full text-lg font-semibold border-2 border-white hover:bg-transparent hover:text-white transition-colors">
+                    Ajukan Karyamu
+                </a>
+                <a href="karya.html" class="btn-primary text-white px-8 py-3 rounded-full text-lg font-semibold">
+                    Temukan Karya
+                </a>
             </div>
         </div>
     </section>
 
-   
     <!-- Footer -->
-    <footer>
-        <div id="kontak"class="container">
-            <div class="footer-content">
-                <!-- Column 1 -->
-                <div class="footer-column">
-                    <h3>Tentang KaryaMuda</h3>
-                    <p style="color: var(--light-gray); margin-bottom: 20px;">Platform untuk menyalurkan kreativitas anak muda Indonesia melalui dukungan komunitas.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-
-                <!-- Column 2 -->
-                <div class="footer-column">
-                    <h3>Menu</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Beranda</a></li>
-                        <li><a href="#">Karya</a></li>
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Kontak</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3 -->
-                <div class="footer-column">
-                    <h3>Kategori</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Teknologi</a></li>
-                        <li><a href="#">Seni & Desain</a></li>
-                        <li><a href="#">Lingkungan</a></li>
-                        <li><a href="#">Pendidikan</a></li>
-                        <li><a href="#">Kewirausahaan</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 4 -->
-                <div class="footer-column">
-                    <h3>Kontak</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@karyamuda.id</li>
-                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +62 812 3456 7890</li>
-                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Jakarta, Indonesia</li>
-                    </ul>
-                </div>
+    <footer class="bg-gray-900 text-white py-16">
+        <div id="kontak" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid md:grid-cols-4 gap-8">
+            <div class="md:col-span-2">
+              <div class="flex items-center space-x-2 mb-6">
+                <span class="text-3xl font-bold">Sociotech</span>
+              </div>
+              <p class="text-gray-400 mb-6 max-w-md">
+                Platform terdepan untuk mendukung inovasi dan kreativitas anak
+                muda Indonesia menuju masa depan yang lebih baik.
+              </p>
+              <div class="flex space-x-4">
+                <a
+                  href="#"
+                  class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors"
+                >
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors"
+                >
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors"
+                >
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors"
+                >
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 KaryaMuda. All rights reserved.</p>
+  
+            <div>
+              <h4 class="text-lg font-semibold mb-6">Platform</h4>
+              <ul class="space-y-3">
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition-colors"
+                    >Showcase Karya</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition-colors"
+                    >Cara Donasi</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition-colors"
+                    >Bergabung</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition-colors"
+                    >FAQ</a
+                  >
+                </li>
+              </ul>
             </div>
+  
+            <div>
+              <h4 class="text-lg font-semibold mb-6">Perusahaan</h4>
+              <ul class="space-y-3">
+                <li>
+                  <a
+                    href="about.html"
+                    class="text-gray-400 hover:text-white transition-colors"
+                    >Tentang Kami</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition-colors"
+                    >Tim</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition-colors"
+                    >Karir</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#kontak"
+                    class="text-gray-400 hover:text-white transition-colors"
+                    >Kontak</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <p>&copy; 2023 Sociotech. All rights reserved.</p>
+          </div>
         </div>
     </footer>
 
-    <!-- AOS JavaScript -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize AOS
-            AOS.init({
-                duration: 1000, // values from 0 to 3000, with step 50ms
-                once: true, // whether animation should happen only once - while scrolling down
+            // Navbar mobile toggle functionality
+            const hamburgerBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (hamburgerBtn && mobileMenu) {
+                hamburgerBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const icon = hamburgerBtn.querySelector('i');
+                    icon.className = mobileMenu.classList.contains('hidden')
+                        ? 'fas fa-bars text-xl'
+                        : 'fas fa-times text-xl';
+                });
+            }
+
+            // Floating Navbar on Scroll
+            window.addEventListener('scroll', function() {
+                const nav = document.getElementById('main-navbar');
+                if (window.scrollY > 10) {
+                    nav.classList.add('shadow-lg', 'bg-white', 'backdrop-blur-md');
+                    nav.classList.remove('nav-blur');
+                } else {
+                    nav.classList.remove('shadow-lg', 'bg-white', 'backdrop-blur-md');
+                    nav.classList.add('nav-blur');
+                }
             });
 
-            // Navbar mobile toggle functionality
-            const hamburgerBtn = document.getElementById('hamburgerBtn');
-            const mainNavLinks = document.getElementById('mainNavLinks');
-            if (hamburgerBtn && mainNavLinks) {
-                hamburgerBtn.addEventListener('click', () => {
-                    mainNavLinks.classList.toggle('active');
+            // Three.js background
+            const canvas = document.getElementById('three-canvas');
+            if (canvas) {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    alpha: true
+                });
+                
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                
+                // Create particles
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particleCount = 1000;
+                
+                const posArray = new Float32Array(particleCount * 3);
+                
+                for(let i = 0; i < particleCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 10;
+                }
+                
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.02,
+                    color: 0x10b981,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+                
+                camera.position.z = 3;
+                
+                function animate() {
+                    requestAnimationFrame(animate);
+                    
+                    particlesMesh.rotation.x += 0.0001;
+                    particlesMesh.rotation.y += 0.0001;
+                    
+                    renderer.render(scene, camera);
+                }
+                
+                animate();
+                
+                window.addEventListener('resize', function() {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
                 });
             }
         });
