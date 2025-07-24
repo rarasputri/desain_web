@@ -341,16 +341,39 @@
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <button
-              class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold flex items-center justify-center space-x-2">
+              class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold flex items-center justify-center space-x-2"
+              onclick="window.location.href='konten.html'">
               <i class="fas fa-rocket"></i>
               <span>Mulai Showcase</span>
             </button>
             <button
-              class="bg-white text-gray-800 px-8 py-4 rounded-full text-lg font-semibold border-2 border-gray-200 hover:border-green-500 transition-colors flex items-center justify-center space-x-2">
+              class="bg-white text-gray-800 px-8 py-4 rounded-full text-lg font-semibold border-2 border-gray-200 hover:border-green-500 transition-colors flex items-center justify-center space-x-2"
+              onclick="openDemoModal()">
               <i class="fas fa-play"></i>
               <span>Lihat Demo</span>
             </button>
           </div>
+          <!-- Tambahkan di bawah tombol -->
+          <div id="demoModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-2xl p-6 max-w-xl w-full relative shadow-2xl">
+              <button onclick="closeDemoModal()" class="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
+              <div class="aspect-w-16 aspect-h-9 mb-4">
+                <iframe src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen class="w-full h-64 rounded-xl"></iframe>
+              </div>
+              <div class="text-center">
+                <button onclick="closeDemoModal()" class="btn-primary px-6 py-2 rounded-full text-white font-semibold">Tutup</button>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            function openDemoModal() {
+              document.getElementById('demoModal').classList.remove('hidden');
+            }
+            function closeDemoModal() {
+              document.getElementById('demoModal').classList.add('hidden');
+            }
+          </script>
 
           <div class="mt-12 grid grid-cols-3 gap-8 text-center lg:text-left">
             <div>
