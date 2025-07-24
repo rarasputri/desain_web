@@ -321,198 +321,6 @@
                 left: 0;
             }
         }
-
-        .header-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-                0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        .input-style {
-            border: 1px solid var(--light-gray);
-            transition: border-color 0.2s, box-shadow 0.2s;
-            padding: 12px 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            color: var(--dark);
-        }
-
-        .input-style:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-        }
-
-        .textarea-style {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .file-upload-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed var(--light-gray);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: white;
-        }
-
-        .file-upload-label:hover {
-            border-color: var(--primary);
-            background-color: var(--primary-light);
-            color: var(--primary-dark);
-        }
-
-        .file-upload-label i {
-            font-size: 48px;
-            color: var(--gray);
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-
-        .file-upload-label:hover i {
-            color: var(--primary);
-        }
-
-        /* Button Styles */
-        .btn-primary {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #059669, #047857);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            /* A common red for danger */
-            color: #ffffff;
-            /* White text for contrast */
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-            /* A slightly darker red on hover */
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        /* Verification Status Styles */
-        .verification-status {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .verification-status.pending {
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-
-        .verification-status.approved {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
-
-        .verification-status.rejected {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-
-        .verification-status i {
-            margin-right: 10px;
-            font-size: 20px;
-        }
-
-        /* Card styles */
-        .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--light-gray);
-            font-weight: 600;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        /* Comment styles */
-        .comment {
-            border-left: 3px solid var(--primary);
-            padding-left: 12px;
-            margin-top: 16px;
-        }
-
-        .comment-admin {
-            border-left-color: var(--secondary);
-        }
-
-        .comment-date {
-            font-size: 12px;
-            color: var(--gray);
-            margin-top: 4px;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .flex-col-reverse-sm {
-                flex-direction: column-reverse;
-            }
-
-            .order-last-sm {
-                order: 2;
-            }
-
-            .order-first-sm {
-                order: 1;
-            }
-        }
     </style>
 </head>
 
@@ -546,6 +354,9 @@
                     class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
                     <i class="fas fa-tachometer-alt mr-3 w-5 text-center text-green-500"></i>
                     <span>Dashboard</span>
+                    <div class="ml-auto">
+                        <div class="status-indicator status-active"></div>
+                    </div>
                 </a>
 
                 <a href="user_manage.html"
@@ -563,8 +374,8 @@
                 </a>
 
                 <a href="verifikasi_kampanye.html"
-                    class="active-menu block px-4 py-3 rounded-xl transition menu-item flex items-center">
-                    <i class="fas fa-check-circle mr-3 w-5 text-center"></i>
+                    class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                    <i class="fas fa-check-circle mr-3 w-5 text-center text-green-500"></i>
                     <span>Verifikasi Kampanye</span>
                     <div class="ml-auto">
                         <div class="status-indicator status-pending"></div>
@@ -595,10 +406,13 @@
                     <span>Feedback & Kategori</span>
                 </a>
 
-                <a href="#"
-                    class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-bell mr-3 w-5 text-center text-green-500"></i>
+                <a href="broadcast_notifikasi.html"
+                    class="active-menu block px-4 py-3 rounded-xl transition menu-item flex items-center">
+                    <i class="fas fa-bell mr-3 w-5 text-center"></i>
                     <span>Broadcast Notifikasi</span>
+                    <div class="ml-auto">
+                        <div class="status-indicator status-active"></div>
+                    </div>
                 </a>
             </nav>
         </aside>
@@ -655,137 +469,126 @@
 
             <!-- Content Area -->
             <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 md:space-y-10 overflow-auto">
-                <!-- Enhanced Welcome Dashboard -->
-                <div class="container mx-auto card px-6 py-8 max-w-4xl">
-                    <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Verifikasi Kampanye</h1>
-                    <!-- Campaign Summary -->
-                    <div class="card mb-8">
-                        <div class="card-header">
-                            <h2 class="text-xl font-bold">Ringkasan Kampanye</h2>
+                <!-- Enhanced Broadcast Notifikasi -->
+                <section class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-green-100 animate-fadeInUp">
+                    <h2 class="text-xl font-semibold mb-6 flex items-center">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center mr-3">
+                            <i class="fas fa-bell text-white"></i>
                         </div>
-                        <div class="card-body">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <img id="campaignImage"
-                                        src="https://placehold.co/600x400/F5F5F5/B0B0B0?text=Preview+Media"
-                                        alt="Campaign Media" class="w-full h-48 object-cover rounded-lg mb-4">
-                                </div>
-                                <div>
-                                    <h3 id="campaignTitle" class="text-2xl font-bold text-gray-800 mb-2">Bantu
-                                        Pembangunan Masjid Desa
-                                        Terpencil</h3>
-                                    <span id="campaignCategory"
-                                        class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">Infrastruktur</span>
-                                    <p id="campaignDescription" class="text-gray-600 mb-4">Pembangunan masjid untuk desa
-                                        terpencil di
-                                        pedalaman Kalimantan yang belum memiliki tempat ibadah yang layak.</p>
+                        Broadcast Notifikasi
+                        <span
+                            class="ml-auto text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium">Real-time</span>
+                    </h2>
 
-                                    <div class="flex justify-between items-center mb-4">
-                                        <div>
-                                            <p class="text-gray-500 text-sm">Target Donasi:</p>
-                                            <p id="campaignTarget" class="text-green-600 font-bold text-xl">Rp
-                                                50.000.000</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-gray-500 text-sm">Batas Waktu:</p>
-                                            <p id="campaignDeadline" class="font-bold text-md text-gray-700">30
-                                                September 2025</p>
-                                        </div>
-                                    </div>
-                                </div>
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                    <i class="fas fa-heading text-green-500 mr-2"></i>
+                                    Judul Pesan
+                                </label>
+                                <input type="text" placeholder="Contoh: Update Sistem Terbaru"
+                                    class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300" />
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Verification Details -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <!-- Identity Verification -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h2 class="text-xl font-bold">Verifikasi Identitas</h2>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-4">
-                                    <h4 class="font-semibold text-gray-700 mb-2">Nama Lengkap:</h4>
-                                    <p id="verificationName">Ahmad Fauzi</p>
-                                </div>
-                                <div class="mb-4">
-                                    <h4 class="font-semibold text-gray-700 mb-2">NIK:</h4>
-                                    <p id="verificationNik">3201234567890123</p>
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-700 mb-2">Foto KTP:</h4>
-                                        <img src="https://placehold.co/300x200/F5F5F5/B0B0B0?text=KTP" alt="KTP"
-                                            class="w-full h-32 object-contain border border-gray-200 rounded-lg">
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold text-gray-700 mb-2">Selfie dengan KTP:</h4>
-                                        <img src="https://placehold.co/300x200/F5F5F5/B0B0B0?text=Selfie+KTP"
-                                            alt="Selfie dengan KTP"
-                                            class="w-full h-32 object-contain border border-gray-200 rounded-lg">
-                                    </div>
-                                </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                    <i class="fas fa-users text-green-500 mr-2"></i>
+                                    Target Audiens
+                                </label>
+                                <select
+                                    class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300">
+                                    <option>Semua Pengguna</option>
+                                    <option>Donatur Aktif</option>
+                                    <option>Campaign Creator</option>
+                                    <option>Pengguna Baru</option>
+                                </select>
                             </div>
                         </div>
 
-                        <!-- Admin Comments -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h2 class="text-xl font-bold">Komentar Verifikasi</h2>
-                            </div>
-                            <div class="card-body">
-                                <div class="comment">
-                                    <p class="font-semibold">Mohon unggah ulang foto KTP dengan resolusi yang lebih
-                                        tinggi. Foto saat
-                                        ini tidak terbaca dengan jelas.</p>
-                                    <p class="comment-date">Admin Sociotech - 20 Juli 2025, 14:30 WIB</p>
-                                </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                <i class="fas fa-comment-alt text-green-500 mr-2"></i>
+                                Isi Pesan
+                            </label>
+                            <textarea placeholder="Tulis pesan yang akan dikirim ke semua user..." rows="5"
+                                class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300 resize-none"></textarea>
+                        </div>
 
-                                <div class="comment comment-admin mt-6">
-                                    <p>Silakan perbaiki dan unggah ulang dokumen melalui tombol di bawah ini.</p>
-                                    <p class="comment-date">Sistem - 20 Juli 2025, 14:30 WIB</p>
-                                </div>
-
-                                <!-- Response Form (shown when rejected or needs revision) -->
-                                <div class="mt-6">
-                                    <label for="reuploadFile"
-                                        class="block text-lg font-medium text-gray-700 mb-2">Unggah Ulang
-                                        Dokumen</label>
-                                    <label for="reuploadFile" class="file-upload-label">
-                                        <i class="fas fa-cloud-arrow-up"></i>
-                                        <p class="text-gray-700 font-semibold">Seret & Lepas atau Klik untuk Unggah</p>
-                                        <p class="text-sm text-gray-500 mt-1">Format: JPG, PNG. Maks. 2MB.</p>
-                                        <input type="file" id="reuploadFile" class="hidden"
-                                            accept="image/jpeg,image/png">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                            <div class="flex flex-wrap gap-4">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="urgent"
+                                        class="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded transition-all" />
+                                    <label for="urgent" class="ml-3 block text-sm text-gray-700 font-medium">
+                                        <i class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>
+                                        Tandai sebagai penting
                                     </label>
-                                    <div id="reuploadPreview" class="mt-4 hidden">
-                                        <!-- Preview will appear here -->
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <label for="responseMessage"
-                                            class="block text-lg font-medium text-gray-700 mb-2">Pesan Tambahan
-                                            (Opsional)</label>
-                                        <textarea id="responseMessage" class="w-full input-style textarea-style"
-                                            placeholder="Berikan penjelasan tambahan jika diperlukan..."></textarea>
-                                    </div>
-
-                                    <button type="button" id="submitRevisionBtn" class="btn-primary mt-4 w-full">Kirim
-                                        Revisi</button>
                                 </div>
+
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="schedule"
+                                        class="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded transition-all" />
+                                    <label for="schedule" class="ml-3 block text-sm text-gray-700 font-medium">
+                                        <i class="fas fa-clock text-blue-500 mr-2"></i>
+                                        Jadwalkan pengiriman
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-3 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center font-semibold shadow-lg hover:shadow-xl transform hover:scale-105">
+                                <i class="fas fa-paper-plane mr-3"></i>
+                                Kirim Notifikasi
+                                <div class="ml-3 w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Recent Notifications -->
+                    <div class="mt-8 pt-6 border-t border-gray-100">
+                        <h3 class="text-sm font-semibold text-gray-600 mb-4 flex items-center">
+                            <i class="fas fa-history text-gray-400 mr-2"></i>
+                            Notifikasi Terakhir
+                        </h3>
+                        <div class="space-y-3">
+                            <div
+                                class="flex items-center justify-between p-3 bg-green-50 rounded-xl border border-green-100">
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800">
+                                            Sistem Maintenance Selesai
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            Dikirim ke 1,248 pengguna • 2
+                                            jam lalu
+                                        </p>
+                                    </div>
+                                </div>
+                                <span class="text-xs bg-green-200 text-green-700 px-2 py-1 rounded-full">Terkirim</span>
+                            </div>
+
+                            <div
+                                class="flex items-center justify-between p-3 bg-blue-50 rounded-xl border border-blue-100">
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800">
+                                            Fitur Baru: Live Chat Support
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            Dikirim ke 856 pengguna aktif •
+                                            1 hari lalu
+                                        </p>
+                                    </div>
+                                </div>
+                                <span class="text-xs bg-blue-200 text-blue-700 px-2 py-1 rounded-full">Terkirim</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex justify-between flex-col-reverse-sm sm:flex-row gap-4">
-                        <button type="button" id="rejectCampaignBtn" class="btn-danger"><i
-                                class="fas fa-times-circle mr-2"></i> Tolak Kampanye</button>
-                        <button type="button" id="verifyCampaignBtn" class="btn-primary"><i
-                                class="fas fa-check-circle mr-2"></i> Verifikasi Kampanye</button>
-                    </div>
-                </div>
+                </section>
             </main>
         </div>
     </div>
@@ -793,36 +596,6 @@
     <script>
         // Mobile menu toggle
         document.addEventListener("DOMContentLoaded", function () {
-            const reuploadFileInput = document.getElementById('reuploadFile');
-            const reuploadPreview = document.getElementById('reuploadPreview');
-
-            reuploadFileInput.addEventListener('change', function(event) {
-                reuploadPreview.innerHTML = '';
-                reuploadPreview.classList.add('hidden');
-                const files = event.target.files;
-
-                if (files.length > 0) {
-                    reuploadPreview.classList.remove('hidden');
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
-                        const reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            const previewElement = document.createElement('div');
-                            previewElement.className = 'relative group';
-                            previewElement.innerHTML = `
-                                <img src="${e.target.result}" alt="Preview" class="w-full h-32 object-cover rounded-lg shadow-sm border border-gray-200">
-                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
-                                    <i class="fas fa-eye text-white text-xl"></i>
-                                </div>
-                            `;
-                            reuploadPreview.appendChild(previewElement);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-            });
-            
             const mobileMenuButton = document.querySelectorAll(
                 ".mobile-menu-button"
             );
