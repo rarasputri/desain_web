@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verifikasi Kampanye - Sociotech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css">
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --primary-light: #a7f3d0;
+            --secondary: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation styles to match home.html */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links .btn-donate {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links .btn-donate:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        /* Responsive adjustments for navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 0;
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .nav-links li {
+                margin: 15px 0;
+            }
+            .nav-links a {
+                color: var(--dark);
+            }
+            .nav-links .btn-donate {
+                width: fit-content;
+            }
+        }
+
+        /* Input & Textarea General Styling */
+        .input-style {
+            border: 1px solid var(--light-gray);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--dark);
+        }
+        .input-style:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+        .textarea-style {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--light-gray);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        .file-upload-label:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        .file-upload-label i {
+            font-size: 48px;
+            color: var(--gray);
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        .file-upload-label:hover i {
+            color: var(--primary);
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-secondary {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Modal specific styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 700px;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .close-button {
+            color: #9ca3af;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            font-weight: normal;
+            transition: color 0.2s;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--dark);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Verification Status Styles */
+        .verification-status {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .verification-status.pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .verification-status.approved {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .verification-status.rejected {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .verification-status i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Card styles */
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--light-gray);
+            font-weight: 600;
+        }
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Comment styles */
+        .comment {
+            border-left: 3px solid var(--primary);
+            padding-left: 12px;
+            margin-top: 16px;
+        }
+        .comment-admin {
+            border-left-color: var(--secondary);
+        }
+        .comment-date {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .flex-col-reverse-sm {
+                flex-direction: column-reverse;
+            }
+            .order-last-sm {
+                order: 2;
+            }
+            .order-first-sm {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-lightbulb"></i>
+                    Sociotech
+                </a>
+                <ul class="nav-links" id="mainNavLinks">
+                    <li><a href="home.html">Beranda</a></li>
+                    <li><a href="karya.html">Karya</a></li>
+                    <li><a href="newsletter.html">Berita</a></li>
+                    <li><a href="about.html">Tentang</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="form-donasi.html" class="btn-donate">Donasi Sekarang</a></li>
+                </ul>
+                <div class="hamburger" id="hamburgerBtn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Verifikasi Kampanye</h1>
+        <p class="text-gray-600 text-center mb-10">Status verifikasi kampanye Anda akan muncul di bawah ini. Tim kami akan memproses verifikasi dalam 1-3 hari kerja.</p>
+
+        <!-- Verification Status -->
+        <div class="verification-status pending mb-8">
+            <i class="fas fa-clock"></i>
+            <div>
+                <h3 class="font-bold">Sedang dalam Proses Verifikasi</h3>
+                <p class="text-sm">Kampanye Anda sedang ditinjau oleh tim Sociotech. Mohon tunggu pemberitahuan selanjutnya.</p>
+            </div>
+        </div>
+
+        <!-- Campaign Summary -->
+        <div class="card mb-8">
+            <div class="card-header">
+                <h2 class="text-xl font-bold">Ringkasan Kampanye</h2>
+            </div>
+            <div class="card-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <img id="campaignImage" src="https://placehold.co/600x400/F5F5F5/B0B0B0?text=Preview+Media" alt="Campaign Media" class="w-full h-48 object-cover rounded-lg mb-4">
+                    </div>
+                    <div>
+                        <h3 id="campaignTitle" class="text-2xl font-bold text-gray-800 mb-2">Bantu Pembangunan Masjid Desa Terpencil</h3>
+                        <span id="campaignCategory" class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">Infrastruktur</span>
+                        <p id="campaignDescription" class="text-gray-600 mb-4">Pembangunan masjid untuk desa terpencil di pedalaman Kalimantan yang belum memiliki tempat ibadah yang layak.</p>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <p class="text-gray-500 text-sm">Target Donasi:</p>
+                                <p id="campaignTarget" class="text-green-600 font-bold text-xl">Rp 50.000.000</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Batas Waktu:</p>
+                                <p id="campaignDeadline" class="font-bold text-md text-gray-700">30 September 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verification Details -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- Identity Verification -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-xl font-bold">Verifikasi Identitas</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-gray-700 mb-2">Nama Lengkap:</h4>
+                        <p id="verificationName">Ahmad Fauzi</p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-gray-700 mb-2">NIK:</h4>
+                        <p id="verificationNik">3201234567890123</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-700 mb-2">Foto KTP:</h4>
+                            <img src="https://placehold.co/300x200/F5F5F5/B0B0B0?text=KTP" alt="KTP" class="w-full h-32 object-contain border border-gray-200 rounded-lg">
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700 mb-2">Selfie dengan KTP:</h4>
+                            <img src="https://placehold.co/300x200/F5F5F5/B0B0B0?text=Selfie+KTP" alt="Selfie dengan KTP" class="w-full h-32 object-contain border border-gray-200 rounded-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Comments -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-xl font-bold">Komentar Verifikasi</h2>
+                </div>
+                <div class="card-body">
+                    <div class="comment">
+                        <p class="font-semibold">Mohon unggah ulang foto KTP dengan resolusi yang lebih tinggi. Foto saat ini tidak terbaca dengan jelas.</p>
+                        <p class="comment-date">Admin Sociotech - 20 Juli 2025, 14:30 WIB</p>
+                    </div>
+                    
+                    <div class="comment comment-admin mt-6">
+                        <p>Silakan perbaiki dan unggah ulang dokumen melalui tombol di bawah ini.</p>
+                        <p class="comment-date">Sistem - 20 Juli 2025, 14:30 WIB</p>
+                    </div>
+
+                    <!-- Response Form (shown when rejected or needs revision) -->
+                    <div class="mt-6">
+                        <label for="reuploadFile" class="block text-lg font-medium text-gray-700 mb-2">Unggah Ulang Dokumen</label>
+                        <label for="reuploadFile" class="file-upload-label">
+                            <i class="fas fa-cloud-arrow-up"></i>
+                            <p class="text-gray-700 font-semibold">Seret & Lepas atau Klik untuk Unggah</p>
+                            <p class="text-sm text-gray-500 mt-1">Format: JPG, PNG. Maks. 2MB.</p>
+                            <input type="file" id="reuploadFile" class="hidden" accept="image/jpeg,image/png">
+                        </label>
+                        <div id="reuploadPreview" class="mt-4 hidden">
+                            <!-- Preview will appear here -->
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="responseMessage" class="block text-lg font-medium text-gray-700 mb-2">Pesan Tambahan (Opsional)</label>
+                            <textarea id="responseMessage" class="w-full input-style textarea-style" placeholder="Berikan penjelasan tambahan jika diperlukan..."></textarea>
+                        </div>
+
+                        <button type="button" id="submitRevisionBtn" class="btn-primary mt-4 w-full">Kirim Revisi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between flex-col-reverse-sm sm:flex-row gap-4">
+            <a href="profile.html" class="btn-secondary order-last-sm"><i class="fas fa-arrow-left mr-2"></i> Kembali ke Profil</a>
+            <button type="button" id="contactSupportBtn" class="btn-outline order-first-sm"><i class="fas fa-headset mr-2"></i> Hubungi Dukungan</button>
+        </div>
+    </div>
+
+    <!-- Contact Support Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeContactModalBtn">&times;</span>
+            <h3 class="text-2xl font-bold text-gray-800 mb-5">Hubungi Dukungan Sociotech</h3>
+            <div class="space-y-4">
+                <div>
+                    <label for="contactSubject" class="block text-lg font-medium text-gray-700 mb-2">Subjek <span class="text-red-500">*</span></label>
+                    <input type="text" id="contactSubject" class="w-full input-style" placeholder="Masukkan subjek pesan Anda" required>
+                </div>
+                <div>
+                    <label for="contactMessage" class="block text-lg font-medium text-gray-700 mb-2">Pesan <span class="text-red-500">*</span></label>
+                    <textarea id="contactMessage" class="w-full input-style textarea-style" placeholder="Jelaskan pertanyaan atau masalah Anda secara detail..." required></textarea>
+                </div>
+                <div>
+                    <label for="contactEmail" class="block text-lg font-medium text-gray-700 mb-2">Email Anda <span class="text-red-500">*</span></label>
+                    <input type="email" id="contactEmail" class="w-full input-style" placeholder="email@contoh.com" required>
+                </div>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button type="button" id="sendContactBtn" class="btn-primary">Kirim Pesan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile navigation toggle
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const navLinks = document.getElementById('mainNavLinks');
+
+            hamburgerBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+
+            // File upload preview for reupload
+            const reuploadFileInput = document.getElementById('reuploadFile');
+            const reuploadPreview = document.getElementById('reuploadPreview');
+
+            reuploadFileInput.addEventListener('change', function(event) {
+                reuploadPreview.innerHTML = '';
+                reuploadPreview.classList.add('hidden');
+                const files = event.target.files;
+
+                if (files.length > 0) {
+                    reuploadPreview.classList.remove('hidden');
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            const previewElement = document.createElement('div');
+                            previewElement.className = 'relative group';
+                            previewElement.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview" class="w-full h-32 object-cover rounded-lg shadow-sm border border-gray-200">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+                                    <i class="fas fa-eye text-white text-xl"></i>
+                                </div>
+                            `;
+                            reuploadPreview.appendChild(previewElement);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+
+            // Submit revision button
+            const submitRevisionBtn = document.getElementById('submitRevisionBtn');
+            submitRevisionBtn.addEventListener('click', function() {
+                if (!reuploadFileInput.files.length) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Dokumen Belum Diunggah',
+                        text: 'Silakan unggah dokumen yang telah diperbaiki sebelum mengirim.',
+                        confirmButtonText: 'Oke',
+                        customClass: {
+                            confirmButton: 'btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Kirim Revisi?',
+                    text: 'Dokumen yang telah diperbaiki akan dikirim ke tim verifikasi kami.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Kirim',
+                    cancelButtonText: 'Batal',
+                    customClass: {
+                        confirmButton: 'btn-primary',
+                        cancelButton: 'btn-secondary ml-2'
+                    },
+                    buttonsStyling: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // In a real app, you would send the data to your backend here
+                        Swal.fire({
+                            title: 'Revisi Terkirim!',
+                            text: 'Tim verifikasi akan meninjau dokumen Anda yang baru. Anda akan menerima pemberitahuan saat proses selesai.',
+                            icon: 'success',
+                            confirmButtonText: 'Oke',
+                            customClass: {
+                                confirmButton: 'btn-primary'
+                            },
+                            buttonsStyling: false
+                        }).then(() => {
+                            // Update status to pending again
+                            const statusDiv = document.querySelector('.verification-status');
+                            statusDiv.className = 'verification-status pending mb-8';
+                            statusDiv.innerHTML = `
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h3 class="font-bold">Sedang dalam Proses Verifikasi</h3>
+                                    <p class="text-sm">Dokumen revisi Anda telah diterima dan sedang ditinjau ulang oleh tim Sociotech.</p>
+                                </div>
+                            `;
+                        });
+                    }
+                });
+            });
+
+            // Contact support modal
+            const contactSupportBtn = document.getElementById('contactSupportBtn');
+            const contactModal = document.getElementById('contactModal');
+            const closeContactModalBtn = document.getElementById('closeContactModalBtn');
+            const sendContactBtn = document.getElementById('sendContactBtn');
+
+            contactSupportBtn.addEventListener('click', function() {
+                contactModal.style.display = 'flex';
+            });
+
+            closeContactModalBtn.addEventListener('click', function() {
+                contactModal.style.display = 'none';
+            });
+
+            sendContactBtn.addEventListener('click', function() {
+                const subject = document.getElementById('contactSubject').value;
+                const message = document.getElementById('contactMessage').value;
+                const email = document.getElementById('contactEmail').value;
+
+                if (!subject || !message || !email) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Form Tidak Lengkap',
+                        text: 'Harap isi semua field yang wajib diisi.',
+                        confirmButtonText: 'Oke',
+                        customClass: {
+                            confirmButton: 'btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                    return;
+                }
+
+                // In a real app, you would send the contact form to your backend
+                Swal.fire({
+                    title: 'Pesan Terkirim!',
+                    text: 'Terima kasih telah menghubungi kami. Tim dukungan akan merespons secepatnya melalui email yang Anda berikan.',
+                    icon: 'success',
+                    confirmButtonText: 'Oke',
+                    customClass: {
+                        confirmButton: 'btn-primary'
+                    },
+                    buttonsStyling: false
+                }).then(() => {
+                    contactModal.style.display = 'none';
+                    // Clear form
+                    document.getElementById('contactSubject').value = '';
+                    document.getElementById('contactMessage').value = '';
+                    document.getElementById('contactEmail').value = '';
+                });
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === contactModal) {
+                    contactModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
