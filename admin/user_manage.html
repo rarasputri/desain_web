@@ -1,631 +1,1019 @@
 <!DOCTYPE html>
 <html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin Panel - Manajemen Penggalangan Dana</title>
+        <script
+            src="https://kit.fontawesome.com/fb0a496c19.js"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet" />
+        <style>
+            :root {
+                --primary-green: #10b981;
+                --primary-green-light: #34d399;
+                --primary-green-dark: #059669;
+            }
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Panel - Manajemen Penggalangan Dana</title>
-    <script src="https://kit.fontawesome.com/fb0a496c19.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: "Inter", sans-serif;
-            overflow: hidden;
-        }
+            body {
+                font-family: "Inter", sans-serif;
+            }
 
-        .active-menu {
-            background-color: #eef2ff;
-            color: #4f46e5;
-            font-weight: 500;
-        }
+            .active-menu {
+                background: linear-gradient(
+                    135deg,
+                    rgba(16, 185, 129, 0.1) 0%,
+                    rgba(52, 211, 153, 0.15) 100%
+                );
+                color: var(--primary-green-dark);
+                font-weight: 500;
+                border-right: 3px solid var(--primary-green);
+            }
 
-        .active-menu:hover {
-            background-color: #e0e7ff;
-        }
+            .sidebar-gradient {
+                background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            }
 
-        .sidebar-container {
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 16rem;
-            display: flex;
-            flex-direction: column;
-        }
+            .navbar-glass {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            }
 
-        .sidebar-nav {
-            flex: 1;
-            overflow-y: auto;
-        }
+            .menu-item {
+                transition: all 0.3s ease;
+            }
 
-        .main-content {
-            margin-left: 16rem;
-            width: calc(100% - 16rem);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+            .menu-item:hover {
+                transform: translateX(5px);
+                background: linear-gradient(
+                    135deg,
+                    rgba(16, 185, 129, 0.05) 0%,
+                    rgba(52, 211, 153, 0.08) 100%
+                );
+            }
 
-        .content-area {
-            flex: 1;
-            overflow-y: auto;
-        }
+            .status-indicator {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                display: inline-block;
+                margin-right: 8px;
+            }
 
-        .status-active {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
+            .status-active {
+                background-color: var(--primary-green);
+            }
 
-        .status-inactive {
-            background-color: #fee2e2;
-            color: #b91c1c;
-        }
+            .status-pending {
+                background-color: #f59e0b;
+            }
 
-        .status-pending {
-            background-color: #fef3c7;
-            color: #92400e;
-        }
+            .sidebar-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                overflow-y: auto;
+                z-index: 50;
+            }
 
-        .role-admin {
-            background-color: #e0e7ff;
-            color: #3730a3;
-        }
+            .main-content {
+                margin-left: 256px;
+                height: 100vh;
+                overflow-y: auto;
+            }
 
-        .role-user {
-            background-color: #ecfdf5;
-            color: #047857;
-        }
+            .mobile-menu-button {
+                display: none;
+            }
 
-        .role-organizer {
-            background-color: #f5f3ff;
-            color: #5b21b6;
-        }
-    </style>
-</head>
+            /* Mobile Styles */
+            @media (max-width: 768px) {
+                .main-content {
+                    margin-left: 0;
+                }
 
-<body class="bg-gray-100 text-gray-800">
-    <div class="flex">
-        <!-- Fixed Sidebar -->
-        <aside class="sidebar-container bg-white shadow-lg">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold text-indigo-600 flex items-center">
-                    <i class="fas fa-hands-helping mr-2"></i> DanaKita
-                </h1>
-            </div>
-            <nav class="sidebar-nav px-3 pb-4 space-y-1">
-                <div class="px-3 pt-3 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Main Menu
+                .sidebar-container {
+                    left: -100%;
+                    transition: left 0.3s ease;
+                }
+
+                .sidebar-container.active {
+                    left: 0;
+                }
+
+                .mobile-menu-button {
+                    display: flex !important;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    z-index: 40;
+                    display: none;
+                }
+
+                .overlay.active {
+                    display: block;
+                }
+            }
+
+            /* Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: #f1f5f9;
+                border-radius: 4px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, #10b981, #34d399);
+                border-radius: 4px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(135deg, #059669, #10b981);
+            }
+
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+
+            .card-hover:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1),
+                    0 10px 10px -5px rgba(16, 185, 129, 0.04);
+            }
+
+            .status-badge {
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.7;
+                }
+            }
+
+            .role-user {
+                background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+                color: #065f46;
+                border: 1px solid #34d399;
+            }
+
+            .role-organizer {
+                background: linear-gradient(135deg, #fef3c7, #fde68a);
+                color: #92400e;
+                border: 1px solid #f59e0b;
+            }
+
+            .role-admin {
+                background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+                color: #3730a3;
+                border: 1px solid #6366f1;
+            }
+
+            .action-button {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .action-button::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: width 0.3s, height 0.3s;
+            }
+
+            .action-button:hover::before {
+                width: 100%;
+                height: 100%;
+            }
+
+            .stats-card {
+                background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+                border: 1px solid #bbf7d0;
+            }
+            .header-card {
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border: 1px solid #e2e8f0;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .search-enhanced {
+                background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+                border: 2px solid #e5e7eb;
+                transition: all 0.3s ease;
+            }
+
+            .search-enhanced:focus {
+                border-color: #10b981;
+                box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+                background: #ffffff;
+            }
+        </style>
+    </head>
+
+    <body
+        class="bg-gradient-to-br from-gray-50 via-green-50 to-emerald-50 text-gray-800">
+        <div class="flex min-h-screen">
+            <!-- Mobile overlay -->
+            <div class="overlay"></div>
+
+            <!-- Sidebar -->
+            <aside
+                class="w-64 sidebar-gradient shadow-2xl flex flex-col z-50 border-r border-green-100 sidebar-container">
+                <div
+                    class="p-6 flex justify-between items-center border-b border-green-100">
+                    <h1
+                        class="text-2xl font-bold text-green-600 flex items-center">
+                        <img
+                            src="../assets/logo/logo_background_large.png"
+                            alt="Sociotech Logo"
+                            class="w-10 h-10 mr-2 rounded" />
+                        Sociotech
+                    </h1>
+                    <button
+                        class="mobile-menu-button p-2 text-gray-500 rounded-md hover:bg-green-50 transition-all md:hidden">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <a href="dashboard.html"
-                    class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-tachometer-alt mr-3 w-5 text-center"></i>
-                    Dashboard
-                </a>
-                <a href="users.html" class="active-menu block px-3 py-2 rounded-md transition flex items-center">
-                    <i class="fas fa-users mr-3 w-5 text-center"></i> Kelola
-                    User
-                </a>
-                <a href="campaigns.html"
-                    class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-hand-holding-heart mr-3 w-5 text-center"></i>
-                    Kelola Kampanye
-                </a>
-                <a href="verification.html"
-                    class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-check-circle mr-3 w-5 text-center"></i>
-                    Verifikasi Kampanye
-                </a>
-                <a href="transactions.html"
-                    class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-exchange-alt mr-3 w-5 text-center"></i>
-                    Transaksi
-                </a>
-                <a href="statistics.html"
-                    class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-chart-line mr-3 w-5 text-center"></i>
-                    Statistik Donasi
-                </a>
 
-                <div class="px-3 pt-3 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Lainnya
-                </div>
-                <a href="reports.html"
-                    class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-flag mr-3 w-5 text-center"></i>
-                    Manajemen Laporan
-                </a>
-                <a href="feedback.html"
-                    class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-comments mr-3 w-5 text-center"></i>
-                    Feedback & Kategori
-                </a>
-                <a href="broadcast.html"
-                    class="block px-3 py-2 rounded-md hover:bg-indigo-50 transition flex items-center text-gray-700">
-                    <i class="fas fa-bell mr-3 w-5 text-center"></i>
-                    Broadcast Notifikasi
-                </a>
-            </nav>
-            <div class="p-4 border-t">
-                <div class="flex items-center space-x-3">
-                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Admin"
-                        class="w-10 h-10 rounded-full" />
-                    <div>
-                        <p class="font-medium">Sarah Admin</p>
-                        <p class="text-xs text-gray-500">Super Admin</p>
+                <nav class="flex-1 px-3 pb-4 space-y-1 overflow-y-auto">
+                    <div
+                        class="px-3 pt-4 pb-2 text-xs font-semibold text-green-600 uppercase tracking-wider flex items-center">
+                        <div
+                            class="w-8 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400 mr-2"></div>
+                        Main Menu
                     </div>
-                </div>
-            </div>
-        </aside>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Top Navigation -->
-            <header class="bg-white shadow-sm">
-                <div class="flex justify-between items-center px-6 py-4">
-                    <h2 class="text-xl font-semibold text-gray-800">
-                        Manajemen User
-                    </h2>
-                    <div class="flex items-center space-x-4">
-                        <button class="p-2 rounded-full hover:bg-gray-100 relative">
-                            <i class="fas fa-bell text-gray-600"></i>
-                            <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
-                        </button>
-                        <button class="p-2 rounded-full hover:bg-gray-100">
-                            <i class="fas fa-envelope text-gray-600"></i>
-                        </button>
-                        <div class="border-l pl-4">
-                            <div class="flex items-center space-x-2">
-                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Admin"
-                                    class="w-8 h-8 rounded-full" />
-                                <span class="text-sm font-medium">Sarah Admin</span>
-                                <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+                    <a
+                        href="dashboard.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-tachometer-alt mr-3 w-5 text-center text-green-500"></i>
+                        <span>Dashboard</span>
+                        <div class="ml-auto">
+                            <div class="status-indicator status-active"></div>
+                        </div>
+                    </a>
+
+                    <a
+                        href="user_manage.html"
+                        class="active-menu block px-4 py-3 rounded-xl transition menu-item flex items-center">
+                        <i
+                            class="fas fa-users mr-3 w-5 text-center text-green-500"></i>
+                        <span>Kelola User</span>
+                        <span
+                            class="ml-auto text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full"
+                            >24</span
+                        >
+                    </a>
+
+                    <a
+                        href="kampanye.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-hand-holding-heart mr-3 w-5 text-center text-green-500"></i>
+                        <span>Kelola Kampanye</span>
+                        <span
+                            class="ml-auto text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full"
+                            >8</span
+                        >
+                    </a>
+
+                    <a
+                        href="verifikasi_kampanye.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-check-circle mr-3 w-5 text-center text-green-500"></i>
+                        <span>Verifikasi Kampanye</span>
+                        <div class="ml-auto">
+                            <div class="status-indicator status-pending"></div>
+                        </div>
+                    </a>
+
+                    <a
+                        href="management_dana.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-wallet mr-3 w-5 text-center text-green-500"></i>
+                        <span>Management Dana</span>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-chart-line mr-3 w-5 text-center text-green-500"></i>
+                        <span>Statistik Donasi</span>
+                    </a>
+
+                    <div
+                        class="px-3 pt-4 pb-2 text-xs font-semibold text-green-600 uppercase tracking-wider flex items-center">
+                        <div
+                            class="w-8 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400 mr-2"></div>
+                        Lainnya
+                    </div>
+
+                    <a
+                        href="#"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-flag mr-3 w-5 text-center text-green-500"></i>
+                        <span>Manajemen Laporan</span>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-comments mr-3 w-5 text-center text-green-500"></i>
+                        <span>Feedback & Kategori</span>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-bell mr-3 w-5 text-center text-green-500"></i>
+                        <span>Broadcast Notifikasi</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="flex-1 flex flex-col overflow-hidden main-content">
+                <!-- Top Navigation -->
+                <header class="navbar-glass shadow-lg">
+                    <div
+                        class="flex justify-between items-center px-4 sm:px-6 py-4">
+                        <div class="flex items-center">
+                            <button
+                                class="mobile-menu-button p-2 mr-2 text-gray-500 rounded-md hover:bg-green-50 transition-all md:hidden">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <div>
+                                <h2
+                                    class="text-lg sm:text-xl font-semibold text-gray-800">
+                                    Dashboard Admin
+                                </h2>
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Kelola platform donasi dengan mudah
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-2 sm:space-x-4">
+                            <button
+                                class="p-2 rounded-xl hover:bg-green-50 relative transition-all group">
+                                <i
+                                    class="fas fa-bell text-gray-600 text-sm sm:text-base group-hover:text-green-600"></i>
+                                <span
+                                    class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500"></span>
+                            </button>
+
+                            <button
+                                class="p-2 rounded-xl hover:bg-green-50 transition-all group">
+                                <i
+                                    class="fas fa-envelope text-gray-600 text-sm sm:text-base group-hover:text-green-600"></i>
+                            </button>
+
+                            <div class="border-l border-green-200 pl-2 sm:pl-4">
+                                <div
+                                    class="flex items-center space-x-1 sm:space-x-2 p-2 rounded-xl hover:bg-green-50 transition-all cursor-pointer">
+                                    <div class="relative">
+                                        <img
+                                            src="https://randomuser.me/api/portraits/women/65.jpg"
+                                            alt="Admin"
+                                            class="w-6 h-6 sm:w-8 sm:h-8 rounded-full ring-2 ring-green-200" />
+                                        <div
+                                            class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border border-white"></div>
+                                    </div>
+                                    <span
+                                        class="text-xs sm:text-sm font-medium hidden sm:inline text-gray-700"
+                                        >Sarah Admin</span
+                                    >
+                                    <i
+                                        class="fas fa-chevron-down text-xs text-gray-500 hidden sm:inline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </header>
+                </header>
 
-            <!-- Content Area -->
-            <main class="content-area p-8 space-y-6 bg-gray-50">
-                <!-- User Management Header -->
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">
-                            Kelola Pengguna
-                        </h1>
-                        <p class="text-gray-600">
-                            Kelola semua pengguna sistem DanaKita
-                        </p>
-                    </div>
-                    <div class="mt-4 md:mt-0 flex space-x-3">
-                        <div class="relative">
-                            <input type="text" placeholder="Cari pengguna..."
-                                class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
-                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                <!-- Content Area -->
+                <main
+                    class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 md:space-y-10 overflow-auto">
+                    <!-- Content akan ditambahkan di sini -->
+                    <div class="header-card rounded-2xl p-6">
+                        <div
+                            class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                                        <i
+                                            class="fas fa-hand-holding-heart text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h1
+                                            class="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                                            Kelola Pengguna
+                                        </h1>
+                                        <p class="text-gray-600 mt-1">
+                                            Kelola semua pengguna sistem
+                                            DanaKita dengan mudah dan efisien
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <div class="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="Cari Pengguna..."
+                                        class="search-enhanced pl-12 pr-4 py-3 rounded-xl focus:outline-none w-full sm:w-80" />
+                                    <i
+                                        class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-lg hover:shadow-xl">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Kampanye Baru</span>
+                                </button>
+                            </div>
                         </div>
-                        <button
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center">
-                            <i class="fas fa-plus mr-2"></i> Tambah User
-                        </button>
                     </div>
-                </div>
 
-                <!-- User Table -->
-                <!-- Improved Table Section -->
-                <div class="bg-white rounded-lg shadow overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48">
-                                        Nama User
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Email
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
-                                        Role
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
-                                        Aksi
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr class="hover:bg-indigo-50 transition-colors duration-150">
-                                    <td class="px-6 py-4 w-1/3">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-full object-cover"
-                                                    src="https://randomuser.me/api/portraits/men/32.jpg"
-                                                    alt="Budi Santoso" />
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900 flex items-center">
-                                                    Budi Santoso
-                                                </div>
-                                                <div class="text-xs text-gray-500 mt-1">
-                                                    <i class="fas fa-phone-alt mr-1"></i>+62 812-3456-7890
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            budi.santoso@example.com
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
+                    <!-- Stats Cards -->
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                        <div class="stats-card rounded-2xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-sm font-medium text-gray-600 mb-1">
+                                        Total Pengguna
+                                    </p>
+                                    <p class="text-3xl font-bold text-gray-800">
+                                        1,248
+                                    </p>
+                                    <div class="flex items-center mt-2">
+                                        <i
+                                            class="fas fa-arrow-up text-green-500 text-xs mr-1"></i>
                                         <span
-                                            class="px-2.5 py-1 text-xs font-medium rounded-full role-user flex items-center justify-center">
-                                            <i class="fas fa-user mr-1"></i>
-                                            User
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex justify-end space-x-1">
-                                            <button
-                                                class="p-2 text-indigo-600 hover:text-indigo-900 rounded-full hover:bg-indigo-100 transition-colors"
-                                                title="Detail" data-tooltip="Detail">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-yellow-600 hover:text-yellow-900 rounded-full hover:bg-yellow-100 transition-colors"
-                                                title="Edit" data-tooltip="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-red-600 hover:text-red-900 rounded-full hover:bg-red-100 transition-colors"
-                                                title="Hapus" data-tooltip="Hapus">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <div class="relative inline-block">
-                                                <button
-                                                    class="p-2 text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors more-actions">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </button>
+                                            class="text-green-600 text-sm font-medium"
+                                            >+12%</span
+                                        >
+                                        <span class="text-gray-500 text-sm ml-1"
+                                            >dari bulan lalu</span
+                                        >
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-users text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card rounded-2xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-sm font-medium text-gray-600 mb-1">
+                                        User Aktif
+                                    </p>
+                                    <p class="text-3xl font-bold text-gray-800">
+                                        892
+                                    </p>
+                                    <div class="flex items-center mt-2">
+                                        <i
+                                            class="fas fa-arrow-up text-green-500 text-xs mr-1"></i>
+                                        <span
+                                            class="text-green-600 text-sm font-medium"
+                                            >+8%</span
+                                        >
+                                        <span class="text-gray-500 text-sm ml-1"
+                                            >minggu ini</span
+                                        >
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-user-check text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card rounded-2xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-sm font-medium text-gray-600 mb-1">
+                                        Pending Verifikasi
+                                    </p>
+                                    <p class="text-3xl font-bold text-gray-800">
+                                        23
+                                    </p>
+                                    <div class="flex items-center mt-2">
+                                        <div
+                                            class="status-badge w-2 h-2 bg-orange-400 rounded-full mr-2"></div>
+                                        <span
+                                            class="text-orange-600 text-sm font-medium"
+                                            >Perlu review</span
+                                        >
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
+                                    <i
+                                        class="fas fa-hourglass-half text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Table Section -->
+                    <div
+                        class="bg-white rounded-2xl shadow-xl overflow-hidden border border-green-100">
+                        <!-- Table Header -->
+                        <div
+                            class="bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 border-b border-green-100">
+                            <div class="flex items-center justify-between">
+                                <h3
+                                    class="text-lg font-semibold text-gray-800 flex items-center">
+                                    <i
+                                        class="fas fa-table mr-2 text-green-600"></i>
+                                    Daftar Pengguna
+                                </h3>
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-sm text-gray-600"
+                                            >Filter:</span
+                                        >
+                                        <select
+                                            class="border border-green-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                                            <option>Semua Role</option>
+                                            <option>User</option>
+                                            <option>Organizer</option>
+                                            <option>Admin</option>
+                                        </select>
+                                    </div>
+                                    <button
+                                        class="text-green-600 hover:text-green-800 transition-colors">
+                                        <i class="fas fa-filter"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table Content -->
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <div
+                                                class="flex items-center space-x-1 cursor-pointer hover:text-green-600">
+                                                <span>Pengguna</span>
+                                                <i
+                                                    class="fas fa-sort text-gray-400"></i>
+                                            </div>
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <div
+                                                class="flex items-center space-x-1 cursor-pointer hover:text-green-600">
+                                                <span>Kontak</span>
+                                                <i
+                                                    class="fas fa-sort text-gray-400"></i>
+                                            </div>
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <div
+                                                class="flex items-center space-x-1 cursor-pointer hover:text-green-600">
+                                                <span>Role & Status</span>
+                                                <i
+                                                    class="fas fa-sort text-gray-400"></i>
+                                            </div>
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            Aksi
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="bg-white divide-y divide-gray-100">
+                                    <!-- User 1 -->
+                                    <tr
+                                        class="hover:bg-green-50 transition-all duration-200 group">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
                                                 <div
-                                                    class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 more-actions-menu">
-                                                    <div class="py-1">
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                            <i class="fas fa-lock mr-2"></i>
-                                                            Reset Password
-                                                        </a>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                            <i class="fas fa-envelope mr-2"></i>
-                                                            Kirim Email
-                                                        </a>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                            <i class="fas fa-ban mr-2"></i>
-                                                            Blokir User
-                                                        </a>
+                                                    class="relative flex-shrink-0 h-12 w-12">
+                                                    <img
+                                                        class="h-12 w-12 rounded-xl object-cover ring-2 ring-green-100 group-hover:ring-green-200 transition-all"
+                                                        src="https://randomuser.me/api/portraits/men/32.jpg"
+                                                        alt="Budi Santoso" />
+                                                    <div
+                                                        class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div
+                                                        class="text-sm font-semibold text-gray-900 group-hover:text-green-700 transition-colors">
+                                                        Budi Santoso
+                                                    </div>
+                                                    <div
+                                                        class="text-xs text-gray-500 mt-1">
+                                                        ID: #USR-001 •
+                                                        Bergabung: Jan 2024
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr class="hover:bg-indigo-50 transition-colors duration-150">
-                                    <td class="px-6 py-4 w-1/3">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 relative">
-                                                <img class="h-10 w-10 rounded-full object-cover"
-                                                    src="https://randomuser.me/api/portraits/women/44.jpg"
-                                                    alt="Siti Aminah" />
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="space-y-1">
+                                                <div
+                                                    class="text-sm text-gray-900 flex items-center">
+                                                    <i
+                                                        class="fas fa-envelope mr-2 text-green-500 text-xs"></i>
+                                                    budi.santoso@example.com
+                                                </div>
+                                                <div
+                                                    class="text-sm text-gray-500 flex items-center">
+                                                    <i
+                                                        class="fas fa-phone mr-2 text-green-500 text-xs"></i>
+                                                    +62 812-3456-7890
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="space-y-2">
                                                 <span
-                                                    class="absolute bottom-0 right-0 bg-blue-500 rounded-full w-3 h-3 border-2 border-white"></span>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">
-                                                    Siti Aminah
+                                                    class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full role-user">
+                                                    <i
+                                                        class="fas fa-user mr-1"></i>
+                                                    User
+                                                </span>
+                                                <div
+                                                    class="flex items-center text-xs text-gray-500">
+                                                    <div
+                                                        class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                                                    Online
                                                 </div>
-                                                <div class="text-xs text-gray-500 mt-1">
-                                                    <i class="fas fa-phone-alt mr-1"></i>+62 823-4567-8901
-                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            siti.aminah@example.com
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 text-xs font-medium rounded-full role-organizer flex items-center justify-center">
-                                            <i class="fas fa-users mr-1"></i>
-                                            Organizer
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex justify-end space-x-1">
-                                            <button
-                                                class="p-2 text-indigo-600 hover:text-indigo-900 rounded-full hover:bg-indigo-100 transition-colors">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-yellow-600 hover:text-yellow-900 rounded-full hover:bg-yellow-100 transition-colors">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-red-600 hover:text-red-900 rounded-full hover:bg-red-100 transition-colors">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <div class="relative inline-block">
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div
+                                                class="flex justify-center space-x-1">
                                                 <button
-                                                    class="p-2 text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors more-actions">
-                                                    <i class="fas fa-ellipsis-v"></i>
+                                                    class="action-button p-2 text-green-600 hover:text-white hover:bg-green-500 rounded-lg transition-all"
+                                                    title="Detail">
+                                                    <i
+                                                        class="fas fa-eye relative z-10"></i>
                                                 </button>
+                                                <button
+                                                    class="action-button p-2 text-yellow-600 hover:text-white hover:bg-yellow-500 rounded-lg transition-all"
+                                                    title="Edit">
+                                                    <i
+                                                        class="fas fa-edit relative z-10"></i>
+                                                </button>
+                                                <button
+                                                    class="action-button p-2 text-red-600 hover:text-white hover:bg-red-500 rounded-lg transition-all"
+                                                    title="Hapus">
+                                                    <i
+                                                        class="fas fa-trash-alt relative z-10"></i>
+                                                </button>
+                                                <div class="relative">
+                                                    <button
+                                                        class="action-button p-2 text-gray-600 hover:text-white hover:bg-gray-500 rounded-lg transition-all more-actions">
+                                                        <i
+                                                            class="fas fa-ellipsis-v relative z-10"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
-                                <tr class="hover:bg-indigo-50 transition-colors duration-150">
-                                    <td class="px-6 py-4 w-1/3">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-full object-cover"
-                                                    src="https://randomuser.me/api/portraits/men/75.jpg"
-                                                    alt="Andi Wijaya" />
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900 flex items-center">
-                                                    Andi Wijaya
-                                                    <span
-                                                        class="ml-2 text-xs px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full">Admin</span>
+                                    <!-- User 2 -->
+                                    <tr
+                                        class="hover:bg-green-50 transition-all duration-200 group">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="relative flex-shrink-0 h-12 w-12">
+                                                    <img
+                                                        class="h-12 w-12 rounded-xl object-cover ring-2 ring-green-100 group-hover:ring-green-200 transition-all"
+                                                        src="https://randomuser.me/api/portraits/women/44.jpg"
+                                                        alt="Siti Aminah" />
+                                                    <div
+                                                        class="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-400 rounded-full border-2 border-white"></div>
                                                 </div>
-                                                <div class="text-xs text-gray-500 mt-1">
-                                                    <i class="fas fa-phone-alt mr-1"></i>+62 811-2233-4455
+                                                <div class="ml-4">
+                                                    <div
+                                                        class="text-sm font-semibold text-gray-900 group-hover:text-green-700 transition-colors flex items-center">
+                                                        Siti Aminah
+                                                        <span
+                                                            class="ml-2 text-xs px-2 py-0.5 bg-yellow-100 text-yellow-800 rounded-full">
+                                                            <i
+                                                                class="fas fa-star mr-1"></i
+                                                            >Pro
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        class="text-xs text-gray-500 mt-1">
+                                                        ID: #ORG-005 •
+                                                        Bergabung: Des 2023
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            andi.wijaya@example.com
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 text-xs font-medium rounded-full role-admin flex items-center justify-center">
-                                            <i class="fas fa-shield-alt mr-1"></i>
-                                            Admin
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex justify-end space-x-1">
-                                            <button
-                                                class="p-2 text-indigo-600 hover:text-indigo-900 rounded-full hover:bg-indigo-100 transition-colors">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-yellow-600 hover:text-yellow-900 rounded-full hover:bg-yellow-100 transition-colors">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-red-600 hover:text-red-900 rounded-full hover:bg-red-100 transition-colors">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <div class="relative inline-block">
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="space-y-1">
+                                                <div
+                                                    class="text-sm text-gray-900 flex items-center">
+                                                    <i
+                                                        class="fas fa-envelope mr-2 text-green-500 text-xs"></i>
+                                                    siti.aminah@example.com
+                                                </div>
+                                                <div
+                                                    class="text-sm text-gray-500 flex items-center">
+                                                    <i
+                                                        class="fas fa-phone mr-2 text-green-500 text-xs"></i>
+                                                    +62 823-4567-8901
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="space-y-2">
+                                                <span
+                                                    class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full role-user">
+                                                    <i
+                                                        class="fas fa-user mr-1"></i>
+                                                    User
+                                                </span>
+                                                <div
+                                                    class="flex items-center text-xs text-gray-500">
+                                                    <div
+                                                        class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                                                    Online
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div
+                                                class="flex justify-center space-x-1">
                                                 <button
-                                                    class="p-2 text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors more-actions">
-                                                    <i class="fas fa-ellipsis-v"></i>
+                                                    class="action-button p-2 text-green-600 hover:text-white hover:bg-green-500 rounded-lg transition-all">
+                                                    <i
+                                                        class="fas fa-eye relative z-10"></i>
                                                 </button>
+                                                <button
+                                                    class="action-button p-2 text-yellow-600 hover:text-white hover:bg-yellow-500 rounded-lg transition-all">
+                                                    <i
+                                                        class="fas fa-edit relative z-10"></i>
+                                                </button>
+                                                <button
+                                                    class="action-button p-2 text-red-600 hover:text-white hover:bg-red-500 rounded-lg transition-all">
+                                                    <i
+                                                        class="fas fa-trash-alt relative z-10"></i>
+                                                </button>
+                                                <div class="relative">
+                                                    <button
+                                                        class="action-button p-2 text-gray-600 hover:text-white hover:bg-gray-500 rounded-lg transition-all">
+                                                        <i
+                                                            class="fas fa-ellipsis-v relative z-10"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
-                                <tr class="hover:bg-indigo-50 transition-colors duration-150">
-                                    <td class="px-6 py-4 w-1/3">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-full object-cover"
-                                                    src="https://randomuser.me/api/portraits/women/33.jpg"
-                                                    alt="Rina Lestari" />
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">
-                                                    Rina Lestari
+                                    <!-- User 3 -->
+                                    <tr
+                                        class="hover:bg-green-50 transition-all duration-200 group">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="relative flex-shrink-0 h-12 w-12">
+                                                    <img
+                                                        class="h-12 w-12 rounded-xl object-cover ring-2 ring-green-100 group-hover:ring-green-200 transition-all"
+                                                        src="https://randomuser.me/api/portraits/men/75.jpg"
+                                                        alt="Andi Wijaya" />
+                                                    <div
+                                                        class="absolute -bottom-1 -right-1 w-4 h-4 bg-purple-400 rounded-full border-2 border-white"></div>
                                                 </div>
-                                                <div class="text-xs text-gray-500 mt-1">
-                                                    <i class="fas fa-phone-alt mr-1"></i>+62 878-9012-3456
+                                                <div class="ml-4">
+                                                    <div
+                                                        class="text-sm font-semibold text-gray-900 group-hover:text-green-700 transition-colors flex items-center">
+                                                        Andi Wijaya
+                                                        <span
+                                                            class="ml-2 text-xs px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full">
+                                                            <i
+                                                                class="fas fa-shield-alt mr-1"></i
+                                                            >Admin
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        class="text-xs text-gray-500 mt-1">
+                                                        ID: #ADM-001 •
+                                                        Bergabung: Okt 2023
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            rina.lestari@example.com
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 text-xs font-medium rounded-full role-user flex items-center justify-center">
-                                            <i class="fas fa-user mr-1"></i>
-                                            User
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex justify-end space-x-1">
-                                            <button
-                                                class="p-2 text-indigo-600 hover:text-indigo-900 rounded-full hover:bg-indigo-100 transition-colors">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-yellow-600 hover:text-yellow-900 rounded-full hover:bg-yellow-100 transition-colors">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-red-600 hover:text-red-900 rounded-full hover:bg-red-100 transition-colors">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <div class="relative inline-block">
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="space-y-1">
+                                                <div
+                                                    class="text-sm text-gray-900 flex items-center">
+                                                    <i
+                                                        class="fas fa-envelope mr-2 text-green-500 text-xs"></i>
+                                                    andi.wijaya@example.com
+                                                </div>
+                                                <div
+                                                    class="text-sm text-gray-500 flex items-center">
+                                                    <i
+                                                        class="fas fa-phone mr-2 text-green-500 text-xs"></i>
+                                                    +62 811-2233-4455
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="space-y-2">
+                                                <span
+                                                    class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full role-admin">
+                                                    <i
+                                                        class="fas fa-shield-alt mr-1"></i>
+                                                    Admin
+                                                </span>
+                                                <div
+                                                    class="flex items-center text-xs text-gray-500">
+                                                    <div
+                                                        class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+                                                    Super Admin
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div
+                                                class="flex justify-center space-x-1">
                                                 <button
-                                                    class="p-2 text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors more-actions">
-                                                    <i class="fas fa-ellipsis-v"></i>
+                                                    class="action-button p-2 text-green-600 hover:text-white hover:bg-green-500 rounded-lg transition-all">
+                                                    <i
+                                                        class="fas fa-eye relative z-10"></i>
                                                 </button>
+                                                <button
+                                                    class="action-button p-2 text-yellow-600 hover:text-white hover:bg-yellow-500 rounded-lg transition-all">
+                                                    <i
+                                                        class="fas fa-edit relative z-10"></i>
+                                                </button>
+                                                <button
+                                                    class="action-button p-2 text-gray-400 cursor-not-allowed rounded-lg"
+                                                    disabled
+                                                    title="Tidak dapat menghapus admin">
+                                                    <i
+                                                        class="fas fa-trash-alt relative z-10"></i>
+                                                </button>
+                                                <div class="relative">
+                                                    <button
+                                                        class="action-button p-2 text-gray-600 hover:text-white hover:bg-gray-500 rounded-lg transition-all">
+                                                        <i
+                                                            class="fas fa-ellipsis-v relative z-10"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                                <tr class="hover:bg-indigo-50 transition-colors duration-150">
-                                    <td class="px-6 py-4 w-1/3">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-full object-cover"
-                                                    src="https://randomuser.me/api/portraits/men/28.jpg"
-                                                    alt="Dedi Kurniawan" />
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">
-                                                    Dedi Kurniawan
-                                                </div>
-                                                <div class="text-xs text-gray-500 mt-1">
-                                                    <i class="fas fa-phone-alt mr-1"></i>+62 813-4567-8901
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            dedi.kurniawan@example.com
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
+                        <!-- Enhanced Pagination -->
+                        <div
+                            class="bg-gradient-to-r from-gray-50 to-green-50 px-6 py-4 border-t border-green-100">
+                            <div
+                                class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm text-gray-700"
+                                        >Tampilkan</span
+                                    >
+                                    <select
+                                        class="border-2 border-green-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
+                                        <option>5</option>
+                                        <option selected>10</option>
+                                        <option>25</option>
+                                        <option>50</option>
+                                    </select>
+                                    <span class="text-sm text-gray-700"
+                                        >dari
                                         <span
-                                            class="px-2.5 py-1 text-xs font-medium rounded-full role-organizer flex items-center justify-center">
-                                            <i class="fas fa-users mr-1"></i>
-                                            Organizer
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex justify-end space-x-1">
-                                            <button
-                                                class="p-2 text-indigo-600 hover:text-indigo-900 rounded-full hover:bg-indigo-100 transition-colors">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-yellow-600 hover:text-yellow-900 rounded-full hover:bg-yellow-100 transition-colors">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 text-red-600 hover:text-red-900 rounded-full hover:bg-red-100 transition-colors">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <div class="relative inline-block">
-                                                <button
-                                                    class="p-2 text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors more-actions">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                            class="font-semibold text-green-600"
+                                            >1,248</span
+                                        >
+                                        entri</span
+                                    >
+                                </div>
+
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm text-gray-700">
+                                        Halaman
+                                        <span class="font-semibold">1</span>
+                                        dari
+                                        <span class="font-semibold">125</span>
+                                    </span>
+                                </div>
+
+                                <div class="flex space-x-1">
+                                    <button
+                                        class="px-3 py-2 bg-white border-2 border-green-200 rounded-lg text-sm hover:bg-green-50 disabled:opacity-50 transition-all"
+                                        disabled>
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button
+                                        class="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg text-sm font-medium shadow-md">
+                                        1
+                                    </button>
+                                    <button
+                                        class="px-4 py-2 bg-white border-2 border-green-200 rounded-lg text-sm hover:bg-green-50 transition-all">
+                                        2
+                                    </button>
+                                    <button
+                                        class="px-4 py-2 bg-white border-2 border-green-200 rounded-lg text-sm hover:bg-green-50 transition-all">
+                                        3
+                                    </button>
+                                    <span class="px-3 py-2 text-gray-500"
+                                        >...</span
+                                    >
+                                    <button
+                                        class="px-4 py-2 bg-white border-2 border-green-200 rounded-lg text-sm hover:bg-green-50 transition-all">
+                                        125
+                                    </button>
+                                    <button
+                                        class="px-3 py-2 bg-white border-2 border-green-200 rounded-lg text-sm hover:bg-green-50 transition-all">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- Enhanced Pagination -->
-                    <div
-                        class="px-6 py-4 border-t bg-gray-50 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                        <div class="flex items-center mb-4 sm:mb-0">
-                            <span class="text-sm text-gray-700 mr-2">Tampilkan</span>
-                            <select
-                                class="border rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option>5</option>
-                                <option selected>10</option>
-                                <option>25</option>
-                                <option>50</option>
-                            </select>
-                            <span class="text-sm text-gray-700 ml-2">entri per halaman</span>
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <span class="text-sm text-gray-700">
-                                Menampilkan
-                                <span class="font-medium">1</span> sampai
-                                <span class="font-medium">5</span> dari
-                                <span class="font-medium">23</span> entri
-                            </span>
-                        </div>
-                        <div class="mt-4 sm:mt-0 flex space-x-1">
-                            <button
-                                class="px-3 py-1 bg-white border rounded-md text-sm hover:bg-gray-100 disabled:opacity-50"
-                                disabled>
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <button class="px-3 py-1 bg-indigo-600 text-white rounded-md text-sm hover:bg-indigo-700">
-                                1
-                            </button>
-                            <button class="px-3 py-1 bg-white border rounded-md text-sm hover:bg-gray-100">
-                                2
-                            </button>
-                            <button class="px-3 py-1 bg-white border rounded-md text-sm hover:bg-gray-100">
-                                3
-                            </button>
-                            <button class="px-3 py-1 bg-white border rounded-md text-sm hover:bg-gray-100">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
+                </main>
+            </div>
         </div>
-    </div>
-    <script>
-        // JavaScript for dropdown menu
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
-                const actionButtons =
-                    document.querySelectorAll(".more-actions");
 
-                actionButtons.forEach((button) => {
-                    button.addEventListener(
-                        "click",
-                        function (e) {
-                            e.stopPropagation();
-                            const menu =
-                                this.nextElementSibling;
-                            document
-                                .querySelectorAll(
-                                    ".more-actions-menu"
-                                )
-                                .forEach((m) => {
-                                    if (m !== menu)
-                                        m.classList.add(
-                                            "hidden"
-                                        );
-                                });
-                            menu.classList.toggle("hidden");
-                        }
-                    );
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const mobileMenuButtons = document.querySelectorAll(
+                    ".mobile-menu-button"
+                );
+                const overlay = document.querySelector(".overlay");
+                const sidebarContainer =
+                    document.querySelector(".sidebar-container");
+
+                mobileMenuButtons.forEach((button) => {
+                    button.addEventListener("click", function () {
+                        sidebarContainer.classList.toggle("active");
+                        overlay.classList.toggle("active");
+                    });
                 });
 
-                // Close dropdown when clicking outside
-                document.addEventListener("click", function () {
-                    document
-                        .querySelectorAll(".more-actions-menu")
-                        .forEach((menu) => {
-                            menu.classList.add("hidden");
-                        });
+                overlay.addEventListener("click", function () {
+                    sidebarContainer.classList.remove("active");
+                    overlay.classList.remove("active");
                 });
-            }
-        );
-    </script>
-</body>
-
+            });
+        </script>
+    </body>
 </html>
