@@ -343,6 +343,9 @@
             .campaign-image:hover img {
                 transform: scale(1.05);
             }
+            .animate-pulse-gentle {
+                animation: pulse 2s infinite;
+            }
         </style>
     </head>
 
@@ -356,9 +359,9 @@
             <aside
                 class="w-64 sidebar-gradient shadow-2xl flex flex-col z-50 border-r border-green-100 sidebar-container">
                 <div
-                    class="p-6 flex justify-between items-center border-b border-green-100">
+                    class="p-5 flex justify-between items-center border-b border-green-100">
                     <h1
-                        class="text-2xl font-bold text-green-600 flex items-center">
+                        class="text-2xl font-bold text-green-600 flex items-center animate-pulse-gentle">
                         <img
                             src="../assets/logo/logo_background_large.png"
                             alt="Sociotech Logo"
@@ -434,7 +437,7 @@
                     </a>
 
                     <a
-                        href="#"
+                        href="statistik_donasi.html"
                         class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
                         <i
                             class="fas fa-chart-line mr-3 w-5 text-center text-green-500"></i>
@@ -447,14 +450,6 @@
                             class="w-8 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400 mr-2"></div>
                         Lainnya
                     </div>
-
-                    <a
-                        href="#"
-                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-                        <i
-                            class="fas fa-flag mr-3 w-5 text-center text-green-500"></i>
-                        <span>Manajemen Laporan</span>
-                    </a>
 
                     <a
                         href="#"
@@ -658,20 +653,20 @@
                                 <div>
                                     <p
                                         class="text-sm font-medium text-gray-600">
-                                        Total Dana
+                                        Terverifikasi
                                     </p>
                                     <p
                                         class="text-3xl font-bold text-gray-900 mt-2">
-                                        2.1M
+                                        10
                                     </p>
                                     <p class="text-sm text-green-600 mt-1">
-                                        <i class="fas fa-wallet mr-1"></i
-                                        >Terkumpul
+                                        <i class="fas fa-check-circle mr-1"></i
+                                        >Kampanye
                                     </p>
                                 </div>
                                 <div
                                     class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center">
-                                    <i class="fas fa-coins text-white"></i>
+                                    <i class="fas fa-check text-white"></i>
                                 </div>
                             </div>
                         </div>
@@ -724,16 +719,6 @@
                                             <div
                                                 class="flex items-center space-x-1 cursor-pointer hover:text-green-600">
                                                 <span>Target</span>
-                                                <i
-                                                    class="fas fa-sort text-gray-400"></i>
-                                            </div>
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            <div
-                                                class="flex items-center space-x-1 cursor-pointer hover:text-green-600">
-                                                <span>Terkumpul</span>
                                                 <i
                                                     class="fas fa-sort text-gray-400"></i>
                                             </div>
@@ -812,21 +797,6 @@
                                         <td
                                             class="px-6 py-4 text-sm text-gray-500">
                                             Rp25.000.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">
-                                                Rp18.750.000
-                                            </div>
-                                            <div
-                                                class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                                                <div
-                                                    class="bg-green-500 h-1.5 rounded-full"
-                                                    style="width: 75%"></div>
-                                            </div>
-                                            <div
-                                                class="text-xs text-gray-500 mt-1">
-                                                75% tercapai
-                                            </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             <span
@@ -917,21 +887,6 @@
                                             Rp50.000.000
                                         </td>
                                         <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">
-                                                Rp42.500.000
-                                            </div>
-                                            <div
-                                                class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                                                <div
-                                                    class="bg-green-500 h-1.5 rounded-full"
-                                                    style="width: 85%"></div>
-                                            </div>
-                                            <div
-                                                class="text-xs text-gray-500 mt-1">
-                                                85% tercapai
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4">
                                             <span
                                                 class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                 Aktif
@@ -1018,21 +973,6 @@
                                         <td
                                             class="px-6 py-4 text-sm text-gray-500">
                                             Rp75.000.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">
-                                                Rp75.000.000
-                                            </div>
-                                            <div
-                                                class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                                                <div
-                                                    class="bg-blue-500 h-1.5 rounded-full"
-                                                    style="width: 100%"></div>
-                                            </div>
-                                            <div
-                                                class="text-xs text-gray-500 mt-1">
-                                                100% tercapai
-                                            </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             <span
@@ -1122,21 +1062,6 @@
                                         <td
                                             class="px-6 py-4 text-sm text-gray-500">
                                             Rp30.000.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">
-                                                Rp12.300.000
-                                            </div>
-                                            <div
-                                                class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                                                <div
-                                                    class="bg-red-500 h-1.5 rounded-full"
-                                                    style="width: 41%"></div>
-                                            </div>
-                                            <div
-                                                class="text-xs text-gray-500 mt-1">
-                                                41% tercapai
-                                            </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             <span

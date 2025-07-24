@@ -1,1029 +1,1300 @@
 <!DOCTYPE html>
 <html lang="id">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel - Manajemen Penggalangan Dana</title>
-  <script src="https://kit.fontawesome.com/fb0a496c19.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-green: #10b981;
-      --primary-green-light: #34d399;
-      --primary-green-dark: #059669;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    .active-menu {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.15) 100%);
-      color: var(--primary-green-dark);
-      font-weight: 500;
-      border-right: 3px solid var(--primary-green);
-      animation: slideIn 0.3s ease-out;
-    }
-
-    .active-menu:hover {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.2) 100%);
-    }
-
-    .greeting-time {
-      background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .greeting-time::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      animation: shimmer 3s infinite;
-    }
-
-    @keyframes shimmer {
-      0% {
-        left: -100%;
-      }
-
-      100% {
-        left: 100%;
-      }
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateX(-10px);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        transform: translateY(20px);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes bounce {
-
-      0%,
-      20%,
-      53%,
-      80%,
-      100% {
-        transform: translate3d(0, 0, 0);
-      }
-
-      40%,
-      43% {
-        transform: translate3d(0, -5px, 0);
-      }
-
-      70% {
-        transform: translate3d(0, -3px, 0);
-      }
-
-      90% {
-        transform: translate3d(0, -1px, 0);
-      }
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    .animate-fadeInUp {
-      animation: fadeInUp 0.6s ease-out forwards;
-    }
-
-    .animate-bounce-gentle {
-      animation: bounce 2s infinite;
-    }
-
-    .animate-pulse-gentle {
-      animation: pulse 2s infinite;
-    }
-
-    .sidebar-gradient {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-      backdrop-filter: blur(10px);
-    }
-
-    .navbar-glass {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
-    }
-
-    .card-hover {
-      transition: all 0.3s ease;
-    }
-
-    .card-hover:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04);
-    }
-
-    .menu-item {
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .menu-item:hover {
-      transform: translateX(5px);
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(52, 211, 153, 0.08) 100%);
-    }
-
-    .menu-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
-      transition: left 0.5s;
-    }
-
-    .menu-item:hover::before {
-      left: 100%;
-    }
-
-    .notification-dot {
-      animation: pulse 2s infinite;
-      background: linear-gradient(135deg, #ef4444, #f87171);
-    }
-
-    .stats-card {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(16, 185, 129, 0.1);
-    }
-
-    .three-container {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 200px;
-      height: 100px;
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
-    /* Mobile menu toggle */
-    .mobile-menu-button {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .mobile-menu-button {
-        display: block;
-      }
-
-      aside {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        height: 100vh;
-        z-index: 50;
-        transition: left 0.3s ease;
-      }
-
-      aside.active {
-        left: 0;
-      }
-
-      .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 40;
-      }
-
-      .overlay.active {
-        display: block;
-      }
-
-      .three-container {
-        display: none;
-      }
-    }
-
-    .logo-bounce {
-      animation: bounce 3s infinite;
-    }
-
-    .status-indicator {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 8px;
-      animation: pulse 2s infinite;
-    }
-
-    .status-active {
-      background-color: var(--primary-green);
-    }
-
-    .status-pending {
-      background-color: #f59e0b;
-    }
-
-    .glassmorphism {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .sidebar-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      overflow-y: auto;
-      z-index: 50;
-    }
-
-    .main-content {
-      margin-left: 256px;
-      /* 64 * 4 = 256px (w-64) */
-      height: 100vh;
-      overflow-y: auto;
-    }
-
-    /* Update untuk mobile responsiveness */
-    @media (max-width: 768px) {
-      .main-content {
-        margin-left: 0;
-      }
-
-      .sidebar-container {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        transition: left 0.3s ease;
-      }
-
-      .sidebar-container.active {
-        left: 0;
-      }
-    }
-  </style>
-</head>
-
-<body class="bg-gradient-to-br from-gray-50 via-green-50 to-emerald-50 text-gray-800">
-
-  <div class="flex min-h-screen">
-
-    <!-- Mobile overlay -->
-    <div class="overlay"></div>
-
-    <!-- Enhanced Sidebar -->
-    <aside class="w-64 sidebar-gradient shadow-2xl flex flex-col z-50 border-r border-green-100 sidebar-container">
-      <div class="p-6 flex justify-between items-center border-b border-green-100">
-        <h1 class="text-2xl font-bold text-green-600 flex items-center logo-bounce">
-          <i class="fas fa-hands-helping mr-2 animate-pulse-gentle"></i> DanaKita
-        </h1>
-        <button class="mobile-menu-button p-2 text-gray-500 rounded-md hover:bg-green-50 transition-all md:hidden">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <nav class="flex-1 px-3 pb-4 space-y-1 overflow-y-auto">
-        <div class="px-3 pt-4 pb-2 text-xs font-semibold text-green-600 uppercase tracking-wider flex items-center">
-          <div class="w-8 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400 mr-2"></div>
-          Main Menu
-        </div>
-
-        <a href="dashboard.html" class="active-menu block px-4 py-3 rounded-xl transition menu-item flex items-center">
-          <i class="fas fa-tachometer-alt mr-3 w-5 text-center"></i>
-          <span>Dashboard</span>
-          <div class="ml-auto">
-            <div class="status-indicator status-active"></div>
-          </div>
-        </a>
-
-        <a href="user_manage.html"
-          class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-          <i class="fas fa-users mr-3 w-5 text-center text-green-500"></i>
-          <span>Kelola User</span>
-          <span class="ml-auto text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">24</span>
-        </a>
-
-        <a href="kampanye.html"
-          class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-          <i class="fas fa-hand-holding-heart mr-3 w-5 text-center text-green-500"></i>
-          <span>Kelola Kampanye</span>
-          <span class="ml-auto text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full">8</span>
-        </a>
-
-        <a href="verifikasi_kampanye.html"
-          class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-          <i class="fas fa-check-circle mr-3 w-5 text-center text-green-500"></i>
-          <span>Verifikasi Kampanye</span>
-          <div class="ml-auto">
-            <div class="status-indicator status-pending"></div>
-          </div>
-        </a>
-
-        <a href="management_dana.html"
-          class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-          <i class="fas fa-wallet mr-3 w-5 text-center text-green-500"></i>
-          <span>Management Dana</span>
-        </a>
-
-
-        <a href="#"
-          class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-          <i class="fas fa-chart-line mr-3 w-5 text-center text-green-500"></i>
-          <span>Statistik Donasi</span>
-        </a>
-
-        <div class="px-3 pt-4 pb-2 text-xs font-semibold text-green-600 uppercase tracking-wider flex items-center">
-          <div class="w-8 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400 mr-2"></div>
-          Lainnya
-        </div>
-
-        <a href="#"
-          class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-          <i class="fas fa-flag mr-3 w-5 text-center text-green-500"></i>
-          <span>Manajemen Laporan</span>
-        </a>
-
-        <a href="#"
-          class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-          <i class="fas fa-comments mr-3 w-5 text-center text-green-500"></i>
-          <span>Feedback & Kategori</span>
-        </a>
-
-        <a href="#"
-          class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
-          <i class="fas fa-bell mr-3 w-5 text-center text-green-500"></i>
-          <span>Broadcast Notifikasi</span>
-        </a>
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden main-content">
-      <!-- Enhanced Top Navigation -->
-      <header class="navbar-glass shadow-lg">
-        <div class="flex justify-between items-center px-4 sm:px-6 py-4">
-          <div class="flex items-center">
-            <button
-              class="mobile-menu-button p-2 mr-2 text-gray-500 rounded-md hover:bg-green-50 transition-all md:hidden">
-              <i class="fas fa-bars"></i>
-            </button>
-            <div class="animate-fadeInUp">
-              <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Dashboard Admin</h2>
-              <p class="text-xs text-gray-500 mt-1">Kelola platform donasi dengan mudah</p>
-            </div>
-          </div>
-
-          <div class="flex items-center space-x-2 sm:space-x-4">
-            <button class="p-2 rounded-xl hover:bg-green-50 relative transition-all group">
-              <i class="fas fa-bell text-gray-600 text-sm sm:text-base group-hover:text-green-600"></i>
-              <span class="absolute -top-1 -right-1 h-3 w-3 rounded-full notification-dot"></span>
-            </button>
-
-            <button class="p-2 rounded-xl hover:bg-green-50 transition-all group">
-              <i class="fas fa-envelope text-gray-600 text-sm sm:text-base group-hover:text-green-600"></i>
-            </button>
-
-            <div class="border-l border-green-200 pl-2 sm:pl-4">
-              <div
-                class="flex items-center space-x-1 sm:space-x-2 p-2 rounded-xl hover:bg-green-50 transition-all cursor-pointer">
-                <div class="relative">
-                  <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Admin"
-                    class="w-6 h-6 sm:w-8 sm:h-8 rounded-full ring-2 ring-green-200">
-                  <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border border-white">
-                  </div>
-                </div>
-                <span class="text-xs sm:text-sm font-medium hidden sm:inline text-gray-700">Sarah Admin</span>
-                <i class="fas fa-chevron-down text-xs text-gray-500 hidden sm:inline"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Content Area -->
-      <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 md:space-y-10 overflow-auto">
-
-        <!-- Enhanced Welcome Dashboard -->
-        <section class="animate-fadeInUp">
-          <div class="greeting-time rounded-2xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">
-            <div class="three-container" id="three-container"></div>
-            <div class="relative z-10">
-              <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                <div>
-                  <h1 class="text-2xl sm:text-3xl font-bold animate-bounce-gentle">Selamat Pagi, Sarah Admin!</h1>
-                  <p class="mt-2 sm:mt-3 text-sm sm:text-base opacity-90">Selamat datang kembali di Dashboard Admin
-                    DanaKita</p>
-                  <div class="mt-4 sm:mt-6 flex flex-wrap gap-3">
-                    <span class="text-xs sm:text-sm glassmorphism px-3 sm:px-4 py-2 rounded-full">
-                      <i class="fas fa-calendar-day mr-2"></i> 19 Juli 2025
-                    </span>
-                    <span class="text-xs sm:text-sm glassmorphism px-3 sm:px-4 py-2 rounded-full">
-                      <i class="fas fa-clock mr-2"></i> 09:42 WIB
-                    </span>
-                    <span class="text-xs sm:text-sm glassmorphism px-3 sm:px-4 py-2 rounded-full">
-                      <i class="fas fa-user-shield mr-2"></i> Online
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Enhanced Stats Cards -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 animate-fadeInUp">
-          <div class="stats-card p-6 rounded-2xl shadow-lg card-hover">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm text-gray-600 font-medium">Total Donasi</p>
-                <p class="text-2xl font-bold text-green-600 mt-1">Rp 2.5M</p>
-                <p class="text-xs text-green-500 mt-1">↗ +15% bulan ini</p>
-              </div>
-              <div
-                class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center">
-                <i class="fas fa-hand-holding-usd text-white"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="stats-card p-6 rounded-2xl shadow-lg card-hover">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm text-gray-600 font-medium">Kampanye Aktif</p>
-                <p class="text-2xl font-bold text-blue-600 mt-1">42</p>
-                <p class="text-xs text-blue-500 mt-1">↗ +3 kampanye baru</p>
-              </div>
-              <div
-                class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center">
-                <i class="fas fa-bullhorn text-white"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="stats-card p-6 rounded-2xl shadow-lg card-hover">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm text-gray-600 font-medium">Total Donatur</p>
-                <p class="text-2xl font-bold text-purple-600 mt-1">1,248</p>
-                <p class="text-xs text-purple-500 mt-1">↗ +89 donatur baru</p>
-              </div>
-              <div
-                class="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center">
-                <i class="fas fa-users text-white"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="stats-card p-6 rounded-2xl shadow-lg card-hover">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm text-gray-600 font-medium">Pending Verifikasi</p>
-                <p class="text-2xl font-bold text-orange-600 mt-1">8</p>
-                <p class="text-xs text-orange-500 mt-1">⚠ Perlu ditinjau</p>
-              </div>
-              <div
-                class="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center animate-pulse-gentle">
-                <i class="fas fa-exclamation-triangle text-white"></i>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Enhanced Feedback dan Kategori -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fadeInUp">
-          <!-- Enhanced Feedback -->
-          <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-green-100">
-            <h3 class="text-lg font-semibold mb-4 flex items-center">
-              <div
-                class="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mr-3">
-                <i class="fas fa-comments text-white text-sm"></i>
-              </div>
-              Feedback Donatur
-            </h3>
-
-            <ul class="space-y-4">
-              <li class="border-b border-gray-100 pb-4">
-                <div class="flex items-start">
-                  <div class="relative">
-                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User"
-                      class="w-10 h-10 rounded-full mr-3 ring-2 ring-green-100">
-                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white">
-                    </div>
-                  </div>
-                  <div class="flex-1">
-                    <div class="flex items-center justify-between mb-2">
-                      <span class="font-medium text-gray-800">Budi N.</span>
-                      <div class="flex text-yellow-400 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                      </div>
-                    </div>
-                    <p class="text-gray-600 text-sm leading-relaxed">"Aplikasinya transparan, saya senang bisa
-                      berkontribusi untuk sesama."</p>
-                    <span class="text-xs text-green-600 font-medium mt-2 inline-block">2 jam yang lalu</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="border-b border-gray-100 pb-4">
-                <div class="flex items-start">
-                  <div class="relative">
-                    <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="User"
-                      class="w-10 h-10 rounded-full mr-3 ring-2 ring-green-100">
-                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-white">
-                    </div>
-                  </div>
-                  <div class="flex-1">
-                    <div class="flex items-center justify-between mb-2">
-                      <span class="font-medium text-gray-800">Rina L.</span>
-                      <div class="flex text-yellow-400 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                      </div>
-                    </div>
-                    <p class="text-gray-600 text-sm leading-relaxed">"Tolong lebih cepat verifikasi kampanye, sudah 3
-                      hari belum diapprove."</p>
-                    <span class="text-xs text-orange-600 font-medium mt-2 inline-block">1 hari yang lalu</span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-
-            <button
-              class="mt-4 text-sm text-green-600 hover:text-green-800 flex items-center font-medium transition-all group">
-              Lihat semua feedback
-              <i class="fas fa-chevron-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </button>
-          </div>
-
-          <!-- Enhanced Kategori -->
-          <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-green-100">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-lg font-semibold flex items-center">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin Panel - Manajemen Penggalangan Dana</title>
+        <script
+            src="https://kit.fontawesome.com/fb0a496c19.js"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet" />
+        <style>
+            :root {
+                --primary-green: #10b981;
+                --primary-green-light: #34d399;
+                --primary-green-dark: #059669;
+            }
+
+            body {
+                font-family: "Inter", sans-serif;
+            }
+
+            .active-menu {
+                background: linear-gradient(
+                    135deg,
+                    rgba(16, 185, 129, 0.1) 0%,
+                    rgba(52, 211, 153, 0.15) 100%
+                );
+                color: var(--primary-green-dark);
+                font-weight: 500;
+                border-right: 3px solid var(--primary-green);
+                animation: slideIn 0.3s ease-out;
+            }
+
+            .active-menu:hover {
+                background: linear-gradient(
+                    135deg,
+                    rgba(16, 185, 129, 0.15) 0%,
+                    rgba(52, 211, 153, 0.2) 100%
+                );
+            }
+
+            .greeting-time {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary-green) 0%,
+                    var(--primary-green-light) 100%
+                );
+                position: relative;
+                overflow: hidden;
+            }
+
+            .greeting-time::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent
+                );
+                animation: shimmer 3s infinite;
+            }
+
+            @keyframes shimmer {
+                0% {
+                    left: -100%;
+                }
+
+                100% {
+                    left: 100%;
+                }
+            }
+
+            @keyframes slideIn {
+                from {
+                    transform: translateX(-10px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    transform: translateY(20px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes bounce {
+                0%,
+                20%,
+                53%,
+                80%,
+                100% {
+                    transform: translate3d(0, 0, 0);
+                }
+
+                40%,
+                43% {
+                    transform: translate3d(0, -5px, 0);
+                }
+
+                70% {
+                    transform: translate3d(0, -3px, 0);
+                }
+
+                90% {
+                    transform: translate3d(0, -1px, 0);
+                }
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(1.05);
+                }
+
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .animate-fadeInUp {
+                animation: fadeInUp 0.6s ease-out forwards;
+            }
+
+            .animate-bounce-gentle {
+                animation: bounce 2s infinite;
+            }
+
+            .animate-pulse-gentle {
+                animation: pulse 2s infinite;
+            }
+
+            .sidebar-gradient {
+                background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+                backdrop-filter: blur(10px);
+            }
+
+            .navbar-glass {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            }
+
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1),
+                    0 10px 10px -5px rgba(16, 185, 129, 0.04);
+            }
+
+            .menu-item {
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .menu-item:hover {
+                transform: translateX(5px);
+                background: linear-gradient(
+                    135deg,
+                    rgba(16, 185, 129, 0.05) 0%,
+                    rgba(52, 211, 153, 0.08) 100%
+                );
+            }
+
+            .menu-item::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(16, 185, 129, 0.1),
+                    transparent
+                );
+                transition: left 0.5s;
+            }
+
+            .menu-item:hover::before {
+                left: 100%;
+            }
+
+            .notification-dot {
+                animation: pulse 2s infinite;
+                background: linear-gradient(135deg, #ef4444, #f87171);
+            }
+
+            .stats-card {
+                background: linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.9) 0%,
+                    rgba(248, 250, 252, 0.9) 100%
+                );
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(16, 185, 129, 0.1);
+            }
+
+            .three-container {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 200px;
+                height: 100px;
+                opacity: 0.3;
+                pointer-events: none;
+            }
+
+            /* Mobile menu toggle */
+            .mobile-menu-button {
+                display: none;
+            }
+
+            @media (max-width: 768px) {
+                .mobile-menu-button {
+                    display: block;
+                }
+
+                aside {
+                    position: fixed;
+                    top: 0;
+                    left: -100%;
+                    height: 100vh;
+                    z-index: 50;
+                    transition: left 0.3s ease;
+                }
+
+                aside.active {
+                    left: 0;
+                }
+
+                .overlay {
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    z-index: 40;
+                }
+
+                .overlay.active {
+                    display: block;
+                }
+
+                .three-container {
+                    display: none;
+                }
+            }
+
+            .logo-bounce {
+                animation: bounce 3s infinite;
+            }
+
+            .status-indicator {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                display: inline-block;
+                margin-right: 8px;
+                animation: pulse 2s infinite;
+            }
+
+            .status-active {
+                background-color: var(--primary-green);
+            }
+
+            .status-pending {
+                background-color: #f59e0b;
+            }
+
+            .glassmorphism {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .sidebar-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                overflow-y: auto;
+                z-index: 50;
+            }
+
+            .main-content {
+                margin-left: 256px;
+                /* 64 * 4 = 256px (w-64) */
+                height: 100vh;
+                overflow-y: auto;
+            }
+
+            /* Update untuk mobile responsiveness */
+            @media (max-width: 768px) {
+                .main-content {
+                    margin-left: 0;
+                }
+
+                .sidebar-container {
+                    position: fixed;
+                    top: 0;
+                    left: -100%;
+                    transition: left 0.3s ease;
+                }
+
+                .sidebar-container.active {
+                    left: 0;
+                }
+            }
+        </style>
+    </head>
+
+    <body
+        class="bg-gradient-to-br from-gray-50 via-green-50 to-emerald-50 text-gray-800">
+        <div class="flex min-h-screen">
+            <!-- Mobile overlay -->
+            <div class="overlay"></div>
+
+            <!-- Enhanced Sidebar -->
+            <aside
+                class="w-64 sidebar-gradient shadow-2xl flex flex-col z-50 border-r border-green-100 sidebar-container">
                 <div
-                  class="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mr-3">
-                  <i class="fas fa-tags text-white text-sm"></i>
-                </div>
-                Kategori Kampanye
-              </h3>
-              <button
-                class="text-sm bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-xl hover:from-green-600 hover:to-green-700 transition-all shadow-lg hover:shadow-xl">
-                <i class="fas fa-plus mr-2"></i> Tambah
-              </button>
-            </div>
-
-            <ul class="space-y-3">
-              <li
-                class="flex justify-between items-center p-3 hover:bg-green-50 rounded-xl transition-all cursor-pointer group">
-                <span class="flex items-center">
-                  <div
-                    class="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-                    <i class="fas fa-hands-helping text-white text-sm"></i>
-                  </div>
-                  <span class="font-medium text-gray-700 group-hover:text-gray-900">Sosial & Bencana</span>
-                </span>
-                <span
-                  class="text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium">8
-                  Kampanye</span>
-              </li>
-              <li
-                class="flex justify-between items-center p-3 hover:bg-green-50 rounded-xl transition-all cursor-pointer group">
-                <span class="flex items-center">
-                  <div
-                    class="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center mr-3">
-                    <i class="fas fa-graduation-cap text-white text-sm"></i>
-                  </div>
-                  <span class="font-medium text-gray-700 group-hover:text-gray-900">Pendidikan</span>
-                </span>
-                <span
-                  class="text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium">18
-                  Kampanye</span>
-              </li>
-              <li
-                class="flex justify-between items-center p-3 hover:bg-green-50 rounded-xl transition-all cursor-pointer group">
-                <span class="flex items-center">
-                  <div
-                    class="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mr-3">
-                    <i class="fas fa-leaf text-white text-sm"></i>
-                  </div>
-                  <span class="font-medium text-gray-700 group-hover:text-gray-900">Lingkungan</span>
-                </span>
-                <span
-                  class="text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium">12
-                  Kampanye</span>
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- Enhanced Broadcast Notifikasi -->
-        <section class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-green-100 animate-fadeInUp">
-          <h2 class="text-xl font-semibold mb-6 flex items-center">
-            <div
-              class="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center mr-3">
-              <i class="fas fa-bell text-white"></i>
-            </div>
-            Broadcast Notifikasi
-            <span
-              class="ml-auto text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium">Real-time</span>
-          </h2>
-
-          <form class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                  <i class="fas fa-heading text-green-500 mr-2"></i>
-                  Judul Pesan
-                </label>
-                <input type="text" placeholder="Contoh: Update Sistem Terbaru"
-                  class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300" />
-              </div>
-
-              <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                  <i class="fas fa-users text-green-500 mr-2"></i>
-                  Target Audiens
-                </label>
-                <select
-                  class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300">
-                  <option>Semua Pengguna</option>
-                  <option>Donatur Aktif</option>
-                  <option>Campaign Creator</option>
-                  <option>Pengguna Baru</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                <i class="fas fa-comment-alt text-green-500 mr-2"></i>
-                Isi Pesan
-              </label>
-              <textarea placeholder="Tulis pesan yang akan dikirim ke semua user..." rows="5"
-                class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300 resize-none"></textarea>
-            </div>
-
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-              <div class="flex flex-wrap gap-4">
-                <div class="flex items-center">
-                  <input type="checkbox" id="urgent"
-                    class="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded transition-all">
-                  <label for="urgent" class="ml-3 block text-sm text-gray-700 font-medium">
-                    <i class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>
-                    Tandai sebagai penting
-                  </label>
+                    class="p-5 flex justify-between items-center border-b border-green-100">
+                    <h1
+                        class="text-2xl font-bold text-green-600 flex items-center logo-bounce">
+                        <img
+                            src="../assets/logo/logo_background_large.png"
+                            alt="Sociotech Logo"
+                            class="w-10 h-10 mr-2 rounded" />
+                        Sociotech
+                    </h1>
+                    <button
+                        class="mobile-menu-button p-2 text-gray-500 rounded-md hover:bg-green-50 transition-all md:hidden">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
 
-                <div class="flex items-center">
-                  <input type="checkbox" id="schedule"
-                    class="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded transition-all">
-                  <label for="schedule" class="ml-3 block text-sm text-gray-700 font-medium">
-                    <i class="fas fa-clock text-blue-500 mr-2"></i>
-                    Jadwalkan pengiriman
-                  </label>
-                </div>
-              </div>
+                <nav class="flex-1 px-3 pb-4 space-y-1 overflow-y-auto">
+                    <div
+                        class="px-3 pt-4 pb-2 text-xs font-semibold text-green-600 uppercase tracking-wider flex items-center">
+                        <div
+                            class="w-8 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400 mr-2"></div>
+                        Main Menu
+                    </div>
 
-              <button type="submit"
-                class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-3 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center font-semibold shadow-lg hover:shadow-xl transform hover:scale-105">
-                <i class="fas fa-paper-plane mr-3"></i>
-                Kirim Notifikasi
-                <div class="ml-3 w-2 h-2 bg-white rounded-full animate-pulse"></div>
-              </button>
+                    <a
+                        href="dashboard.html"
+                        class="active-menu block px-4 py-3 rounded-xl transition menu-item flex items-center">
+                        <i
+                            class="fas fa-tachometer-alt mr-3 w-5 text-center"></i>
+                        <span>Dashboard</span>
+                        <div class="ml-auto">
+                            <div class="status-indicator status-active"></div>
+                        </div>
+                    </a>
+
+                    <a
+                        href="user_manage.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-users mr-3 w-5 text-center text-green-500"></i>
+                        <span>Kelola User</span>
+                        <span
+                            class="ml-auto text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full"
+                            >24</span
+                        >
+                    </a>
+
+                    <a
+                        href="kampanye.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-hand-holding-heart mr-3 w-5 text-center text-green-500"></i>
+                        <span>Kelola Kampanye</span>
+                        <span
+                            class="ml-auto text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full"
+                            >8</span
+                        >
+                    </a>
+
+                    <a
+                        href="verifikasi_kampanye.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-check-circle mr-3 w-5 text-center text-green-500"></i>
+                        <span>Verifikasi Kampanye</span>
+                        <div class="ml-auto">
+                            <div class="status-indicator status-pending"></div>
+                        </div>
+                    </a>
+
+                    <a
+                        href="management_dana.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-wallet mr-3 w-5 text-center text-green-500"></i>
+                        <span>Management Dana</span>
+                    </a>
+
+                    <a
+                        href="statistik_donasi.html"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-chart-line mr-3 w-5 text-center text-green-500"></i>
+                        <span>Statistik Donasi</span>
+                    </a>
+
+                    <div
+                        class="px-3 pt-4 pb-2 text-xs font-semibold text-green-600 uppercase tracking-wider flex items-center">
+                        <div
+                            class="w-8 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400 mr-2"></div>
+                        Lainnya
+                    </div>
+
+                    <a
+                        href="#"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-comments mr-3 w-5 text-center text-green-500"></i>
+                        <span>Feedback & Kategori</span>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="menu-item block px-4 py-3 rounded-xl hover:bg-green-50 transition flex items-center text-gray-700">
+                        <i
+                            class="fas fa-bell mr-3 w-5 text-center text-green-500"></i>
+                        <span>Broadcast Notifikasi</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="flex-1 flex flex-col overflow-hidden main-content">
+                <!-- Enhanced Top Navigation -->
+                <header class="navbar-glass shadow-lg">
+                    <div
+                        class="flex justify-between items-center px-4 sm:px-6 py-4">
+                        <div class="flex items-center">
+                            <button
+                                class="mobile-menu-button p-2 mr-2 text-gray-500 rounded-md hover:bg-green-50 transition-all md:hidden">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <div class="animate-fadeInUp">
+                                <h2
+                                    class="text-lg sm:text-xl font-semibold text-gray-800">
+                                    Dashboard Admin
+                                </h2>
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Kelola platform donasi dengan mudah
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-2 sm:space-x-4">
+                            <button
+                                class="p-2 rounded-xl hover:bg-green-50 relative transition-all group">
+                                <i
+                                    class="fas fa-bell text-gray-600 text-sm sm:text-base group-hover:text-green-600"></i>
+                                <span
+                                    class="absolute -top-1 -right-1 h-3 w-3 rounded-full notification-dot"></span>
+                            </button>
+
+                            <button
+                                class="p-2 rounded-xl hover:bg-green-50 transition-all group">
+                                <i
+                                    class="fas fa-envelope text-gray-600 text-sm sm:text-base group-hover:text-green-600"></i>
+                            </button>
+
+                            <div class="border-l border-green-200 pl-2 sm:pl-4">
+                                <div
+                                    class="flex items-center space-x-1 sm:space-x-2 p-2 rounded-xl hover:bg-green-50 transition-all cursor-pointer">
+                                    <div class="relative">
+                                        <img
+                                            src="https://randomuser.me/api/portraits/women/65.jpg"
+                                            alt="Admin"
+                                            class="w-6 h-6 sm:w-8 sm:h-8 rounded-full ring-2 ring-green-200" />
+                                        <div
+                                            class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border border-white"></div>
+                                    </div>
+                                    <span
+                                        class="text-xs sm:text-sm font-medium hidden sm:inline text-gray-700"
+                                        >Sarah Admin</span
+                                    >
+                                    <i
+                                        class="fas fa-chevron-down text-xs text-gray-500 hidden sm:inline"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content Area -->
+                <main
+                    class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 md:space-y-10 overflow-auto">
+                    <!-- Enhanced Welcome Dashboard -->
+                    <section class="animate-fadeInUp">
+                        <div
+                            class="greeting-time rounded-2xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">
+                            <div
+                                class="three-container"
+                                id="three-container"></div>
+                            <div class="relative z-10">
+                                <div
+                                    class="flex flex-col md:flex-row md:items-center md:justify-between">
+                                    <div>
+                                        <h1
+                                            class="text-2xl sm:text-3xl font-bold animate-bounce-gentle">
+                                            Selamat Pagi, Sarah Admin!
+                                        </h1>
+                                        <p
+                                            class="mt-2 sm:mt-3 text-sm sm:text-base opacity-90">
+                                            Selamat datang kembali di Dashboard
+                                            Admin DanaKita
+                                        </p>
+                                        <div
+                                            class="mt-4 sm:mt-6 flex flex-wrap gap-3">
+                                            <span
+                                                class="text-xs sm:text-sm glassmorphism px-3 sm:px-4 py-2 rounded-full">
+                                                <i
+                                                    class="fas fa-calendar-day mr-2"></i>
+                                                19 Juli 2025
+                                            </span>
+                                            <span
+                                                class="text-xs sm:text-sm glassmorphism px-3 sm:px-4 py-2 rounded-full">
+                                                <i
+                                                    class="fas fa-clock mr-2"></i>
+                                                09:42 WIB
+                                            </span>
+                                            <span
+                                                class="text-xs sm:text-sm glassmorphism px-3 sm:px-4 py-2 rounded-full">
+                                                <i
+                                                    class="fas fa-user-shield mr-2"></i>
+                                                Online
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Enhanced Stats Cards -->
+                    <section
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 animate-fadeInUp">
+                        <div
+                            class="stats-card p-6 rounded-2xl shadow-lg card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-sm text-gray-600 font-medium">
+                                        Total Donasi
+                                    </p>
+                                    <p
+                                        class="text-2xl font-bold text-green-600 mt-1">
+                                        Rp 2.5M
+                                    </p>
+                                    <p class="text-xs text-green-500 mt-1">
+                                        ↗ +15% bulan ini
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center">
+                                    <i
+                                        class="fas fa-hand-holding-usd text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="stats-card p-6 rounded-2xl shadow-lg card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-sm text-gray-600 font-medium">
+                                        Kampanye Aktif
+                                    </p>
+                                    <p
+                                        class="text-2xl font-bold text-blue-600 mt-1">
+                                        42
+                                    </p>
+                                    <p class="text-xs text-blue-500 mt-1">
+                                        ↗ +3 kampanye baru
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-bullhorn text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="stats-card p-6 rounded-2xl shadow-lg card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-sm text-gray-600 font-medium">
+                                        Total Donatur
+                                    </p>
+                                    <p
+                                        class="text-2xl font-bold text-purple-600 mt-1">
+                                        1,248
+                                    </p>
+                                    <p class="text-xs text-purple-500 mt-1">
+                                        ↗ +89 donatur baru
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-users text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="stats-card p-6 rounded-2xl shadow-lg card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-sm text-gray-600 font-medium">
+                                        Pending Verifikasi
+                                    </p>
+                                    <p
+                                        class="text-2xl font-bold text-orange-600 mt-1">
+                                        8
+                                    </p>
+                                    <p class="text-xs text-orange-500 mt-1">
+                                        ⚠ Perlu ditinjau
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center animate-pulse-gentle">
+                                    <i
+                                        class="fas fa-exclamation-triangle text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Enhanced Feedback dan Kategori -->
+                    <section
+                        class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fadeInUp">
+                        <!-- Enhanced Feedback -->
+                        <div
+                            class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-green-100">
+                            <h3
+                                class="text-lg font-semibold mb-4 flex items-center">
+                                <div
+                                    class="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mr-3">
+                                    <i
+                                        class="fas fa-comments text-white text-sm"></i>
+                                </div>
+                                Feedback Donatur
+                            </h3>
+
+                            <ul class="space-y-4">
+                                <li class="border-b border-gray-100 pb-4">
+                                    <div class="flex items-start">
+                                        <div class="relative">
+                                            <img
+                                                src="https://randomuser.me/api/portraits/men/22.jpg"
+                                                alt="User"
+                                                class="w-10 h-10 rounded-full mr-3 ring-2 ring-green-100" />
+                                            <div
+                                                class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div
+                                                class="flex items-center justify-between mb-2">
+                                                <span
+                                                    class="font-medium text-gray-800"
+                                                    >Budi N.</span
+                                                >
+                                                <div
+                                                    class="flex text-yellow-400 text-sm">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p
+                                                class="text-gray-600 text-sm leading-relaxed">
+                                                "Aplikasinya transparan, saya
+                                                senang bisa berkontribusi untuk
+                                                sesama."
+                                            </p>
+                                            <span
+                                                class="text-xs text-green-600 font-medium mt-2 inline-block"
+                                                >2 jam yang lalu</span
+                                            >
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="border-b border-gray-100 pb-4">
+                                    <div class="flex items-start">
+                                        <div class="relative">
+                                            <img
+                                                src="https://randomuser.me/api/portraits/women/33.jpg"
+                                                alt="User"
+                                                class="w-10 h-10 rounded-full mr-3 ring-2 ring-green-100" />
+                                            <div
+                                                class="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-white"></div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div
+                                                class="flex items-center justify-between mb-2">
+                                                <span
+                                                    class="font-medium text-gray-800"
+                                                    >Rina L.</span
+                                                >
+                                                <div
+                                                    class="flex text-yellow-400 text-sm">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p
+                                                class="text-gray-600 text-sm leading-relaxed">
+                                                "Tolong lebih cepat verifikasi
+                                                kampanye, sudah 3 hari belum
+                                                diapprove."
+                                            </p>
+                                            <span
+                                                class="text-xs text-orange-600 font-medium mt-2 inline-block"
+                                                >1 hari yang lalu</span
+                                            >
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <button
+                                class="mt-4 text-sm text-green-600 hover:text-green-800 flex items-center font-medium transition-all group">
+                                Lihat semua feedback
+                                <i
+                                    class="fas fa-chevron-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+
+                        <!-- Enhanced Kategori -->
+                        <div
+                            class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-green-100">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3
+                                    class="text-lg font-semibold flex items-center">
+                                    <div
+                                        class="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mr-3">
+                                        <i
+                                            class="fas fa-tags text-white text-sm"></i>
+                                    </div>
+                                    Kategori Kampanye
+                                </h3>
+                                <button
+                                    class="text-sm bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-xl hover:from-green-600 hover:to-green-700 transition-all shadow-lg hover:shadow-xl">
+                                    <i class="fas fa-plus mr-2"></i> Tambah
+                                </button>
+                            </div>
+
+                            <ul class="space-y-3">
+                                <li
+                                    class="flex justify-between items-center p-3 hover:bg-green-50 rounded-xl transition-all cursor-pointer group">
+                                    <span class="flex items-center">
+                                        <div
+                                            class="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                                            <i
+                                                class="fas fa-hands-helping text-white text-sm"></i>
+                                        </div>
+                                        <span
+                                            class="font-medium text-gray-700 group-hover:text-gray-900"
+                                            >Sosial & Bencana</span
+                                        >
+                                    </span>
+                                    <span
+                                        class="text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium"
+                                        >8 Kampanye</span
+                                    >
+                                </li>
+                                <li
+                                    class="flex justify-between items-center p-3 hover:bg-green-50 rounded-xl transition-all cursor-pointer group">
+                                    <span class="flex items-center">
+                                        <div
+                                            class="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center mr-3">
+                                            <i
+                                                class="fas fa-graduation-cap text-white text-sm"></i>
+                                        </div>
+                                        <span
+                                            class="font-medium text-gray-700 group-hover:text-gray-900"
+                                            >Pendidikan</span
+                                        >
+                                    </span>
+                                    <span
+                                        class="text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium"
+                                        >18 Kampanye</span
+                                    >
+                                </li>
+                                <li
+                                    class="flex justify-between items-center p-3 hover:bg-green-50 rounded-xl transition-all cursor-pointer group">
+                                    <span class="flex items-center">
+                                        <div
+                                            class="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mr-3">
+                                            <i
+                                                class="fas fa-leaf text-white text-sm"></i>
+                                        </div>
+                                        <span
+                                            class="font-medium text-gray-700 group-hover:text-gray-900"
+                                            >Lingkungan</span
+                                        >
+                                    </span>
+                                    <span
+                                        class="text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium"
+                                        >12 Kampanye</span
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Enhanced Broadcast Notifikasi -->
+                    <section
+                        class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-green-100 animate-fadeInUp">
+                        <h2
+                            class="text-xl font-semibold mb-6 flex items-center">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center mr-3">
+                                <i class="fas fa-bell text-white"></i>
+                            </div>
+                            Broadcast Notifikasi
+                            <span
+                                class="ml-auto text-xs bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full font-medium"
+                                >Real-time</span
+                            >
+                        </h2>
+
+                        <form class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label
+                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                        <i
+                                            class="fas fa-heading text-green-500 mr-2"></i>
+                                        Judul Pesan
+                                    </label>
+                                    <input
+                                        type="text"
+                                        placeholder="Contoh: Update Sistem Terbaru"
+                                        class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300" />
+                                </div>
+
+                                <div>
+                                    <label
+                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                        <i
+                                            class="fas fa-users text-green-500 mr-2"></i>
+                                        Target Audiens
+                                    </label>
+                                    <select
+                                        class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300">
+                                        <option>Semua Pengguna</option>
+                                        <option>Donatur Aktif</option>
+                                        <option>Campaign Creator</option>
+                                        <option>Pengguna Baru</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                    <i
+                                        class="fas fa-comment-alt text-green-500 mr-2"></i>
+                                    Isi Pesan
+                                </label>
+                                <textarea
+                                    placeholder="Tulis pesan yang akan dikirim ke semua user..."
+                                    rows="5"
+                                    class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm hover:border-green-300 resize-none"></textarea>
+                            </div>
+
+                            <div
+                                class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                                <div class="flex flex-wrap gap-4">
+                                    <div class="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            id="urgent"
+                                            class="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded transition-all" />
+                                        <label
+                                            for="urgent"
+                                            class="ml-3 block text-sm text-gray-700 font-medium">
+                                            <i
+                                                class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>
+                                            Tandai sebagai penting
+                                        </label>
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            id="schedule"
+                                            class="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded transition-all" />
+                                        <label
+                                            for="schedule"
+                                            class="ml-3 block text-sm text-gray-700 font-medium">
+                                            <i
+                                                class="fas fa-clock text-blue-500 mr-2"></i>
+                                            Jadwalkan pengiriman
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-3 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center font-semibold shadow-lg hover:shadow-xl transform hover:scale-105">
+                                    <i class="fas fa-paper-plane mr-3"></i>
+                                    Kirim Notifikasi
+                                    <div
+                                        class="ml-3 w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Recent Notifications -->
+                        <div class="mt-8 pt-6 border-t border-gray-100">
+                            <h3
+                                class="text-sm font-semibold text-gray-600 mb-4 flex items-center">
+                                <i
+                                    class="fas fa-history text-gray-400 mr-2"></i>
+                                Notifikasi Terakhir
+                            </h3>
+                            <div class="space-y-3">
+                                <div
+                                    class="flex items-center justify-between p-3 bg-green-50 rounded-xl border border-green-100">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+                                        <div>
+                                            <p
+                                                class="text-sm font-medium text-gray-800">
+                                                Sistem Maintenance Selesai
+                                            </p>
+                                            <p class="text-xs text-gray-500">
+                                                Dikirim ke 1,248 pengguna • 2
+                                                jam lalu
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="text-xs bg-green-200 text-green-700 px-2 py-1 rounded-full"
+                                        >Terkirim</span
+                                    >
+                                </div>
+
+                                <div
+                                    class="flex items-center justify-between p-3 bg-blue-50 rounded-xl border border-blue-100">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                        <div>
+                                            <p
+                                                class="text-sm font-medium text-gray-800">
+                                                Fitur Baru: Live Chat Support
+                                            </p>
+                                            <p class="text-xs text-gray-500">
+                                                Dikirim ke 856 pengguna aktif •
+                                                1 hari lalu
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="text-xs bg-blue-200 text-blue-700 px-2 py-1 rounded-full"
+                                        >Terkirim</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
             </div>
-          </form>
+        </div>
 
-          <!-- Recent Notifications -->
-          <div class="mt-8 pt-6 border-t border-gray-100">
-            <h3 class="text-sm font-semibold text-gray-600 mb-4 flex items-center">
-              <i class="fas fa-history text-gray-400 mr-2"></i>
-              Notifikasi Terakhir
-            </h3>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between p-3 bg-green-50 rounded-xl border border-green-100">
-                <div class="flex items-center">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-                  <div>
-                    <p class="text-sm font-medium text-gray-800">Sistem Maintenance Selesai</p>
-                    <p class="text-xs text-gray-500">Dikirim ke 1,248 pengguna • 2 jam lalu</p>
-                  </div>
-                </div>
-                <span class="text-xs bg-green-200 text-green-700 px-2 py-1 rounded-full">Terkirim</span>
-              </div>
+        <script>
+            // Mobile menu toggle
+            document.addEventListener("DOMContentLoaded", function () {
+                const mobileMenuButton = document.querySelectorAll(
+                    ".mobile-menu-button"
+                );
+                const sidebar = document.querySelector("aside");
+                const overlay = document.querySelector(".overlay");
 
-              <div class="flex items-center justify-between p-3 bg-blue-50 rounded-xl border border-blue-100">
-                <div class="flex items-center">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  <div>
-                    <p class="text-sm font-medium text-gray-800">Fitur Baru: Live Chat Support</p>
-                    <p class="text-xs text-gray-500">Dikirim ke 856 pengguna aktif • 1 hari lalu</p>
-                  </div>
-                </div>
-                <span class="text-xs bg-blue-200 text-blue-700 px-2 py-1 rounded-full">Terkirim</span>
-              </div>
-            </div>
-          </div>
-        </section>
+                mobileMenuButton.forEach((button) => {
+                    button.addEventListener("click", function () {
+                        document
+                            .querySelector(".sidebar-container")
+                            .classList.toggle("active");
+                        overlay.classList.toggle("active");
+                    });
+                });
 
-      </main>
-    </div>
-  </div>
+                // Close sidebar when clicking on overlay
+                overlay.addEventListener("click", function () {
+                    document
+                        .querySelector(".sidebar-container")
+                        .classList.remove("active");
+                    overlay.classList.remove("active");
+                });
 
-  <script>
-    // Mobile menu toggle
-    document.addEventListener('DOMContentLoaded', function () {
-      const mobileMenuButton = document.querySelectorAll('.mobile-menu-button');
-      const sidebar = document.querySelector('aside');
-      const overlay = document.querySelector('.overlay');
+                // Three.js Animation
+                initThreeAnimation();
 
-      mobileMenuButton.forEach(button => {
-        button.addEventListener('click', function () {
-          document.querySelector('.sidebar-container').classList.toggle('active');
-          overlay.classList.toggle('active');
-        });
-      });
+                // Add stagger animation to cards
+                const cards = document.querySelectorAll(".card-hover");
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.classList.add("animate-fadeInUp");
+                });
 
-      // Close sidebar when clicking on overlay
-      overlay.addEventListener('click', function () {
-        document.querySelector('.sidebar-container').classList.remove('active');
-        overlay.classList.remove('active');
-      });
+                // Add floating animation to menu icons
+                const menuIcons = document.querySelectorAll(".menu-item i");
+                menuIcons.forEach((icon, index) => {
+                    icon.style.animationDelay = `${index * 0.2}s`;
+                    icon.addEventListener("mouseenter", function () {
+                        this.classList.add("animate-bounce-gentle");
+                    });
+                    icon.addEventListener("mouseleave", function () {
+                        this.classList.remove("animate-bounce-gentle");
+                    });
+                });
+            });
 
-      // Three.js Animation
-      initThreeAnimation();
+            // Three.js Animation Function
+            function initThreeAnimation() {
+                const container = document.getElementById("three-container");
+                if (!container) return;
 
-      // Add stagger animation to cards
-      const cards = document.querySelectorAll('.card-hover');
-      cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-        card.classList.add('animate-fadeInUp');
-      });
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(
+                    75,
+                    container.offsetWidth / container.offsetHeight,
+                    0.1,
+                    1000
+                );
+                const renderer = new THREE.WebGLRenderer({
+                    alpha: true,
+                    antialias: true,
+                });
 
-      // Add floating animation to menu icons
-      const menuIcons = document.querySelectorAll('.menu-item i');
-      menuIcons.forEach((icon, index) => {
-        icon.style.animationDelay = `${index * 0.2}s`;
-        icon.addEventListener('mouseenter', function () {
-          this.classList.add('animate-bounce-gentle');
-        });
-        icon.addEventListener('mouseleave', function () {
-          this.classList.remove('animate-bounce-gentle');
-        });
-      });
-    });
+                renderer.setSize(container.offsetWidth, container.offsetHeight);
+                renderer.setClearColor(0x000000, 0);
+                container.appendChild(renderer.domElement);
 
-    // Three.js Animation Function
-    function initThreeAnimation() {
-      const container = document.getElementById('three-container');
-      if (!container) return;
+                // Create floating particles
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = 50;
+                const posArray = new Float32Array(particlesCount * 3);
 
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true
-      });
+                for (let i = 0; i < particlesCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 5;
+                }
 
-      renderer.setSize(container.offsetWidth, container.offsetHeight);
-      renderer.setClearColor(0x000000, 0);
-      container.appendChild(renderer.domElement);
+                particlesGeometry.setAttribute(
+                    "position",
+                    new THREE.BufferAttribute(posArray, 3)
+                );
 
-      // Create floating particles
-      const particlesGeometry = new THREE.BufferGeometry();
-      const particlesCount = 50;
-      const posArray = new Float32Array(particlesCount * 3);
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.02,
+                    color: "#ffffff",
+                    transparent: true,
+                    opacity: 0.8,
+                });
 
-      for (let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 5;
-      }
+                const particlesMesh = new THREE.Points(
+                    particlesGeometry,
+                    particlesMaterial
+                );
+                scene.add(particlesMesh);
 
-      particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                // Create animated spheres
+                const sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+                const sphereMaterial = new THREE.MeshBasicMaterial({
+                    color: "#10b981",
+                    transparent: true,
+                    opacity: 0.3,
+                });
 
-      const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.02,
-        color: '#ffffff',
-        transparent: true,
-        opacity: 0.8
-      });
+                const spheres = [];
+                for (let i = 0; i < 3; i++) {
+                    const sphere = new THREE.Mesh(
+                        sphereGeometry,
+                        sphereMaterial
+                    );
+                    sphere.position.set(
+                        (Math.random() - 0.5) * 3,
+                        (Math.random() - 0.5) * 2,
+                        (Math.random() - 0.5) * 2
+                    );
+                    spheres.push(sphere);
+                    scene.add(sphere);
+                }
 
-      const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-      scene.add(particlesMesh);
+                camera.position.z = 2;
 
-      // Create animated spheres
-      const sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
-      const sphereMaterial = new THREE.MeshBasicMaterial({
-        color: '#10b981',
-        transparent: true,
-        opacity: 0.3
-      });
+                // Animation loop
+                function animate() {
+                    requestAnimationFrame(animate);
 
-      const spheres = [];
-      for (let i = 0; i < 3; i++) {
-        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        sphere.position.set(
-          (Math.random() - 0.5) * 3,
-          (Math.random() - 0.5) * 2,
-          (Math.random() - 0.5) * 2
-        );
-        spheres.push(sphere);
-        scene.add(sphere);
-      }
+                    // Rotate particles
+                    particlesMesh.rotation.x += 0.001;
+                    particlesMesh.rotation.y += 0.002;
 
-      camera.position.z = 2;
+                    // Animate spheres
+                    spheres.forEach((sphere, index) => {
+                        sphere.position.y +=
+                            Math.sin(Date.now() * 0.001 + index) * 0.001;
+                        sphere.rotation.x += 0.01;
+                        sphere.rotation.y += 0.02;
+                    });
 
-      // Animation loop
-      function animate() {
-        requestAnimationFrame(animate);
+                    renderer.render(scene, camera);
+                }
 
-        // Rotate particles
-        particlesMesh.rotation.x += 0.001;
-        particlesMesh.rotation.y += 0.002;
+                animate();
 
-        // Animate spheres
-        spheres.forEach((sphere, index) => {
-          sphere.position.y += Math.sin(Date.now() * 0.001 + index) * 0.001;
-          sphere.rotation.x += 0.01;
-          sphere.rotation.y += 0.02;
-        });
+                // Handle resize
+                window.addEventListener("resize", () => {
+                    if (
+                        container.offsetWidth > 0 &&
+                        container.offsetHeight > 0
+                    ) {
+                        camera.aspect =
+                            container.offsetWidth / container.offsetHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(
+                            container.offsetWidth,
+                            container.offsetHeight
+                        );
+                    }
+                });
+            }
 
-        renderer.render(scene, camera);
-      }
+            // Add interactive hover effects
+            document.addEventListener("DOMContentLoaded", function () {
+                // Stats cards animation on scroll
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: "0px 0px -50px 0px",
+                };
 
-      animate();
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.transform = "translateY(0)";
+                            entry.target.style.opacity = "1";
+                        }
+                    });
+                }, observerOptions);
 
-      // Handle resize
-      window.addEventListener('resize', () => {
-        if (container.offsetWidth > 0 && container.offsetHeight > 0) {
-          camera.aspect = container.offsetWidth / container.offsetHeight;
-          camera.updateProjectionMatrix();
-          renderer.setSize(container.offsetWidth, container.offsetHeight);
-        }
-      });
-    }
+                document.querySelectorAll(".stats-card").forEach((card) => {
+                    card.style.transform = "translateY(20px)";
+                    card.style.opacity = "0";
+                    card.style.transition =
+                        "transform 0.6s ease, opacity 0.6s ease";
+                    observer.observe(card);
+                });
 
-    // Add interactive hover effects
-    document.addEventListener('DOMContentLoaded', function () {
-      // Stats cards animation on scroll
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
+                // Add ripple effect to buttons
+                document.querySelectorAll("button").forEach((button) => {
+                    button.addEventListener("click", function (e) {
+                        const ripple = document.createElement("span");
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        const x = e.clientX - rect.left - size / 2;
+                        const y = e.clientY - rect.top - size / 2;
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.transform = 'translateY(0)';
-            entry.target.style.opacity = '1';
-          }
-        });
-      }, observerOptions);
+                        ripple.style.width = ripple.style.height = size + "px";
+                        ripple.style.left = x + "px";
+                        ripple.style.top = y + "px";
+                        ripple.classList.add("ripple");
 
-      document.querySelectorAll('.stats-card').forEach(card => {
-        card.style.transform = 'translateY(20px)';
-        card.style.opacity = '0';
-        card.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
-        observer.observe(card);
-      });
+                        this.appendChild(ripple);
 
-      // Add ripple effect to buttons
-      document.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', function (e) {
-          const ripple = document.createElement('span');
-          const rect = this.getBoundingClientRect();
-          const size = Math.max(rect.width, rect.height);
-          const x = e.clientX - rect.left - size / 2;
-          const y = e.clientY - rect.top - size / 2;
+                        setTimeout(() => {
+                            ripple.remove();
+                        }, 600);
+                    });
+                });
+            });
+        </script>
 
-          ripple.style.width = ripple.style.height = size + 'px';
-          ripple.style.left = x + 'px';
-          ripple.style.top = y + 'px';
-          ripple.classList.add('ripple');
+        <style>
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
 
-          this.appendChild(ripple);
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
 
-          setTimeout(() => {
-            ripple.remove();
-          }, 600);
-        });
-      });
-    });
-  </script>
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translateY(0px);
+                }
 
-  <style>
-    .ripple {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(0);
-      animation: ripple-animation 0.6s linear;
-      pointer-events: none;
-    }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
 
-    @keyframes ripple-animation {
-      to {
-        transform: scale(4);
-        opacity: 0;
-      }
-    }
+            .float-animation {
+                animation: float 3s ease-in-out infinite;
+            }
 
-    @keyframes float {
+            /* Enhanced scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
 
-      0%,
-      100% {
-        transform: translateY(0px);
-      }
+            ::-webkit-scrollbar-track {
+                background: #f1f5f9;
+                border-radius: 4px;
+            }
 
-      50% {
-        transform: translateY(-10px);
-      }
-    }
+            ::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, #10b981, #34d399);
+                border-radius: 4px;
+            }
 
-    .float-animation {
-      animation: float 3s ease-in-out infinite;
-    }
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(135deg, #059669, #10b981);
+            }
 
-    /* Enhanced scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
+            /* Loading animation for async content */
+            .loading-shimmer {
+                background: linear-gradient(
+                    90deg,
+                    #f0f0f0 25%,
+                    #e0e0e0 50%,
+                    #f0f0f0 75%
+                );
+                background-size: 200% 100%;
+                animation: loading 1.5s infinite;
+            }
 
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 4px;
-    }
+            @keyframes loading {
+                0% {
+                    background-position: 200% 0;
+                }
 
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #10b981, #34d399);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(135deg, #059669, #10b981);
-    }
-
-    /* Loading animation for async content */
-    .loading-shimmer {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: loading 1.5s infinite;
-    }
-
-    @keyframes loading {
-      0% {
-        background-position: 200% 0;
-      }
-
-      100% {
-        background-position: -200% 0;
-      }
-    }
-  </style>
-</body>
+                100% {
+                    background-position: -200% 0;
+                }
+            }
+        </style>
+    </body>
+</html>
