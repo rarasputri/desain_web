@@ -255,127 +255,67 @@
   <body class="bg-gray-50 overflow-x-hidden">
     <canvas id="three-canvas" class="z-0 fixed"></canvas>
 
-    <nav
-      id="main-navbar"
-      class="fixed top-0 w-full z-50 nav-blur border-b border-white/20 transition-all duration-300"
-    >
+    <nav id="main-navbar" class="fixed top-0 w-full z-50 nav-blur border-b border-white/20 transition-all duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <!-- Logo (kiri) -->
           <div class="flex items-center space-x-2 flex-shrink-0">
-            <img
-              src="./assets/logo/logo_background_large.png"
-              alt="Sociotech Logo"
-              class="w-10 h-10"
-            />
+            <img src="./assets/logo/logo_background_large.png" alt="Sociotech Logo" class="w-10 h-10" />
             <span class="text-2xl font-bold text-gradient">Sociotech</span>
           </div>
-          <!-- Menu (tengah) -->
-          <ul
-            class="hidden md:flex flex-1 justify-center items-center space-x-8 font-medium"
-          >
+          <ul class="hidden md:flex flex-1 justify-center items-center space-x-8 font-medium">
             <li>
-              <a
-                href="home.html"
-                class="text-gray-700 hover:text-green-600 transition-colors"
-                >Beranda</a
-              >
+              <a href="home.html" class="text-gray-700 hover:text-green-600 transition-colors">Beranda</a>
             </li>
             <li>
-              <a
-                href="karya.html"
-                class="text-gray-700 hover:text-green-600 transition-colors"
-                >Karya</a
-              >
+              <a href="karya.html" class="text-gray-700 hover:text-green-600 transition-colors">Karya</a>
             </li>
             <li>
-              <a
-                href="newsletter.html"
-                class="text-gray-700 hover:text-green-600 transition-colors"
-                >Berita</a
-              >
+              <a href="newsletter.html" class="text-gray-700 hover:text-green-600 transition-colors">Berita</a>
             </li>
             <li>
-              <a
-                href="about.html"
-                class="text-gray-700 hover:text-green-600 transition-colors"
-                >Tentang</a
-              >
+              <a href="about.html" class="text-gray-700 hover:text-green-600 transition-colors">Tentang</a>
             </li>
             <li>
-              <a
-                href="#kontak"
-                class="text-gray-700 hidden lg:block hover:text-green-600 transition-colors"
-                >Kontak</a
-              >
+              <a href="#kontak" class="text-gray-700 hidden hover:text-green-600 transition-colors">Kontak</a>
             </li>
             <li>
-              <a
-                href="form-donasi.html"
-                class="btn-primary text-white px-4 py-2 rounded-full font-semibold transition"
-                >Donasi Sekarang</a
-              >
+              <a href="form-donasi.html"
+                class="btn-primary text-white px-4 py-2 rounded-full hidden sm:block font-semibold transition">Donasi
+                Sekarang</a>
             </li>
           </ul>
-          <!-- User/Guest Section (kanan) -->
-          <div
-            class="hidden md:flex items-center space-x-4"
-            id="user-section"
-          ></div>
-          <!-- Mobile Menu Button -->
-          <button
-            class="md:hidden text-gray-700"
-            id="mobile-menu-btn"
-            aria-label="Menu"
-          >
+          <div class="hidden md:flex items-center space-x-4" id="user-section"></div>
+          <button class="md:hidden text-gray-700" id="mobile-menu-btn" aria-label="Menu">
             <i class="fas fa-bars text-xl"></i>
           </button>
         </div>
       </div>
-      <!-- Mobile Menu -->
-      <div
-        id="mobile-menu"
-        class="md:hidden bg-white border-t border-gray-200 hidden"
-      >
+      <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
         <div class="px-4 py-2 space-y-2">
-          <a
-            href="home.html"
-            class="block py-2 text-gray-700 hover:text-green-600"
-            >Beranda</a
-          >
-          <a
-            href="karya.html"
-            class="block py-2 text-gray-700 hover:text-green-600"
-            >Karya</a
-          >
-          <a
-            href="newsletter.html"
-            class="block py-2 text-gray-700 hover:text-green-600"
-            >Berita</a
-          >
-          <a
-            href="about.html"
-            class="block py-2 text-gray-700 hover:text-green-600"
-            >Tentang</a
-          >
-          <a
-            href="#kontak"
-            class="block py-2 text-gray-700 hover:text-green-600"
-            >Kontak</a
-          >
-          <a
-            href="form-donasi.html"
-            class="block btn-primary text-white px-4 py-2 rounded-full font-semibold text-center mt-2"
-            >Donasi Sekarang</a
-          >
-          <div
-            id="user-section-mobile"
-            class="pt-2 border-t border-gray-100"
-          ></div>
+          <a href="home.html" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
+          <a href="karya.html" class="block py-2 text-gray-700 hover:text-green-600">Karya</a>
+          <a href="newsletter.html" class="block py-2 text-gray-700 hover:text-green-600">Berita</a>
+          <a href="about.html" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
+          <a href="#kontak" class="block py-2 text-gray-700 hover:text-green-600">Kontak</a>
+          <a href="form-donasi.html"
+            class="block btn-primary text-white px-4 py-2 rounded-full font-semibold text-center mt-2">Donasi Sekarang</a>
+          <div id="user-section-mobile" class="pt-2 border-t border-gray-100"></div>
         </div>
       </div>
     </nav>
     <script>
+      // Floating Navbar on Scroll
+      window.addEventListener("scroll", function () {
+        const nav = document.getElementById("main-navbar");
+        if (window.scrollY > 10) {
+          nav.classList.add("shadow-lg", "bg-white", "backdrop-blur-md");
+          nav.classList.remove("nav-blur");
+        } else {
+          nav.classList.remove("shadow-lg", "bg-white", "backdrop-blur-md");
+          nav.classList.add("nav-blur");
+        }
+      });
+  
       // User/Guest Section Logic
       function renderUserSection() {
         // Simulasi: ganti ke true jika user sudah login
@@ -413,7 +353,7 @@
         }
       }
       renderUserSection();
-
+  
       // Mobile menu toggle
       const mobileMenuBtn = document.getElementById("mobile-menu-btn");
       const mobileMenu = document.getElementById("mobile-menu");
@@ -790,71 +730,6 @@
         el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
         observer.observe(el);
       });
-
-      // Mobile menu toggle
-      const mobileMenuButton = document.querySelector(".md\\:hidden button");
-      mobileMenu.className = "md:hidden bg-white border-t border-gray-200";
-      mobileMenu.style.display = "none";
-      mobileMenu.innerHTML = `
-            <div class="px-4 py-2 space-y-2">
-                <a href="index.html" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
-                <a href="#showcase" class="block py-2 text-gray-700 hover:text-green-600">Showcase</a>
-                <a href="index.html#cara-kerja" class="block py-2 text-gray-700 hover:text-green-600">Cara Kerja</a>
-                <a href="index.html#tentang" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
-                <button class="btn-primary text-white px-6 py-2 rounded-full font-medium mt-2">Mulai Donasi</button>
-            </div>
-        `;
-
-      if (
-        mobileMenuButton &&
-        mobileMenuButton.parentNode &&
-        mobileMenuButton.parentNode.parentNode
-      ) {
-        mobileMenuButton.parentNode.parentNode.appendChild(mobileMenu);
-
-        mobileMenuButton.addEventListener("click", () => {
-          const isVisible = mobileMenu.style.display !== "none";
-          mobileMenu.style.display = isVisible ? "none" : "block";
-          const icon = mobileMenuButton.querySelector("i");
-          icon.className = isVisible
-            ? "fas fa-bars text-xl"
-            : "fas fa-times text-xl";
-        });
-      }
-
-      // Dynamic project progress animation
-      // THIS WILL BE REMOVED/ADJUSTED AS PROGRESS IS NOW SET DIRECTLY IN HTML
-      // document.querySelectorAll(".progress-bar").forEach((bar) => {
-      //   const progressObserver = new IntersectionObserver(
-      //     (entries) => {
-      //       entries.forEach((entry) => {
-      //         if (entry.isIntersecting) {
-      //           setTimeout(() => {
-      //             if (bar.classList.contains("w-4/5")) {
-      //               bar.style.width = "87%";
-      //             } else if (bar.classList.contains("w-11/12")) {
-      //               bar.style.width = "92%";
-      //             } else if (bar.classList.contains("w-3/4")) {
-      //               bar.style.width = "76%";
-      //             } else if (bar.classList.contains("w-2/3")) {
-      //               bar.style.width = "65%";
-      //             } else if (bar.classList.contains("w-1/2")) {
-      //               bar.style.width = "54%";
-      //             } else if (bar.classList.contains("w-3/5")) {
-      //               bar.style.width = "63%";
-      //             } else if (bar.classList.contains("w-4/5")) {
-      //               bar.style.width = "81%";
-      //             }
-      //           }, 500);
-      //           progressObserver.unobserve(entry.target);
-      //         }
-      //       });
-      //     },
-      //     { threshold: 0.5 }
-      //   );
-
-      //   progressObserver.observe(bar);
-      // });
 
       // Handle window resize for Three.js
       window.addEventListener("resize", () => {

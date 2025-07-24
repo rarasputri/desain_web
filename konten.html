@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Buat Karya Baru - KaryaMuda</title>
+    <title>Buat Karya Baru - Sociotech</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css">
     <style>
-      :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #93c5fd;
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --primary-light: #a7f3d0;
             --secondary: #f59e0b;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --light-gray: #e2e8f0;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
@@ -40,7 +40,7 @@
             padding: 0 20px;
         }
 
-
+        /* Navigation styles to match home.html */
         nav {
             background-color: white;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -90,15 +90,18 @@
         }
 
         .nav-links .btn-donate {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             padding: 8px 16px;
-            border-radius: 6px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .nav-links .btn-donate:hover {
-            background-color: var(--primary-dark);
-            color: white;
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
         .hamburger {
@@ -115,8 +118,8 @@
             }
             .nav-links {
                 position: fixed;
-                top: 70px; /* Adjust based on navbar height */
-                left: -100%; /* Hidden by default */
+                top: 70px;
+                left: -100%;
                 width: 100%;
                 height: calc(100vh - 70px);
                 background-color: white;
@@ -152,11 +155,11 @@
         .input-style:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
         }
         .textarea-style {
             min-height: 120px;
-            resize: vertical; /* Allow vertical resizing */
+            resize: vertical;
         }
         .file-upload-label {
             display: flex;
@@ -188,37 +191,37 @@
 
         /* Button Styles */
         .btn-primary {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: 50px;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
         }
         .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
         }
         .btn-secondary {
             background-color: var(--light-gray);
             color: var(--dark);
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: 50px;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
         }
         .btn-secondary:hover {
-            background-color: #cbd5e1;
-            transform: translateY(-1px);
+            background-color: #d1d5db;
+            transform: translateY(-2px);
         }
         .btn-outline {
             background-color: transparent;
             color: var(--primary);
             border: 2px solid var(--primary);
             padding: 10px 22px;
-            border-radius: 8px;
+            border-radius: 50px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
@@ -253,7 +256,7 @@
             animation: fadeIn 0.3s ease-out;
         }
         .close-button {
-            color: #94a3b8;
+            color: #9ca3af;
             position: absolute;
             top: 15px;
             right: 20px;
@@ -280,7 +283,7 @@
             justify-content: space-between;
             margin-bottom: 40px;
             position: relative;
-            padding: 0 20px; /* Adjust padding for better look on small screens */
+            padding: 0 20px;
         }
         .stepper-line {
             position: absolute;
@@ -316,11 +319,11 @@
             font-size: 18px;
         }
         .stepper-circle.active {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, #10b981, #059669);
             transform: scale(1.1);
         }
         .stepper-circle.completed {
-            background-color: var(--success);
+            background-color: #10b981;
         }
         .stepper-label {
             font-size: 15px;
@@ -342,7 +345,7 @@
                 padding: 0;
             }
             .stepper-line {
-                display: none; /* Hide line for vertical layout on mobile */
+                display: none;
             }
             .stepper-step {
                 flex-direction: row;
@@ -356,7 +359,7 @@
                 margin-bottom: 0;
             }
             .stepper-label {
-                font-size: 1rem; /* Adjust font size for mobile */
+                font-size: 1rem;
             }
             .modal-content {
                 padding: 20px;
@@ -371,6 +374,15 @@
                 order: 1;
             }
         }
+
+        /* Card styles to match home.html */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
     </style>
 </head>
 <body>
@@ -379,7 +391,7 @@
             <div class="navbar">
                 <a href="#" class="logo">
                     <i class="fas fa-lightbulb"></i>
-                    KaryaMuda
+                    Sociotech
                 </a>
                 <ul class="nav-links" id="mainNavLinks">
                     <li><a href="home.html">Beranda</a></li>
@@ -415,7 +427,7 @@
             </div>
         </div>
 
-        <form id="campaignForm" class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 space-y-8">
+        <form id="campaignForm" class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 space-y-8 card-hover">
             <div id="step1" class="form-step active">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center sm:text-left">1. Informasi Karya</h2>
                 <p class="text-gray-600 mb-8 text-center sm:text-left">Isi detail lengkap Karya donasi Anda agar menarik perhatian calon donatur.</p>
@@ -527,9 +539,9 @@
                     </div>
 
                     <div class="flex items-center mt-6">
-                        <input type="checkbox" id="agreeTerms" name="agreeTerms" class="h-5 w-5 text-primary-blue rounded border-gray-300 focus:ring-primary-blue" required>
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" class="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary" required>
                         <label for="agreeTerms" class="ml-3 text-base text-gray-700">
-                            Saya telah membaca dan menyetujui <button type="button" id="openTermsModal" class="text-primary-blue hover:underline font-semibold">Syarat & Ketentuan</button> KaryaMuda. <span class="text-red-500">*</span>
+                            Saya telah membaca dan menyetujui <button type="button" id="openTermsModal" class="text-primary hover:underline font-semibold">Syarat & Ketentuan</button> Sociotech. <span class="text-red-500">*</span>
                         </label>
                     </div>
                 </div>
@@ -544,7 +556,7 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center sm:text-left">3. Pratinjau Karya Anda</h2>
                 <p class="text-gray-600 mb-8 text-center sm:text-left">Ini adalah tampilan Karya Anda sebelum dipublikasikan. Pastikan semua informasi sudah benar.</p>
 
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8 text-gray-700 flex flex-col sm:flex-row items-start gap-4">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-8 text-gray-700 flex flex-col sm:flex-row items-start gap-4">
                     <i class="fas fa-circle-info text-primary-dark text-3xl"></i>
                     <div>
                         <p class="font-semibold text-lg text-primary-dark mb-1">Penting!</p>
@@ -552,17 +564,17 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 card-hover">
                     <img id="previewMedia" src="" alt="Campaign Media Preview" class="w-full h-64 object-cover">
                     <div class="p-6">
-                        <span id="previewCategory" class="inline-block bg-primary-light text-primary-dark text-xs font-semibold px-3 py-1 rounded-full mb-3"></span>
+                        <span id="previewCategory" class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mb-3"></span>
                         <h3 id="previewTitle" class="text-2xl font-bold text-gray-800 mb-2"></h3>
                         <p id="previewDescription" class="text-gray-600 text-base leading-relaxed mb-4"></p>
                         
                         <div class="flex justify-between items-center mb-4">
                             <div>
                                 <p class="text-gray-500 text-sm">Target Donasi:</p>
-                                <p id="previewTarget" class="text-primary-blue font-bold text-xl"></p>
+                                <p id="previewTarget" class="text-green-600 font-bold text-xl"></p>
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm">Batas Waktu:</p>
@@ -590,9 +602,9 @@
     <div id="termsModal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closeTermsModalBtn">&times;</span>
-            <h3 class="text-2xl font-bold text-gray-800 mb-5">Syarat & Ketentuan KaryaMuda</h3>
+            <h3 class="text-2xl font-bold text-gray-800 mb-5">Syarat & Ketentuan Sociotech</h3>
             <div class="max-h-96 overflow-y-auto pr-4 text-gray-700">
-                <p>Selamat datang di platform KaryaMuda. Dengan mengakses atau menggunakan layanan kami, Anda setuju untuk terikat oleh syarat dan ketentuan yang dijelaskan di bawah ini. Harap baca dengan seksama.</p>
+                <p>Selamat datang di platform Sociotech. Dengan mengakses atau menggunakan layanan kami, Anda setuju untuk terikat oleh syarat dan ketentuan yang dijelaskan di bawah ini. Harap baca dengan seksama.</p>
 
                 <h4 class="font-semibold text-xl text-gray-800 mt-6 mb-3">1. Penerimaan Syarat</h4>
                 <p>Dengan menggunakan layanan kami, Anda menegaskan bahwa Anda telah membaca, memahami, dan setuju untuk terikat oleh Syarat dan Ketentuan ini, serta Kebijakan Privasi kami. Jika Anda tidak setuju dengan bagian mana pun dari syarat-syarat ini, Anda tidak boleh menggunakan layanan kami.</p>
@@ -607,7 +619,7 @@
                 <h4 class="font-semibold text-xl text-gray-800 mt-6 mb-3">3. Donasi dan Karya</h4>
                 <ul class="list-disc list-inside space-y-2 pl-4">
                     <li>Semua donasi yang dilakukan bersifat **final dan tidak dapat dikembalikan**, kecuali ditentukan lain oleh kebijakan kami atau hukum yang berlaku.</li>
-                    <li>KaryaMuda bertindak sebagai perantara untuk menyalurkan donasi. Kami akan berusaha menyalurkan dana sesuai tujuan Karya.</li>
+                    <li>Sociotech bertindak sebagai perantara untuk menyalurkan donasi. Kami akan berusaha menyalurkan dana sesuai tujuan Karya.</li>
                     <li>Untuk membuat Karya, Anda mungkin perlu melengkapi **verifikasi identitas tambahan**.</li>
                 </ul>
 
@@ -615,7 +627,7 @@
                 <p>Anda bertanggung jawab penuh atas **konten yang Anda unggah, publikasikan, atau tampilkan** melalui layanan kami. Anda tidak boleh mengunggah konten yang melanggar hukum, memfitnah, mengancam, atau melanggar hak kekayaan intelektual pihak lain.</p>
 
                 <h4 class="font-semibold text-xl text-gray-800 mt-6 mb-3">5. Batasan Tanggung Jawab</h4>
-                <p>KaryaMuda tidak bertanggung jawab atas kerugian langsung, tidak langsung, insidental, khusus, konsekuensial, atau ganti rugi yang timbul dari penggunaan atau ketidakmampuan menggunakan layanan kami, bahkan jika KaryaMuda telah diberitahu tentang kemungkinan kerugian tersebut.</p>
+                <p>Sociotech tidak bertanggung jawab atas kerugian langsung, tidak langsung, insidental, khusus, konsekuensial, atau ganti rugi yang timbul dari penggunaan atau ketidakmampuan menggunakan layanan kami, bahkan jika Sociotech telah diberitahu tentang kemungkinan kerugian tersebut.</p>
 
                 <h4 class="font-semibold text-xl text-gray-800 mt-6 mb-3">6. Perubahan Syarat & Ketentuan</h4>
                 <p>Kami berhak untuk mengubah atau memperbarui Syarat dan Ketentuan ini kapan saja. Perubahan akan berlaku segera setelah diposting di situs kami. Anda disarankan untuk **meninjau halaman ini secara berkala** untuk perubahan.</p>
@@ -624,7 +636,7 @@
                 <p>Syarat dan Ketentuan ini akan diatur dan ditafsirkan sesuai dengan **hukum Republik Indonesia**.</p>
 
                 <h4 class="font-semibold text-xl text-gray-800 mt-6 mb-3">8. Hubungi Kami</h4>
-                <p>Jika Anda memiliki pertanyaan tentang Syarat dan Ketentuan ini, silakan hubungi kami melalui <a href="#" class="text-primary-blue hover:underline font-medium">halaman kontak kami</a>.</p>
+                <p>Jika Anda memiliki pertanyaan tentang Syarat dan Ketentuan ini, silakan hubungi kami melalui <a href="#" class="text-primary hover:underline font-medium">halaman kontak kami</a>.</p>
 
                 <p class="text-sm text-gray-600 mt-8 border-t pt-4 border-gray-200">Terakhir diperbarui: 17 Juli 2025</p>
                 </div>
@@ -701,7 +713,7 @@
                         Swal.fire({
                             icon: 'warning',
                             title: 'Persetujuan Syarat & Ketentuan',
-                            text: 'Anda harus menyetujui Syarat & Ketentuan KaryaMuda untuk melanjutkan.',
+                            text: 'Anda harus menyetujui Syarat & Ketentuan Sociotech untuk melanjutkan.',
                             confirmButtonText: 'Oke',
                             customClass: {
                                 confirmButton: 'btn-primary' // Apply Tailwind class to SweetAlert button

@@ -16,7 +16,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
@@ -358,118 +357,56 @@
   <body class="bg-gray-50 overflow-x-hidden">
     <canvas id="three-canvas"></canvas>
     <nav id="main-navbar" class="fixed top-0 w-full z-50 nav-blur border-b border-white/20 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center h-16">
-            <div class="flex items-center space-x-2 flex-shrink-0">
-              <img src="./assets/logo/logo_background_large.png" alt="Sociotech Logo" class="w-10 h-10" />
-              <span class="text-2xl font-bold text-gradient">Sociotech</span>
-            </div>
-            <ul class="hidden md:flex flex-1 justify-center items-center space-x-8 font-medium">
-              <li>
-                <a href="home.html" class="text-gray-700 hover:text-green-600 transition-colors">Beranda</a>
-              </li>
-              <li>
-                <a href="karya.html" class="text-gray-700 hover:text-green-600 transition-colors">Karya</a>
-              </li>
-              <li>
-                <a href="newsletter.html" class="text-gray-700 hover:text-green-600 transition-colors">Berita</a>
-              </li>
-              <li>
-                <a href="about.html" class="text-gray-700 hover:text-green-600 transition-colors">Tentang</a>
-              </li>
-              <li>
-                <a href="#kontak" class="text-gray-700 hidden hover:text-green-600 transition-colors">Kontak</a>
-              </li>
-              <li>
-                <a href="form-donasi.html"
-                  class="btn-primary text-white px-4 py-2 rounded-full hidden sm:block font-semibold transition">Donasi
-                  Sekarang</a>
-              </li>
-            </ul>
-            <div class="hidden md:flex items-center space-x-4" id="user-section"></div>
-            <button class="md:hidden text-gray-700" id="mobile-menu-btn" aria-label="Menu">
-              <i class="fas fa-bars text-xl"></i>
-            </button>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <img src="./assets/logo/logo_background_large.png" alt="Sociotech Logo" class="w-10 h-10" />
+            <span class="text-2xl font-bold text-gradient">Sociotech</span>
           </div>
+          <ul class="hidden md:flex flex-1 justify-center items-center space-x-8 font-medium">
+            <li>
+              <a href="home.html" class="text-gray-700 hover:text-green-600 transition-colors">Beranda</a>
+            </li>
+            <li>
+              <a href="karya.html" class="text-gray-700 hover:text-green-600 transition-colors">Karya</a>
+            </li>
+            <li>
+              <a href="newsletter.html" class="text-gray-700 hover:text-green-600 transition-colors">Berita</a>
+            </li>
+            <li>
+              <a href="about.html" class="text-gray-700 hover:text-green-600 transition-colors">Tentang</a>
+            </li>
+            <li>
+              <a href="#kontak" class="text-gray-700 hidden hover:text-green-600 transition-colors">Kontak</a>
+            </li>
+            <li>
+              <a href="form-donasi.html"
+                class="btn-primary text-white px-4 py-2 rounded-full hidden sm:block font-semibold transition">Donasi
+                Sekarang</a>
+            </li>
+          </ul>
+          <div class="hidden md:flex items-center space-x-4" id="user-section"></div>
+          <button class="md:hidden text-gray-700" id="mobile-menu-btn" aria-label="Menu">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
         </div>
-        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
-          <div class="px-4 py-2 space-y-2">
-            <a href="home.html" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
-            <a href="karya.html" class="block py-2 text-gray-700 hover:text-green-600">Karya</a>
-            <a href="newsletter.html" class="block py-2 text-gray-700 hover:text-green-600">Berita</a>
-            <a href="about.html" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
-            <a href="#kontak" class="block py-2 text-gray-700 hover:text-green-600">Kontak</a>
-            <a href="form-donasi.html"
-              class="block btn-primary text-white px-4 py-2 rounded-full font-semibold text-center mt-2">Donasi Sekarang</a>
-            <div id="user-section-mobile" class="pt-2 border-t border-gray-100"></div>
-          </div>
+      </div>
+      <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+        <div class="px-4 py-2 space-y-2">
+          <a href="home.html" class="block py-2 text-gray-700 hover:text-green-600">Beranda</a>
+          <a href="karya.html" class="block py-2 text-gray-700 hover:text-green-600">Karya</a>
+          <a href="newsletter.html" class="block py-2 text-gray-700 hover:text-green-600">Berita</a>
+          <a href="about.html" class="block py-2 text-gray-700 hover:text-green-600">Tentang</a>
+          <a href="#kontak" class="block py-2 text-gray-700 hover:text-green-600">Kontak</a>
+          <a href="form-donasi.html"
+            class="block btn-primary text-white px-4 py-2 rounded-full font-semibold text-center mt-2">Donasi Sekarang</a>
+          <div id="user-section-mobile" class="pt-2 border-t border-gray-100"></div>
         </div>
-      </nav>
-      <script>
-        // Floating Navbar on Scroll
-        window.addEventListener("scroll", function () {
-          const nav = document.getElementById("main-navbar");
-          if (window.scrollY > 10) {
-            nav.classList.add("shadow-lg", "bg-white", "backdrop-blur-md");
-            nav.classList.remove("nav-blur");
-          } else {
-            nav.classList.remove("shadow-lg", "bg-white", "backdrop-blur-md");
-            nav.classList.add("nav-blur");
-          }
-        });
-    
-        // User/Guest Section Logic
-        function renderUserSection() {
-          // Simulasi: ganti ke true jika user sudah login
-          const isLoggedIn = false; // Ubah ke true untuk simulasi user login
-          const userSection = document.getElementById("user-section");
-          const userSectionMobile = document.getElementById(
-            "user-section-mobile"
-          );
-          if (isLoggedIn) {
-            userSection.innerHTML = `
-            <span class="text-gray-700 font-medium flex items-center gap-2">
-              <i class="fas fa-user-circle text-green-600 text-xl"></i>
-              <span>Halo, <b>User</b></span>
-            </span>
-            <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
-          `;
-            userSectionMobile.innerHTML = `
-            <div class="flex items-center gap-2 py-2">
-              <i class="fas fa-user-circle text-green-600 text-xl"></i>
-              <span>Halo, <b>User</b></span>
-            </div>
-            <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
-          `;
-          } else {
-            userSection.innerHTML = `
-            <span class="text-gray-500 font-medium">Guest</span>
-            <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
-            <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
-          `;
-            userSectionMobile.innerHTML = `
-            <div class="py-2 text-gray-500 font-medium">Guest</div>
-            <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
-            <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
-          `;
-          }
-        }
-        renderUserSection();
-    
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-        const mobileMenu = document.getElementById("mobile-menu");
-        mobileMenuBtn.addEventListener("click", function () {
-          mobileMenu.classList.toggle("hidden");
-          const icon = mobileMenuBtn.querySelector("i");
-          icon.className = mobileMenu.classList.contains("hidden")
-            ? "fas fa-bars text-xl"
-            : "fas fa-times text-xl";
-        });
-      </script>
-    
+      </div>
+    </nav>
+
     <!-- Blog Hero -->
-    <section class="blog-hero" data-aos="fade">
+    <section class="blog-hero">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl lg:text-5xl font-bold mb-6">Blog & Newsletter Sociotech</h1>
         <p class="text-xl max-w-3xl mx-auto">Temukan inspirasi, berita terbaru, dan tips seputar kreativitas anak muda Indonesia</p>
@@ -482,7 +419,7 @@
         <div class="grid md:grid-cols-3 gap-8">
           <div class="md:col-span-2">
             <!-- Blog Post 1 -->
-            <article class="blog-card mb-8" data-aos="fade-up">
+            <article class="blog-card mb-8">
               <div class="blog-image">
                 <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Blog Post 1">
               </div>
@@ -500,7 +437,7 @@
             </article>
 
             <!-- Blog Post 2 -->
-            <article class="blog-card mb-8" data-aos="fade-up" data-aos-delay="100">
+            <article class="blog-card mb-8">
               <div class="blog-image">
                 <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Blog Post 2">
               </div>
@@ -518,7 +455,7 @@
             </article>
 
             <!-- Blog Post 3 -->
-            <article class="blog-card mb-8" data-aos="fade-up" data-aos-delay="200">
+            <article class="blog-card mb-8">
               <div class="blog-image">
                 <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Blog Post 3">
               </div>
@@ -536,7 +473,7 @@
             </article>
 
             <!-- Pagination -->
-            <div class="pagination" data-aos="fade-up">
+            <div class="pagination">
               <a href="#" class="page-link active">1</a>
               <a href="#" class="page-link">2</a>
               <a href="#" class="page-link">3</a>
@@ -548,7 +485,7 @@
           <!-- Sidebar -->
           <div class="md:col-span-1">
             <!-- Newsletter Form -->
-            <div class="sidebar-card mb-6" data-aos="fade-left">
+            <div class="sidebar-card mb-6">
               <h3 class="sidebar-title">Berlangganan Newsletter</h3>
               <p class="text-gray-600 mb-4">Dapatkan update terbaru tentang proyek kreatif dan artikel inspiratif langsung ke email Anda</p>
               <form class="space-y-4">
@@ -567,7 +504,7 @@
             </div>
 
             <!-- Popular Posts -->
-            <div class="sidebar-card mb-6" data-aos="fade-left" data-aos-delay="100">
+            <div class="sidebar-card mb-6">
               <h3 class="sidebar-title">Populer Minggu Ini</h3>
               <div class="space-y-4">
                 <div class="popular-post">
@@ -601,7 +538,7 @@
             </div>
 
             <!-- Categories -->
-            <div class="sidebar-card" data-aos="fade-left" data-aos-delay="200">
+            <div class="sidebar-card">
               <h3 class="sidebar-title">Kategori</h3>
               <ul class="category-list">
                 <li class="category-item">
@@ -749,14 +686,7 @@
       </div>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-      // Initialize AOS (Animate On Scroll)
-      AOS.init({
-          duration: 800,
-          once: true
-      });
-
       // Floating Navbar on Scroll
       window.addEventListener("scroll", function () {
         const nav = document.getElementById("main-navbar");
@@ -779,33 +709,45 @@
         );
         if (isLoggedIn) {
           userSection.innerHTML = `
-        <span class="text-gray-700 font-medium flex items-center gap-2">
-          <i class="fas fa-user-circle text-green-600 text-xl"></i>
-          <span>Halo, <b>User</b></span>
-        </span>
-        <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
-      `;
+          <span class="text-gray-700 font-medium flex items-center gap-2">
+            <i class="fas fa-user-circle text-green-600 text-xl"></i>
+            <span>Halo, <b>User</b></span>
+          </span>
+          <button class="btn-primary text-white px-4 py-2 rounded-full font-medium">Keluar</button>
+        `;
           userSectionMobile.innerHTML = `
-        <div class="flex items-center gap-2 py-2">
-          <i class="fas fa-user-circle text-green-600 text-xl"></i>
-          <span>Halo, <b>User</b></span>
-        </div>
-        <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
-      `;
+          <div class="flex items-center gap-2 py-2">
+            <i class="fas fa-user-circle text-green-600 text-xl"></i>
+            <span>Halo, <b>User</b></span>
+          </div>
+          <button class="btn-primary text-white px-4 py-2 rounded-full font-medium w-full mt-2">Keluar</button>
+        `;
         } else {
           userSection.innerHTML = `
-        <span class="text-gray-500 font-medium">Guest</span>
-        <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
-        <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
-      `;
+          <span class="text-gray-500 font-medium">Guest</span>
+          <a href="login.html" class="px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition">Login</a>
+          <a href="register.html" class="btn-primary text-white px-4 py-2 rounded-full font-medium">Register</a>
+        `;
           userSectionMobile.innerHTML = `
-        <div class="py-2 text-gray-500 font-medium">Guest</div>
-        <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
-        <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
-      `;
+          <div class="py-2 text-gray-500 font-medium">Guest</div>
+          <a href="login.html" class="block w-full px-4 py-2 rounded-full border border-green-500 text-green-600 font-medium hover:bg-green-50 transition text-center mt-2">Login</a>
+          <a href="register.html" class="block w-full btn-primary text-white px-4 py-2 rounded-full font-medium mt-2 text-center">Register</a>
+        `;
         }
       }
-      renderUserSection();c
+      renderUserSection();
+
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      mobileMenuBtn.addEventListener("click", function () {
+        mobileMenu.classList.toggle("hidden");
+        const icon = mobileMenuBtn.querySelector("i");
+        icon.className = mobileMenu.classList.contains("hidden")
+          ? "fas fa-bars text-xl"
+          : "fas fa-times text-xl";
+      });
+      
       // Newsletter form submission
       const newsletterForm = document.querySelector('form');
       if (newsletterForm) {
